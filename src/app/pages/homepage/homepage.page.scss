@@ -5,39 +5,64 @@
   backdrop-filter: blur(10px);
   background: rgba(255,255,255,0.8);
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+
 }
 
 .header-left {
+  flex: 1;
   display: flex;
   align-items: center;
-  gap: 10px;
+
+}
+
+.header-right {
+  flex: 1;
 }
 
 .logo-header {
   height: 70px;
+  margin-right: 5px;
 }
 
 .app-title {
   font-weight: 700;
   color: #0054e9;
+
 }
 
 .header-center {
-  flex: 1;
+  flex: 2;
   display: flex;
   flex-direction: row;
   justify-content: center;
+  gap: 8px;
 }
 
 
-/* @media (min-width: 768px) {
+ @media (max-width: 768px) {
   .header-center {
     display: flex;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
   }
-} */
+
+  .logo-header{
+    height: 35px;
+
+  }
+
+  .app-title{
+    font-size: 1rem;
+
+  }
+
+  .btn-accedi{
+    --padding-start: 12px;
+    --padding-end: 12px;
+    font-size: 0.8rem;
+  }
+}
 
 /* HERO */
 .hero-section {
@@ -120,16 +145,21 @@
   display: flex;
   flex-direction: column;
   background-color: #ddd;
-  align-items: center;
   text-align: center;
+  min-height: 80vh;
+  align-items: stretch;
 }
-
-// schermi piccoli demmerda
 
 @media (min-width: 768px) {
   .split-section {
     flex-direction: row;
   }
+
+  .text-side{
+    text-align: center;
+    align-items: center;
+  }
+
 }
 
 .image-side img {
@@ -138,17 +168,29 @@
   height: 100%;
   object-fit: cover;
   border-radius: 2px;
-  
+
 }
 
 .text-side {
-  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: space-around;
+  gap: 1.5rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding: 10px;
+
 }
 
 .text-side h2 {
-  font-size: 2rem;
-  font-weight: 800;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
 }
+
+
+
 
 /* TRUST */
 .trust-section {
@@ -163,16 +205,14 @@
   padding: 80px;
   background: #163b7a;
   color: white;
-  
+
 }
 
 
 /* FOOTER */
-.footer-wrapper {
-  background: #041032;
+ion-footer {
   display: flex;
   flex-direction: column;
-  
 }
 
 .footer-content {
@@ -180,6 +220,7 @@
   justify-content: space-between;
   padding: 40px;
   flex-wrap: wrap;
+  background: #041032;
   color: rgb(255, 255, 255);
 }
 
@@ -187,4 +228,23 @@
   text-align: center;
   background: #000321;
   color: white;
+}
+
+.footer-social {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: white;
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px; /* Spazio tra le icone */
+  --color: white !important;
+}
+
+.social-icons ion-icon {
+  font-size: 24px; /* Dimensione delle icone */
+  color: var(--ion-color-light); /* O il colore che preferisci */
+  transition: transform 0.2s;
 }

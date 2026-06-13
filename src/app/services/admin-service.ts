@@ -92,9 +92,7 @@ export class AdminService {
     set: (target, proprieta, valore) => {
 
       this._filtri_segnalazioni[proprieta] = valore;
-
       this.refreshSegnalazioni();
-
       return true;
     }
   });
