@@ -1,0 +1,95 @@
+<ion-content [fullscreen]="true" class="ion-padding colori-sfondo">
+  <div class="center">
+    <ion-card class="itembox">
+
+      <ion-card-content>
+        <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+          <ion-input
+            label="Nickname"
+            label-placement="stacked"
+            fill="outline"
+            placeholder="Inserisci il nickname della copisteria"
+            class="ion-margin-bottom"
+            type="name"
+            name="nickname"
+            required [(ngModel)] = "copisteria.nickname">
+          </ion-input>
+
+          <ion-input
+            label="Nome"
+            label-placement="stacked"
+            fill="outline"
+            placeholder="Inserisci il nome della copisteria"
+            class="ion-margin-bottom"
+            type="name"
+            name="name"
+            required [(ngModel)] = "copisteria.nome">
+          </ion-input>
+
+          <ion-input
+            #passwordInput
+            label="password"
+            placeholder="{{!copisteria.copisteria_id ? 'password copisteria' : 'inseririre nuova password copisteria altrimenti lasciare in bianco per mantenere la vecchia'}}"
+            label-placement="stacked"
+            fill="outline"
+            class="ion-margin-bottom"
+            type="password"
+            placeholder="Password"
+            name="password"
+
+            required [(ngModel)] = "password">
+          </ion-input>
+
+          <ion-input
+            label="Indirizzo"
+            label-placement="stacked"
+            fill="outline"
+            placeholder="Inserisci l'indirizzo della copisteria"
+            type="name"
+            name="indirizzo"
+            (ionBlur)="calcolaLatitudioneLongitudineDaIndirizzo()"
+            (keyup.enter)="calcolaLatitudioneLongitudineDaIndirizzo()"
+            required [(ngModel)] = "copisteria.indirizzo">
+          </ion-input>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size="6">
+                <ion-input
+                  label="Latitudine"
+                  label-placement="stacked"
+                  fill="outline"
+                  placeholder="Inserisci la latitudione della copisteria"
+                  class="ion-margin-bottom"
+                  type="name"
+                  name="latitudine"
+                  (ionInput) = "onPosizioneChange()"
+                  required [(ngModel)] = "copisteria.latitudine">
+                </ion-input>
+              </ion-col>
+              <ion-col size="6">
+                <ion-input
+                  label="Longitudine"
+                  label-placement="stacked"
+                  fill="outline"
+                  placeholder="Inserisci la longitudine della copisteria"
+                  class="ion-margin-bottom"
+                  type="name"
+                  name="longitudine"
+                  (ionInput) = "onPosizioneChange()"
+                  required [(ngModel)] = "copisteria.longitudine">
+                </ion-input>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <div id="map"></div>
+
+          <ion-button expand="block" class="login-button" type="submit">
+            {{copisteria.copisteria_id ? 'Modifica' : 'Crea'}}
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

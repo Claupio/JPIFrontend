@@ -1,0 +1,62 @@
+
+<ion-content [fullscreen]="true" class="ion-padding colori-sfondo">
+  <div class="center">
+    <ion-card class="itembox">
+      <ion-card-header class="ion-text-center">
+        <img src ="./assets/icon/copisteria.png" class = "logo-header">
+        <ion-card-title class="ion-text-left">Login</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+          <ion-input
+            label="Nome"
+            label-placement="stacked"
+            fill="outline"
+            placeholder="Inserisci il tuo nome"
+            class="ion-margin-bottom"
+            type="name"
+            name="name"
+            required [(ngModel)] = "userData.name">
+          </ion-input>
+
+          <ion-input
+            #passwordInput
+            label="Password"
+            label-placement="stacked"
+            fill="outline"
+            type="password"
+            placeholder="Password"
+            name="password"
+            required [(ngModel)] = "userData.password">
+
+            <ion-icon
+              slot="end"
+              style="cursor: pointer; font-size: 1.5rem;"
+              [name]="isPressed ? 'eye-outline' : 'eye-off-outline'"
+              (mousedown)="showPassword(passwordInput)"
+              (mouseup)="hidePassword(passwordInput)"
+              (mouseleave)="hidePassword(passwordInput)"
+              (touchstart)="showPassword(passwordInput)"
+              (touchend)="hidePassword(passwordInput)">
+            </ion-icon>
+          </ion-input>
+
+          <div class="ion-text-end ion-margin-vertical">
+            <ion-note color="primary">
+              <a href="#" style="text-decoration: none;">Password dimenticata?</a>
+            </ion-note>
+          </div>
+
+          <ion-button expand="block" class="login-button" type="submit">
+            Accedi
+          </ion-button>
+
+          <div class="ion-text-center ion-margin-top">
+            <p>Non hai un account? <a href="/signup" style="text-decoration: none; font-weight: bold;">Registrati</a></p>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

@@ -1,0 +1,70 @@
+<ion-content [fullscreen]="true" class="ion-padding colori-sfondo">
+  <div class="center">
+    <ion-card class="itembox">
+      <ion-card-header class="ion-text-center ion-text-bold">
+        <img src ="./assets/icon/copisteria.png" class = "logo-header">
+        <ion-card-title class="ion-text-left">Sign-up</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+          <ion-input
+            label="Nome"
+            label-placement="stacked"
+            type = "name"
+            name = "name"
+            fill="outline"
+            placeholder="Inserisci il tuo nome"
+            class="ion-margin-bottom"
+            required [(ngModel)] = "userData.name">
+          </ion-input>
+
+          <ion-input
+            label="Email"
+            label-placement="stacked"
+            fill="outline"
+            type="email"
+            name="email"
+            placeholder="Inserisci la tua email"
+            class="ion-margin-bottom"
+            required [(ngModel)] = "userData.email">
+          </ion-input>
+
+          <ion-input
+            #passwordInput
+            label="Password"
+            label-placement="stacked"
+            fill="outline"
+            type="password"
+            name="password"
+            placeholder="Inserisci la password"
+            class="ion-margin-bottom"
+            required [(ngModel)] = "userData.password">
+
+            <ion-icon
+              slot="end"
+              style="cursor: pointer; font-size: 1.5rem;"
+              [name]="isPressed ? 'eye-outline' : 'eye-off-outline'"
+              (mousedown)="showPassword(passwordInput)"
+              (mouseup)="hidePassword(passwordInput)"
+              (mouseleave)="hidePassword(passwordInput)"
+              (touchstart)="showPassword(passwordInput)"
+              (touchend)="hidePassword(passwordInput)">
+            </ion-icon>
+          </ion-input>
+
+
+
+
+          <ion-button type="submit" expand="block" class="login-button">
+            Iscriviti
+          </ion-button>
+
+          <div class="ion-text-center ion-margin-top">
+            <p>Hai già un account? <a href="/login" style="text-decoration: none; font-weight: bold;">Accedi</a></p>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

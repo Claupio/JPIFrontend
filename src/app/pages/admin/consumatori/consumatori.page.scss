@@ -1,0 +1,43 @@
+.custom-table {
+  border: 1px solid var(--ion-color-light-shade);
+  border-radius: 8px;
+  overflow: hidden;
+
+  // Stile dell'intestazione
+  .table-header {
+    background-color: var(--ion-color-light);
+    border-bottom: 2px solid var(--ion-color-light-shade);
+    padding: 10px 0;
+  }
+
+  // Stile delle righe di dati
+  .table-row {
+    border-bottom: 1px solid var(--ion-color-light-shade);
+    align-items: center; // Centra verticalmente il testo e i pulsanti
+    padding: 5px 0;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--ion-color-light-tint);
+
+      // Quando la riga è in hover, mostra i pulsanti
+      .action-buttons {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+
+  // Stato iniziale dei pulsanti (nascosti)
+  .action-buttons {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+
+    // Rimpiccioliamo leggermente i pulsanti per farli stare bene nella riga
+    ion-button {
+      margin: 0;
+      height: 32px;
+    }
+  }
+}

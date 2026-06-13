@@ -1,0 +1,123 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="main-toolbar">
+    <div class="header-left" slot="start">
+      <img src="./assets/icon/foglio.png" class="logo-header">
+      <ion-title class="app-title">JustPrintIt</ion-title>
+    </div>
+
+    <div class="header-center">
+      <ion-button fill="clear" (click)="scrollTo('home')" >Home</ion-button>
+      <ion-button fill="clear" (click)="scrollTo('servizi')" >Servizi</ion-button>
+      <ion-button fill="clear" (click)="scrollTo('contatti')" >Contatti</ion-button>
+    </div>
+
+    <div slot="end">
+      <ion-button class="btn-accedi" shape="round" color="primary" href="/login">
+        Accedi
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- PRIMA SEZIONE -->
+  <div id="home" class="hero-section">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+      <h1>Stampa i tuoi documenti<br>senza fare la fila</h1>
+      <p>Carica i file, scegli la copisteria e ritira quando vuoi.</p>
+
+      <div class="hero-buttons">
+        <ion-button size="large" shape="round" color="primary" href="/login">
+          Inizia ora
+        </ion-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COME FUNZIONA -->
+  <div class="steps-section" id="come-funziona">
+    <h2>Come funziona</h2>
+
+    <div class="steps">
+      <ion-card class="step">
+        <ion-card-content>
+          <h1>1. Carica</h1>
+          <p>Invia il tuo file in pochi secondi</p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="step">
+        <ion-card-content>
+          <h1>2. Scegli</h1>
+          <p>Seleziona la copisteria più vicina</p>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card class="step">
+        <ion-card-content>
+          <h1>3. Ritira</h1>
+          <p>Seleziona l'orario, è appena vieni lo troverai pronto</p>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+  </div>
+
+  <!-- SERVIZI -->
+  <div id="servizi" class="split-section">
+    <div class="image-side">
+      <img src="./assets/icon/chi siamo.png">
+    </div>
+
+    <div class="text-side">
+      <h2>Stampa intelligente, senza attese</h2>
+      <p>
+        Dimentica le code in copisteria. Con JustPrintIt carichi i tuoi documenti
+        in anticipo e li trovi pronti al ritiro.
+      </p>
+    </div>
+  </div>
+
+  <!-- TRUST -->
+  <div class="trust-section">
+    <p>Già utilizzato da oltre <strong>1000+ studenti</strong></p>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>Pronto a stampare senza stress?</h2>
+    <ion-button size="large" shape="round" color="light" href="/login">
+      Inizia ora
+    </ion-button>
+  </div>
+
+  <ion-footer class="ion-no-border">
+  <div id="contatti" class="footer-wrapper">
+    <div class="footer-content">
+      <div>
+        <h3>JustPrintIt</h3>
+        <p>Connettiamo le copisterie agli utenti</p>
+      </div>
+
+      <div>
+        <h4>Contatti</h4>
+        <p>Email: info@justprintit.com</p>
+        <p>Telefono: +39 0123 456 789</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 JustPrintIt</p>
+    </div>
+  </div>
+</ion-footer>
+
+</ion-content>
+
+
+
+
+

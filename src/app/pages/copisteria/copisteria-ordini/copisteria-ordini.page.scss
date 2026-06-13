@@ -1,0 +1,9 @@
+ion-header {
+  z-index: 999 !important;
+  pointer-events: auto !important;
+}
+
+ion-select {
+  --placeholder-color: black; /* Giusto per vedere se appare */
+  min-height: 44px; /* Altezza minima per il tocco */
+}

@@ -1,0 +1,24 @@
+<ion-content [fullscreen]="true">
+  <ion-grid class="custom-table">
+
+    <ion-row class="table-header">
+      <ion-col size="1"><strong>ID</strong></ion-col>
+      <ion-col size="2"><strong>email</strong></ion-col>
+      <ion-col size="3"><strong>password_hash</strong></ion-col>
+      <ion-col size="6"><strong>azioni</strong></ion-col>
+    </ion-row>
+
+    @for(consumatore of adminService.consumatori; track consumatore.consumatore_id) {
+      <ion-row class="table-row">
+        <ion-col size="1">{{consumatore.consumatore_id}}</ion-col>
+        <ion-col size="2">{{consumatore.email}}</ion-col>
+        <ion-col size="3">{{consumatore.password_hash}}</ion-col>
+        <ion-col size="2" class="action-buttons ion-text-center">
+          <ion-button fill="clear" color="danger" (click)="eliminaConsumatore(consumatore)">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    }
+  </ion-grid>
+</ion-content>

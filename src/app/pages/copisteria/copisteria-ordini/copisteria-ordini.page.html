@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Copisteria ordini</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-item lines="none">
+      <ion-label position="stacked">Filtra per Fascia Oraria</ion-label>
+      <ion-select placeholder="Seleziona fascia" (ionChange)="filtraOrdini($event)">
+        <ion-select-option value="all">Tutte le fasce</ion-select-option>
+        <ion-select-option value="08:00-13:00">08:00 - 13:00</ion-select-option>
+        <ion-select-option value="15:00-18:00">15:00 - 18:00</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-card *ngFor="let ordine of ordiniFiltrati">
+      <ion-card-header>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <ion-card-title>Ordine #{{ordine.id}}</ion-card-title>
+          <ion-chip [color]="getColorStato(ordine.stato)">
+            <ion-label>{{ordine.stato}}</ion-label>
+          </ion-chip>
+        </div>
+        <ion-card-subtitle>{{ordine.consumatore}} - Fascia: {{ordine.fasciaOraria}}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <p><strong>Dettagli:</strong> {{ordine.descrizione}}</p>
+
+        <div class="ion-margin-top">
+          <ion-button fill="outline" size="small" (click)="scaricaPdf(ordine)">
+            <ion-icon slot="start" name="document-attach-outline"></ion-icon>
+            PDF
+          </ion-button>
+
+          <ion-button color="warning" size="small" *ngIf="ordine.stato === 'Ricevuto'" (click)="cambiaStato(ordine, 'In Stampa')">
+            In Stampa
+          </ion-button>
+
+          <ion-button color="secondary" size="small" *ngIf="ordine.stato === 'In Stampa'" (click)="cambiaStato(ordine, 'Stampato')">
+            Stampato
+          </ion-button>
+
+          <ion-button color="success" size="small" *ngIf="ordine.stato === 'Stampato'" (click)="cambiaStato(ordine, 'Consegnato')">
+            Ritirato
+          </ion-button>
+
+          <ion-button color="danger" size="small" [disabled]="ordine.stato === 'In Stampa'" (click)="apriPopupCancellazione(ordine)">
+            Cancella
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+  <div *ngIf="ordiniFiltrati.length === 0" class="ion-text-center ion-padding">
+    <p>Nessun ordine trovato per questa fascia.</p>
+  </div>
+</ion-content>
+
+
+
+

@@ -1,0 +1,12 @@
+ion-tab-bar {
+  /* Assicura che la tab bar non forzi i bottoni ai lati */
+  justify-content: center;
+}
+
+ion-tab-button {
+  /* Imposta una larghezza massima così non si allargano troppo su schermi grandi */
+  max-width: 200px;
+  justify-content: center;
+  align-items: center;
+
+}
