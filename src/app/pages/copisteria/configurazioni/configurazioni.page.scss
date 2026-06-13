@@ -1,0 +1,142 @@
+/* Barra contenente il bottone "Aggiungi" */
+.table-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 16px 0 16px; /* Spazio sopra e ai lati, sotto raccordato dalla tabella */
+}
+
+ion-button.btn-add {
+  /* Sfondo quasi trasparente (8% di opacità) usando il colore primary nativo di Ionic */
+  --background: rgba(var(--ion-color-primary-rgb, 56, 128, 255), 0.08);
+
+  /* Colore del testo e dell'icona */
+  --color: var(--ion-color-primary);
+
+  /* Rimuove l'ombra per un look flat moderno */
+  --box-shadow: none;
+
+  font-weight: 600;
+  margin: 0;
+
+  --border-style: solid;
+  --border-width: 1px;
+  --border-color: var(--ion-color-primary);
+
+  /* Effetto al passaggio del mouse / click (opzionale ma consigliato per consistenza) */
+  --background-hover: rgba(var(--ion-color-primary-rgb, 56, 128, 255), 0.15);
+  --background-activated: rgba(var(--ion-color-primary-rgb, 56, 128, 255), 0.2);
+
+  ion-icon {
+    /* Sicurezza extra per la spaziatura dell'icona se preferisci regolarla manualmente */
+    margin-inline-end: 6px;
+  }
+}
+
+
+.table-container {
+  margin: 8px 16px 16px 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #E5E7EB;
+  background: white;
+
+}
+
+/* Struttura base della riga/header */
+.table-header,
+.table-row {
+  display: grid;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 12px;
+}
+
+/* Gestione colonne */
+.cols-4 {
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.cols-3 {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+
+.table-header {
+  background: #F9FAFB;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #E5E7EB;
+
+  .col-dim, .col-price {
+    justify-content: center;
+  }
+  .col-actions {
+    justify-content: flex-end;
+  }
+
+
+}
+
+.table-row {
+  border-bottom: 1px solid #F3F4F6;
+  font-size: 0.95rem;
+  color: #1F2937;
+
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.col-name {
+  display: flex;
+  text-align: center; /* Mantiene il nome a sinistra, che di solito è visivamente più pulito */
+  justify-content: flex-start;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Centra perfettamente la colonna centrale (Dimensioni o Prezzo a seconda del tab) */
+.col-dim,
+.col-price {
+  display: flex;
+  justify-content: center; /* Centra orizzontalmente */
+  align-items: center;     /* Centra verticalmente */
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+.col-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  gap: 4px;
+
+  ion-button {
+    --padding-start: 8px;
+    --padding-end: 8px;
+    height: 32px;
+  }
+}
+
+.badge {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  &.badge-addon {
+    background: #E0F2FE;
+    color: #0369A1;
+  }
+  &.badge-finish {
+    background: #FEF3C7;
+    color: #D97706;
+  }
+}

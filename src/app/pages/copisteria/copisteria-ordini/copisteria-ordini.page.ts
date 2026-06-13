@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonSelect, IonSelectOption, IonCard, IonCardHeader, IonCardTitle, IonChip, IonLabel, IonCardSubtitle, IonCardContent, IonButton, IonIcon, IonInput, IonCol, IonRow, IonGrid, IonPopover, IonButtons } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonSelect, IonSelectOption, IonCard, IonCardHeader, IonCardTitle, IonChip, IonLabel, IonCardSubtitle, IonCardContent, IonButton, IonIcon, IonInput, IonCol, IonRow, IonGrid, IonPopover, IonButtons, IonDatetime } from '@ionic/angular/standalone';
 import { AlertController, ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { addIcons } from 'ionicons';
@@ -19,26 +19,26 @@ import {  documentTextOutline,
 import { CopisteriaService } from '@services/copisteria-service';
 
 
+
 @Component({
   selector: 'app-copisteria-ordini',
   templateUrl: './copisteria-ordini.page.html',
   styleUrls: ['./copisteria-ordini.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonSelect, IonSelectOption, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon, IonCol, IonRow, IonGrid, IonPopover, IonButtons]
+  imports: [CommonModule, FormsModule, IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonSelect, IonSelectOption, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon, IonCol, IonRow, IonGrid, IonPopover, IonButtons, IonDatetime]
 
 })
 
 export class CopisteriaOrdiniPage implements OnInit {
 
 
-  selectedDateTime: string | undefined;
 
   timeSlots: string[] = ['08:00 - 10:00', '10:00 - 12:00', '14:00 - 16:00'];
   selectedTimeSlot: string = '';
 
   ordini: any[] = [];
 
-  filtri: any = {stato: {eq: [], ne: []}};
+  filtri: any = {stato: {eq: [], ne: []}, tempo_minimo_ritiro: { le: null, ge: null}};
 
 
 
@@ -64,26 +64,6 @@ export class CopisteriaOrdiniPage implements OnInit {
       this.caricaOrdiniDalDB();
   }
 
-  applicazioneFiltro() {
-  if (!this.selectedDateTime) {
-    // Se non c'è una data, restituisci la lista completa dei TUOI ordini
-    return this.ordini;
-  }
-
-  const dataSelezionataISO = this.selectedDateTime.split('T')[0];
-
-  // Filtra usando il nome corretto del tuo array
-  return this.ordini.filter(ritiro => {
-    // Nota: assicurati che 'data' sia il nome del campo data dentro il tuo oggetto ordine
-    const dataRitiriISO = new Date(ritiro.data).toISOString().split('T')[0];
-    return dataRitiriISO === dataSelezionataISO;
-  });
-}
-
-  resetFiltro() {
-  this.selectedDateTime = undefined;
-}
-
 
   onInclusionChange() {
   this.caricaOrdiniDalDB();
@@ -95,7 +75,6 @@ onExclusionChange() {
 }
 
 caricaOrdiniDalDB(){
-
   this.copisteriaService.getOrdini(this.filtri).subscribe({
     next: (data) =>{
       console.log(data)

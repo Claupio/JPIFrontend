@@ -28,6 +28,8 @@ export class CopisteriaService {
       params = params.set(key, JSON.stringify(value))
     }
 
+    console.log(this.token)
+
     return this.httpClient.get<any>(`${this.baseURL}/copisteria/ordini`, { headers, params});
   }
 
@@ -58,5 +60,33 @@ export class CopisteriaService {
     let params = new HttpParams().set("ordine_id", ordine_id);
 
     return this.httpClient.get<any>(`${this.baseURL}/copisteria/ordini/pdf`,{responseType: 'arraybuffer' as 'json', headers: headers, params: params})
+  }
+
+
+  getOpzioniOrdini(): Observable<any>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+
+    let params = new HttpParams();
+    return this.httpClient.get<any>(`${this.baseURL}/copisteria/opzioni_ordini`, { headers, params});
+  }
+
+  addFormato(nuovoFormato: any) {
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+
+    return this.httpClient.post(`${this.baseURL}/copisteria/opzioni_ordini/formati`, nuovoFormato, { headers: headers });
+  }
+
+  deleteFormato(id: number) {
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+
+    return this.httpClient.delete(`${this.baseURL}/copisteria/opzioni_ordini/formati/${id}`, { headers: headers });
   }
 }

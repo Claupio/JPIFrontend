@@ -41,33 +41,69 @@
     </ion-item>
 
     <ion-button id="datetime-filter-btn" fill="outline" color="primary">
-  📅 🕒 {{ selectedDateTime ? (selectedDateTime | date:'dd/MM/yyyy HH:mm') : 'Filtra per Data e Ora' }}
-</ion-button>
+      📅 🕒 {{ filtri.tempo_minimo_ritiro.ge ? (filtri.tempo_minimo_ritiro.ge | date:'dd/MM/yyyy HH:mm') : 'Filtra per Data e Ora' }}
+    </ion-button>
 
-<ion-popover #filtroPopover trigger="datetime-filter-btn" trigger-action="click">
-  <ng-template>
-    <ion-content>
+    <ion-popover #filtroPopover trigger="datetime-filter-btn" trigger-action="click">
+      <ng-template>
+        <ion-content>
 
-      <ion-datetime
-        locale="es-ES"
-        presentation="date-time"
-        [(ngModel)]="selectedDateTime">
+          <ion-datetime
+            #dateTime
+            locale="it-IT"
+            presentation="date-time"
+            [(ngModel)]="filtri.tempo_minimo_ritiro.ge"
+            >
 
-        <span slot="time-label">Tiempo</span>
+            <span slot="time-label">Tempo</span>
 
-        <ion-buttons slot="buttons">
-          <ion-button color="danger" (click)="resetFiltro(); filtroPopover.dismiss()">
-            Tutte
-          </ion-button>
-          <ion-button color="primary" (click)="filtroPopover.dismiss()">
-            OK
-          </ion-button>
-        </ion-buttons>
-      </ion-datetime>
+            <ion-buttons slot="buttons">
+              <ion-button color="danger" (click)="filtri.tempo_minimo_ritiro.ge = null; filtroPopover.dismiss(); this.caricaOrdiniDalDB();">
+                Tutte
+              </ion-button>
+              <ion-button color="primary" (click)="dateTime.confirm();filtroPopover.dismiss(); this.caricaOrdiniDalDB();">
+                OK
+              </ion-button>
+            </ion-buttons>
+          </ion-datetime>
 
-    </ion-content>
-  </ng-template>
-</ion-popover>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+
+    <ion-button id="datetime-filter-btn2" fill="outline" color="primary">
+      📅 🕒 {{ filtri.tempo_minimo_ritiro.le ? (filtri.tempo_minimo_ritiro.le | date:'dd/MM/yyyy HH:mm') : 'Filtra per Data e Ora' }}
+    </ion-button>
+
+    <ion-popover #filtroPopover2 trigger="datetime-filter-btn2" trigger-action="click">
+      <ng-template>
+        <ion-content>
+
+          <ion-datetime
+            #dateTime2
+            locale="it-IT"
+            presentation="date-time"
+            [(ngModel)]="filtri.tempo_minimo_ritiro.le"
+            >
+
+            <span slot="time-label">Tempo</span>
+
+            <ion-buttons slot="buttons">
+              <ion-button color="danger" (click)="filtri.tempo_minimo_ritiro.le = null; filtroPopover2.dismiss(); this.caricaOrdiniDalDB();">
+                Tutte
+              </ion-button>
+              <ion-button color="primary" (click)="dateTime2.confirm();filtroPopover2.dismiss(); this.caricaOrdiniDalDB();">
+                OK
+              </ion-button>
+            </ion-buttons>
+          </ion-datetime>
+
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+
+
+
   </div>
 
   @for (ordine of this.ordini; track ordine.ordine_id) {
@@ -168,7 +204,7 @@
 
         <span>
           <ion-icon name="time-outline"></ion-icon>
-          Fascia orario ritiro: {{ ordine.tempo_massimo_ritiro }}
+          Fascia orario ritiro: {{ ordine.tempo_minimo_ritiro }} - {{ ordine.tempo_massimo_ritiro }}
         </span>
       </div>
 
