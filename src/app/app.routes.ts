@@ -15,7 +15,7 @@ export const routes: Routes = [
     loadComponent: () => import('@pages/signup/signup.page').then( m => m.SignupPage)
   },
   {
-    path: 'copisteria',
+    path: 'copisteria/:token',
     loadChildren: () => import('@pages/copisteria/copisteria.routes').then(m => m.routes)
   },
   {

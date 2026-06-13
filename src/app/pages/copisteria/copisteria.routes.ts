@@ -25,7 +25,7 @@ export const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/copisteria/copisteria-ordini',
+        redirectTo: 'copisteria-ordini',
         pathMatch: 'full',
       },
     ],
