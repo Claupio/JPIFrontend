@@ -1,20 +1,18 @@
-ion-tabs{
-  //--background-color: #0d265c;
-}
 
 ion-tab-bar {
-  /* Assicura che la tab bar non forzi i bottoni ai lati */
   justify-content: center;
   background-color: #0d265c;
-
 }
 
 ion-tab-button {
-  /* Imposta una larghezza massima così non si allargano troppo su schermi grandi */
   max-width: 200px;
   justify-content: center;
   align-items: center;
   background-color: #0d265c;
-  color: rgb(155, 150, 150);
 
+  --color: rgb(155, 150, 150);   
+  --color-selected: #ffffff;      
+  
+  
+   
 }

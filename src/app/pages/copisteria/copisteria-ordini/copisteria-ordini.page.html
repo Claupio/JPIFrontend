@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Ordini</ion-title>
+    <ion-title>Ordinii</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -204,7 +204,11 @@
 
         <span>
           <ion-icon name="time-outline"></ion-icon>
-          Fascia orario ritiro: {{ ordine.tempo_minimo_ritiro }} - {{ ordine.tempo_massimo_ritiro }}
+          Fascia orario ritiro minimo: {{ ordine.tempo_minimo_ritiro | date:'dd/MM/yyyy HH:mm' }}
+        </span>
+        <span>
+          <ion-icon name="time-outline"></ion-icon>
+          Fascia orario ritiro massimo: {{ ordine.tempo_massimo_ritiro | date:'dd/MM/yyyy HH:mm' }}
         </span>
       </div>
 

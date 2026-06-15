@@ -1,33 +1,30 @@
-/* Barra contenente il bottone "Aggiungi" */
+
 .table-actions {
   display: flex;
   justify-content: flex-end;
-  padding: 16px 16px 0 16px; /* Spazio sopra e ai lati, sotto raccordato dalla tabella */
+  padding: 16px 16px 0 16px;
+}
+
+.info-item strong {
+  font-size: 13px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 ion-button.btn-add {
-  /* Sfondo quasi trasparente (8% di opacità) usando il colore primary nativo di Ionic */
+  
   --background: rgba(var(--ion-color-primary-rgb, 56, 128, 255), 0.08);
-
-  /* Colore del testo e dell'icona */
   --color: var(--ion-color-primary);
-
-  /* Rimuove l'ombra per un look flat moderno */
   --box-shadow: none;
-
   font-weight: 600;
   margin: 0;
-
   --border-style: solid;
   --border-width: 1px;
   --border-color: var(--ion-color-primary);
-
-  /* Effetto al passaggio del mouse / click (opzionale ma consigliato per consistenza) */
   --background-hover: rgba(var(--ion-color-primary-rgb, 56, 128, 255), 0.15);
   --background-activated: rgba(var(--ion-color-primary-rgb, 56, 128, 255), 0.2);
-
   ion-icon {
-    /* Sicurezza extra per la spaziatura dell'icona se preferisci regolarla manualmente */
     margin-inline-end: 6px;
   }
 }

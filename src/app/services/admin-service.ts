@@ -29,9 +29,7 @@ export class AdminService {
     set: (target, proprieta, valore) => {
 
       this._filtri[proprieta] = valore;
-
       this.refreshCopisterie();
-
       return true;
     }
   });

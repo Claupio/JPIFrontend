@@ -39,6 +39,7 @@ export class CopisteriaOrdiniPage implements OnInit {
   ordini: any[] = [];
 
   filtri: any = {stato: {eq: [], ne: []}, tempo_minimo_ritiro: { le: null, ge: null}};
+  toastController: any;
 
 
 
@@ -179,16 +180,27 @@ scaricaPDF(ordine_id: number){
     toast.present();
   }
 
-  cambiaStato(ordine: number, vecchioStato:'EFFETTUATO' | 'IN_STAMPA' | 'STAMPATO') {
+  async presentToast(message: string, color: 'success' | 'danger' = 'success') {
+  const toast = await this.toastCtrl.create({
+    message: message,
+    duration: 3000,          // Sparisce da solo dopo 3 secondi
+    position: 'bottom',      // Puoi usare 'top', 'middle', 'bottom'
+    color: color,           
+    buttons: [{ text: 'OK', role: 'cancel' }] // Permette di chiuderlo prima
+  });
+  await toast.present();
+}
+
+  cambiaStato(ordine: any, vecchioStato:'EFFETTUATO' | 'IN_STAMPA' | 'STAMPATO') {
     const nextStato = {
       EFFETTUATO: "IN_STAMPA",
       IN_STAMPA: "STAMPATO",
       STAMPATO: "CONSEGNATO"
     }as const;
 
-    this.copisteriaService.cambiaStato(ordine, nextStato[vecchioStato]).subscribe({
+    this.copisteriaService.cambiaStato(ordine.ordine_id, nextStato[vecchioStato]).subscribe({
         error: (err) => {
-          alert("stato fallito")
+          this.presentToast("fallito","danger");
           console.log(err)
         },
         next: (value) => {
