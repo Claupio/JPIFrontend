@@ -20,6 +20,7 @@ export class ConfigurazioniPage implements OnInit {
   paperFormats: any[] = [];
   printMethods: any[] = [];
   addons: any[] = [];
+  giorniConservazione: number = 30;
 
 
 
@@ -28,13 +29,18 @@ export class ConfigurazioniPage implements OnInit {
     addIcons({ pencilSharp, trash, documentOutline,printOutline, starOutline, addOutline });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.caricaDati();
+  }
 
   caricaDati(){
     this.copisteriaService.getOpzioniOrdini().subscribe({
       next: (data) => {
         console.log(data);
-        this.paperFormats = data;
+        this.paperFormats = data.prezzi_formati_carta;
+        this.printMethods = data.prezzi_metodi_stampa;
+        this.addons = data.prezzi_add_on;
+        this.giorniConservazione = data.numero_giorni_conservazione;
       },
       error: (err) =>{
         console.error("Errore nel recupero degli ordini", err);
@@ -42,6 +48,20 @@ export class ConfigurazioniPage implements OnInit {
       }
     })
   }
+
+  salvaConfigurazioni() {
+  const body = {
+    prezzi_formati_carta: this.paperFormats,
+    prezzi_metodi_stampa: this.printMethods,
+    prezzi_add_on: this.addons,
+    numero_giorni_conservazione: this.giorniConservazione
+  };
+
+  this.copisteriaService.updateConfigurazioni(body).subscribe({
+    next: () => this.mostraToast('Configurazioni salvate con successo!'),
+    error: () => this.mostraToast('Errore nel salvataggio')
+  });
+}
 
   async mostraToast(msg: string){
     const toast = await this.toastCtrl.create({message: msg, duration: 2000});
@@ -63,12 +83,8 @@ export class ConfigurazioniPage implements OnInit {
           {
             text: 'Salva',
             handler: (data) => {
-              this.copisteriaService.addFormato(data).subscribe({
-                next: (risposta) => {
-                  this.paperFormats.push(risposta);
-                },
-                error: (err) => console.error('Errore durante il salvataggio', err)
-              });
+              this.paperFormats.push(data);
+              this.salvaConfigurazioni();
             }
           }
         ]
@@ -88,14 +104,8 @@ export class ConfigurazioniPage implements OnInit {
           role: 'destructive',
           handler: () => {
             if (this.selectedTab === 'paper') {
-              // Chiamata al database per eliminare tramite ID
-              this.copisteriaService.deleteFormato(item.id).subscribe({
-                next: () => {
-                  // Rimuovi l'elemento dall'array locale per aggiornare la tabella HTML
-                  this.paperFormats = this.paperFormats.filter(f => f.id !== item.id);
-                },
-                error: (err) => console.error('Errore durante l\'eliminazione', err)
-              });
+              this.paperFormats = this.paperFormats.filter(f => f !== item);
+              this.salvaConfigurazioni();
             }
           }
         }

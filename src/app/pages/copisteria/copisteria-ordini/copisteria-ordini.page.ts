@@ -31,11 +31,6 @@ import { CopisteriaService } from '@services/copisteria-service';
 
 export class CopisteriaOrdiniPage implements OnInit {
 
-
-
-  timeSlots: string[] = ['08:00 - 10:00', '10:00 - 12:00', '14:00 - 16:00'];
-  selectedTimeSlot: string = '';
-
   ordini: any[] = [];
 
   filtri: any = {stato: {eq: [], ne: []}, tempo_minimo_ritiro: { le: null, ge: null}};

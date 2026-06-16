@@ -7,6 +7,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CopisteriaService {
+  updateConfigurazioni(data: any): Observable<any> {
+  const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+  return this.httpClient.put(`${this.baseURL}/copisteria`, data, { headers});
+}
   constructor(private httpClient: HttpClient) {}
 
   private baseURL: string = "http://localhost:3000"
@@ -69,7 +75,7 @@ export class CopisteriaService {
     });
 
     let params = new HttpParams();
-    return this.httpClient.get<any>(`${this.baseURL}/copisteria/opzioni_ordini`, { headers, params});
+    return this.httpClient.get<any>(`${this.baseURL}/copisteria/opzioni_ordini/`, { headers, params});
   }
 
   addFormato(nuovoFormato: any) {
@@ -78,7 +84,7 @@ export class CopisteriaService {
       'Authorization': `Bearer ${this.token}`
     });
 
-    return this.httpClient.post(`${this.baseURL}/copisteria/opzioni_ordini/formati`, nuovoFormato, { headers: headers });
+    return this.httpClient.post(`${this.baseURL}/copisteria/opzioni_ordini/`, nuovoFormato, { headers: headers });
   }
 
   deleteFormato(id: number) {
