@@ -7,12 +7,6 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CopisteriaService {
-  updateConfigurazioni(data: any): Observable<any> {
-  const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
-    });
-  return this.httpClient.put(`${this.baseURL}/copisteria`, data, { headers});
-}
   constructor(private httpClient: HttpClient) {}
 
   private baseURL: string = "http://localhost:3000"
@@ -78,6 +72,22 @@ export class CopisteriaService {
     return this.httpClient.get<any>(`${this.baseURL}/copisteria/opzioni_ordini/`, { headers, params});
   }
 
+  setOpzioniOrdini(opzioniOrdini: any): Observable<any> {
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+
+    let opzioniOrdini2: any = {};
+
+    for(const [key, value] of Object.entries(opzioniOrdini)) {
+      opzioniOrdini2[key] = JSON.stringify(value);
+    }
+
+
+    return this.httpClient.put(`${this.baseURL}/copisteria/opzioni_ordini/`, opzioniOrdini, { headers: headers });
+  }
+
   addFormato(nuovoFormato: any) {
 
     const headers = new HttpHeaders({
@@ -94,5 +104,32 @@ export class CopisteriaService {
     });
 
     return this.httpClient.delete(`${this.baseURL}/copisteria/opzioni_ordini/formati/${id}`, { headers: headers });
+  }
+
+  getFasceOrarie(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+    return this.httpClient.get<any>(`${this.baseURL}/copisteria/fasce_orarie`, { headers });
+  }
+
+  addFasciaOraria(nuovaFascia: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+    return this.httpClient.post<any>(`${this.baseURL}/copisteria/fasce_orarie`, nuovaFascia, { headers });
+  }
+
+  deleteFasciaOraria(inizio_fascia: string, fine_fascia: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+    
+    // Il backend si aspetta i dati nei query parameters (req.query)
+    let params = new HttpParams()
+      .set('inizio_fascia', inizio_fascia)
+      .set('fine_fascia', fine_fascia);
+
+    return this.httpClient.delete<any>(`${this.baseURL}/copisteria/fasce_orarie`, { headers, params });
   }
 }

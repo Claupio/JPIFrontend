@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonSegment, IonSegmentButton, IonLabel, IonButton, IonCard, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {AlertController,ToastController} from '@ionic/angular';
-import { pencilSharp, trash, documentOutline, printOutline, starOutline, addOutline } from 'ionicons/icons';
+import { pencilSharp, trash, documentOutline, printOutline, starOutline, addOutline,createOutline } from 'ionicons/icons';
 import { CopisteriaService } from '@services/copisteria-service';
 
 @Component({
@@ -17,16 +17,15 @@ import { CopisteriaService } from '@services/copisteria-service';
 export class ConfigurazioniPage implements OnInit {
 
   selectedTab = 'paper';
-  paperFormats: any[] = [];
-  printMethods: any[] = [];
-  addons: any[] = [];
-  giorniConservazione: number = 30;
+
+  opzioniOrdini: any = {
+    prezzi_formati_carta: {}, prezzi_metodi_stampa: {}, prezzi_add_on: {}, numero_giorni_conservazione: 0
+  }
 
 
 
   constructor(private copisteriaService: CopisteriaService, private toastCtrl: ToastController, private alertCtrl: AlertController) {
-    // Registrazione centralizzata delle icone
-    addIcons({ pencilSharp, trash, documentOutline,printOutline, starOutline, addOutline });
+    addIcons({ pencilSharp, trash, documentOutline,printOutline, starOutline, addOutline, createOutline });
   }
 
   ngOnInit() {
@@ -37,10 +36,7 @@ export class ConfigurazioniPage implements OnInit {
     this.copisteriaService.getOpzioniOrdini().subscribe({
       next: (data) => {
         console.log(data);
-        this.paperFormats = data.prezzi_formati_carta;
-        this.printMethods = data.prezzi_metodi_stampa;
-        this.addons = data.prezzi_add_on;
-        this.giorniConservazione = data.numero_giorni_conservazione;
+        this.opzioniOrdini = data;
       },
       error: (err) =>{
         console.error("Errore nel recupero degli ordini", err);
@@ -50,14 +46,12 @@ export class ConfigurazioniPage implements OnInit {
   }
 
   salvaConfigurazioni() {
-  const body = {
-    prezzi_formati_carta: this.paperFormats,
-    prezzi_metodi_stampa: this.printMethods,
-    prezzi_add_on: this.addons,
-    numero_giorni_conservazione: this.giorniConservazione
-  };
+  
+  this.opzioniOrdini.prezzi_formati_carta = { ...this.opzioniOrdini.prezzi_formati_carta };
+  this.opzioniOrdini.prezzi_metodi_stampa = { ...this.opzioniOrdini.prezzi_metodi_stampa };
+  this.opzioniOrdini.prezzi_add_on = { ...this.opzioniOrdini.prezzi_add_on };
 
-  this.copisteriaService.updateConfigurazioni(body).subscribe({
+  this.copisteriaService.setOpzioniOrdini(this.opzioniOrdini).subscribe({
     next: () => this.mostraToast('Configurazioni salvate con successo!'),
     error: () => this.mostraToast('Errore nel salvataggio')
   });
@@ -69,13 +63,11 @@ export class ConfigurazioniPage implements OnInit {
   }
 
   async onAdd() {
-    // Mostra un popup per inserire i dati in base al tab selezionato
     if (this.selectedTab === 'paper') {
       const alert = await this.alertCtrl.create({
         header: 'Nuovo Formato Carta',
         inputs: [
           { name: 'name', type: 'text', placeholder: 'Nome (es. A4)' },
-          { name: 'dimensioni', type: 'text', placeholder: 'Dimensioni (es. 210x297)' },
           { name: 'price', type: 'number', placeholder: 'Prezzo (es. 0.10)', min: 0 }
         ],
         buttons: [
@@ -83,8 +75,53 @@ export class ConfigurazioniPage implements OnInit {
           {
             text: 'Salva',
             handler: (data) => {
-              this.paperFormats.push(data);
+              this.opzioniOrdini.prezzi_formati_carta[data.name] = data.price;
               this.salvaConfigurazioni();
+              console.log(this.opzioniOrdini)
+            }
+          }
+        ]
+      });
+      await alert.present();
+    }
+
+    if (this.selectedTab === 'print') {
+      const alert = await this.alertCtrl.create({
+        header: 'Nuovo Formato Carta',
+        inputs: [
+          { name: 'name', type: 'text', placeholder: 'Nome (Stampa Colori)' },
+          { name: 'price', type: 'number', placeholder: 'Prezzo (es. 0.10)', min: 0 }
+        ],
+        buttons: [
+          { text: 'Annulla', role: 'cancel' },
+          {
+            text: 'Salva',
+            handler: (data) => {
+              this.opzioniOrdini.prezzi_metodi_stampa[data.name] = data.price;
+              this.salvaConfigurazioni();
+              console.log(this.opzioniOrdini)
+            }
+          }
+        ]
+      });
+      await alert.present();
+    }
+
+    if(this.selectedTab === 'addons'){
+      const alert = await this.alertCtrl.create({
+        header: 'Nuovo Addons',
+        inputs: [
+          { name: 'name', type: 'text', placeholder: 'Nome (Rilegatura  a Spirale)' },
+          { name: 'price', type: 'number', placeholder: 'Prezzo (es. 0.10)', min: 0 }
+        ],
+        buttons: [
+          { text: 'Annulla', role: 'cancel' },
+          {
+            text: 'Salva',
+            handler: (data) => {
+              this.opzioniOrdini.prezzi_add_on[data.name] = data.price;
+              this.salvaConfigurazioni();
+              console.log(this.opzioniOrdini)
             }
           }
         ]
@@ -104,8 +141,16 @@ export class ConfigurazioniPage implements OnInit {
           role: 'destructive',
           handler: () => {
             if (this.selectedTab === 'paper') {
-              this.paperFormats = this.paperFormats.filter(f => f !== item);
+              delete this.opzioniOrdini.prezzi_formati_carta[item.key];
               this.salvaConfigurazioni();
+            }
+            if (this.selectedTab === 'print') {
+              delete this.opzioniOrdini.prezzi_metodi_stampa[item.key];
+              this.salvaConfigurazioni();
+            }
+            if (this.selectedTab === 'addons') {
+              delete this.opzioniOrdini.prezzi_add_on[item.key];
+              this.salvaConfigurazioni();  
             }
           }
         }
@@ -114,11 +159,112 @@ export class ConfigurazioniPage implements OnInit {
     await alert.present();
   }
 
-  // Gestione della modifica (opzionale)
-  onEdit(item: any) {
-    console.log('Modifica elemento:', item);
-    // Logica simile ad onAdd ma passando i dati già esistenti negli input dell'alert
+  
+  async onEdit(item: any) {
+     if (this.selectedTab === 'paper') {
+      const alert = await this.alertCtrl.create({
+        header: 'Modifica Formato Carta',
+        inputs: [
+          { name: 'name', type: 'text', placeholder: 'Nome (es. A4)',value: item.name},
+          { name: 'price', type: 'number', placeholder: 'Prezzo (es. 0.10)', min: 0 ,value: item.price}
+        ],
+        buttons: [
+          { text: 'Annulla', role: 'cancel' },
+          {
+            text: 'Salva',
+            handler: (data) => {
+              if (data.name !== item.name) {
+              delete this.opzioniOrdini.prezzi_formati_carta[item.name];
+              }
+              
+              this.opzioniOrdini.prezzi_formati_carta[data.name] = data.price;
+              this.salvaConfigurazioni();
+              console.log(this.opzioniOrdini)
+            }
+          }
+        ]
+      });
+      await alert.present();
+    }
+    if (this.selectedTab === 'print') {
+      const alert = await this.alertCtrl.create({
+        header: 'Modifica Formato Carta',
+        inputs: [
+          { name: 'name', type: 'text', placeholder: 'Nome (Stampa Colori)',value: item.name},
+          { name: 'price', type: 'number', placeholder: 'Prezzo (es. 0.10)', min: 0 ,value: item.price}
+        ],
+        buttons: [
+          { text: 'Annulla', role: 'cancel' },
+          {
+            text: 'Salva',
+            handler: (data) => {
+              if (data.name !== item.name) {
+              delete this.opzioniOrdini.prezzi_metodi_stampa[item.name];
+              }
+              
+              this.opzioniOrdini.prezzi_metodi_stampa[data.name] = data.price;
+              this.salvaConfigurazioni();
+              console.log(this.opzioniOrdini)
+            }
+          }
+        ]
+      });
+      await alert.present();
+    }
+    if (this.selectedTab === 'addons') {
+      const alert = await this.alertCtrl.create({
+        header: 'Modifica Formato Carta',
+        inputs: [
+          { name: 'name', type: 'text', placeholder: 'Nome (Rilegatura  a Spirale)',value: item.name},
+          { name: 'price', type: 'number', placeholder: 'Prezzo (es. 0.10)', min: 0 ,value: item.price}
+        ],
+        buttons: [
+          { text: 'Annulla', role: 'cancel' },
+          {
+            text: 'Salva',
+            handler: (data) => {
+              if (data.name !== item.name) {
+              delete this.opzioniOrdini.prezzi_add_on[item.name];
+              }
+              
+              this.opzioniOrdini.prezzi_add_on[data.name] = data.price;
+              this.salvaConfigurazioni();
+              console.log(this.opzioniOrdini)
+            }
+          }
+        ]
+      });
+      await alert.present();
+    }
   }
+
+  async onGmr() {
+  const alert = await this.alertCtrl.create({
+    header: 'Aggiungi Giorni Max Ritiro',
+    inputs: [
+      {
+        name: 'giorni',
+        type: 'number',
+        placeholder: 'Inserisci i giorni (es. 7)',
+        min: 0,
+      
+        value: this.opzioniOrdini.numero_giorni_conservazione,
+      }
+    ],
+    buttons: [
+      { text: 'Annulla', role: 'cancel' },
+      {
+        text: 'Salva',
+        handler: (data) => {
+          this.opzioniOrdini.numero_giorni_conservazione = data.giorni;
+          this.salvaConfigurazioni();
+          console.log(this.opzioniOrdini);
+        }
+      }
+    ]
+  });
+  await alert.present();
+}
 }
 
 

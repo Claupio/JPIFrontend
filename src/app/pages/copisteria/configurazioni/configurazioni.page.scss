@@ -1,7 +1,15 @@
 
 .table-actions {
   display: flex;
-  justify-content: flex-end;
+  justify-content:end; 
+  align-items: center;
+  padding: 16px 16px 0 16px;
+}
+
+.table-actions_1 {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
   padding: 16px 16px 0 16px;
 }
 
@@ -12,22 +20,45 @@
   letter-spacing: 0.5px;
 }
 
-ion-button.btn-add {
+ion-button.ngc {
+  --background: rgba(255, 152, 0, 0.08);
+  --color: #ff9800;
+  --box-shadow: none;
+  font-weight: 600;
+  margin: 0; 
   
+  --border-style: solid;
+  --border-width: 1px;
+  --border-color: #ff9800;
+  
+  --background-hover: rgba(255, 152, 0, 0.15);
+  --background-activated: rgba(255, 152, 0, 0.2);
+
+  ion-icon {
+    margin-inline-end: 6px;
+  }
+}
+
+ion-button.btn-add {
   --background: rgba(var(--ion-color-primary-rgb, 56, 128, 255), 0.08);
   --color: var(--ion-color-primary);
   --box-shadow: none;
   font-weight: 600;
   margin: 0;
+  
   --border-style: solid;
   --border-width: 1px;
   --border-color: var(--ion-color-primary);
+  
   --background-hover: rgba(var(--ion-color-primary-rgb, 56, 128, 255), 0.15);
   --background-activated: rgba(var(--ion-color-primary-rgb, 56, 128, 255), 0.2);
+
   ion-icon {
     margin-inline-end: 6px;
   }
 }
+
+
 
 
 .table-container {
