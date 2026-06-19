@@ -1,26 +1,37 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, LOCALE_ID } from '@angular/core'; 
+import { CommonModule, registerLocaleData } from '@angular/common'; 
 import { FormsModule } from '@angular/forms';
 import { AlertController, ToastController } from '@ionic/angular';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonIcon, IonList, IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonIcon, IonList, IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption, IonCard } from '@ionic/angular/standalone';
 import { CopisteriaService } from '@services/copisteria-service';
+import localeIt from '@angular/common/locales/it';
+import { pencilSharp, trash,createOutline } from 'ionicons/icons';
+import { addIcons } from 'ionicons';
+
+registerLocaleData(localeIt);
 
 @Component({
   selector: 'app-fasce-orarie',
   templateUrl: './fasce-orarie.page.html',
   styleUrls: ['./fasce-orarie.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButton, IonIcon, IonList, IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption]
+  imports: [
+    IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, 
+    FormsModule, IonButton, IonIcon, IonList, IonItemSliding, 
+    IonItem, IonLabel, IonItemOptions, IonItemOption, IonCard
+  ],
+  providers: [
+    
+    { provide: LOCALE_ID, useValue: 'it-IT' }
+  ]
 })
 export class FasceOrariePage implements OnInit {
 
   fasceOrarie: any[] = []; 
 
-  constructor(
-    private alertCtrl: AlertController,
-    private toastCtrl: ToastController,
-    private copisteriaService: CopisteriaService
-  ) {}
+  constructor(private alertCtrl: AlertController, private toastCtrl: ToastController, private copisteriaService: CopisteriaService) {
+    addIcons({ pencilSharp, trash, createOutline });
+  }
 
   ngOnInit() {
     this.caricaFasceOrarie();
@@ -38,10 +49,11 @@ export class FasceOrariePage implements OnInit {
     });
   }
 
-  async onAdd() {
+  async onAdd() { 
     const alert = await this.alertCtrl.create({
       header: 'Nuova Fascia Oraria',
       inputs: [
+        { name: 'data_inizio', type: 'date' },
         { name: 'inizio_fascia', type: 'time' },
         { name: 'fine_fascia', type: 'time' }
       ],
@@ -50,13 +62,17 @@ export class FasceOrariePage implements OnInit {
         {
           text: 'Salva',
           handler: (data) => {
-            if (!data.inizio_fascia || !data.fine_fascia) {
+            if (!data.data_inizio || !data.inizio_fascia || !data.fine_fascia ) {
               this.mostraToast('Entrambi i campi sono richiesti!');
               return false;
             }
 
-            // Chiamata al Service
-            this.copisteriaService.addFasciaOraria(data).subscribe({
+            const payload = {
+              inizio_fascia: `${data.data_inizio}T${data.inizio_fascia}`,
+              fine_fascia: `${data.data_inizio}T${data.fine_fascia}`
+            };
+
+            this.copisteriaService.addFasciaOraria(payload).subscribe({
               next: (res: any) => {
                 this.mostraToast(res.message || 'Fascia aggiunta con successo');
                 this.caricaFasceOrarie();
@@ -73,9 +89,7 @@ export class FasceOrariePage implements OnInit {
     await alert.present();
   }
 
-
   async onDelete(item: any) {
-    // Passiamo i due parametri separati al metodo del service
     this.copisteriaService.deleteFasciaOraria(item.inizio_fascia, item.fine_fascia).subscribe({
       next: (res: any) => {
         this.mostraToast(res.message || 'Fascia rimossa con successo');
@@ -95,5 +109,4 @@ export class FasceOrariePage implements OnInit {
     });
     await toast.present();
   }
-
 }

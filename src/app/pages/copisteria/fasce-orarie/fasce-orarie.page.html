@@ -1,42 +1,54 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Gestione Orari Copisteria</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content class="ion-padding">
 
-  <div class="table-actions">
-    <span class="section-title">Fasce Orarie Ritiro</span>
-    <ion-button class="btn-add" size="small" (click)="onAdd()">
-      <ion-icon slot="start" name="time-outline"></ion-icon>
-      Nuova Fascia
-    </ion-button>
-  </div>
+  <ion-card class="ion-no-margin-top ion-padding">
+    
+    <div class="table-actions">
+      <span class="section-title">Fasce Orarie Ritiro</span>
+      <ion-button class="btn-add" size="small" (click)="onAdd()">
+        <ion-icon slot="start" name="time-outline"></ion-icon>
+        Nuova Fascia
+      </ion-button>
+    </div>
 
-  <ion-list lines="none" *ngIf="fasceOrarie.length > 0">
-    <ion-item-sliding *ngFor="let fascia of fasceOrarie">
-      
-      <ion-item class="fascia-item">
-        <ion-icon slot="start" name="calendar-outline" color="primary"></ion-icon>
-        <ion-label>
-          <h2>Disponibile per il ritiro</h2>
-          <p>Dalle <strong>{{ fascia.inizio_fascia }}</strong> alle <strong>{{ fascia.fine_fascia }}</strong></p>
-        </ion-label>
-      </ion-item>
+    @if (fasceOrarie && fasceOrarie.length > 0) {
+      <div class="table-container">
+        
+        <div class="table-header cols-3">
+          <div class="col-day">Giorno</div>
+          <div class="col-time">Orario di Ritiro</div>
+          <div class="col-actions">Azioni</div>
+        </div>
 
-      <ion-item-options side="end">
-        <ion-item-option color="danger" (click)="onDelete(fascia)">
-          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
+        @for (fascia of fasceOrarie; track fascia.inizio_fascia) {
+          <div class="table-row cols-3">
+            
+            <div class="col-day">
+              <ion-icon name="calendar-outline" color="primary"></ion-icon>
+              <span class="day-text">{{ fascia.inizio_fascia | date:'EEE dd MMM yyyy' }}</span>
+            </div>
+            
+            <div class="col-time">
+              <span class="time-badge">
+                {{ fascia.inizio_fascia | date:'HH:mm' }} - {{ fascia.fine_fascia | date:'HH:mm' }}
+              </span>
+            </div>
+            
+            <div class="col-actions">
+            <ion-button fill="clear" color="danger" size="small" (click)="onDelete(fascia)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+            </div>
 
-    </ion-item-sliding>
-  </ion-list>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="no-data ion-text-center">
+        <ion-icon name="hourglass-outline"></ion-icon>
+        <p>Nessuna fascia oraria configurata al momento.</p>
+      </div>
+    }
 
-  <div *ngIf="fasceOrarie.length === 0" class="no-data ion-text-center">
-    <ion-icon name="hourglass-outline"></ion-icon>
-    <p>Nessuna fascia oraria configurata al momento.</p>
-  </div>
+  </ion-card>
 
 </ion-content>

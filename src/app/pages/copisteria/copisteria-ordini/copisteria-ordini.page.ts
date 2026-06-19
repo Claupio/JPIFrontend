@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonSelect, IonSelectOption, IonCard, IonCardHeader, IonCardTitle, IonChip, IonLabel, IonCardSubtitle, IonCardContent, IonButton, IonIcon, IonInput, IonCol, IonRow, IonGrid, IonPopover, IonButtons, IonDatetime } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonSelect, IonSelectOption, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon, IonCol, IonRow, IonGrid, IonPopover, IonButtons, IonDatetime } from '@ionic/angular/standalone';
 import { AlertController, ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { addIcons } from 'ionicons';
@@ -145,11 +145,11 @@ scaricaPDF(ordine_id: number){
                 this.mostraToast('Errore nella cancellazione');
               }
             })
-            return true; // Chiude l'alert perché l'operazione è riuscita
+            return true; 
           } else {
-            // Qui potresti aggiungere un piccolo feedback visivo se vuoi
+            
             console.log('Motivazione obbligatoria');
-            return false; // Impedisce la chiusura dell'alert se il campo è vuoto
+            return false; 
           }
         }
       }

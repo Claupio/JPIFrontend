@@ -125,6 +125,8 @@ export class CopisteriaService {
       'Authorization': `Bearer ${this.token}`
     });
     
+    console.log(inizio_fascia)
+    console.log(fine_fascia)
     // Il backend si aspetta i dati nei query parameters (req.query)
     let params = new HttpParams()
       .set('inizio_fascia', inizio_fascia)

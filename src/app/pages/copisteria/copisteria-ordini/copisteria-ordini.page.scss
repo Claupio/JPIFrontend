@@ -129,21 +129,18 @@ ion-chip {
   --border-radius: 12px;
 }
 
-/* Bottone Stato (Warning - Giallo/Arancio) */
 .actions ion-button[color="warning"] {
   --background: rgba(var(--ion-color-warning-rgb), 0.1);
   --color: var(--ion-color-warning);
   --border-color: var(--ion-color-warning);
 }
 
-/* Bottone Elimina (Danger - Rosso) */
 .actions ion-button[color="danger"] {
   --background: rgba(var(--ion-color-danger-rgb), 0.1);
   --color: var(--ion-color-danger);
   --border-color: var(--ion-color-danger);
 }
 
-/* ===== FOOTER CARD ===== */
 
 .bottom-info {
   display: flex;
@@ -160,25 +157,7 @@ ion-chip {
 .bottom-info .info-container {
   display: flex;
   flex-direction: row;
-   /* Spazio tra l'icona e il testo */
 }
-
-/* ===== HEADER ===== */
-
-ion-title {
-  font-size: 28px;
-  font-weight: 700;
-  padding-left: 10px;
-}
-
-/* ===== TOOLBAR ===== */
-
-ion-toolbar {
-  --background: white;
-  border-bottom: 1px solid #ececec;
-}
-
-/* ===== RESPONSIVE ===== */
 
 @media (max-width: 768px) {
   .filters-container {
