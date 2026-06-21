@@ -1,10 +1,12 @@
 import { Routes } from '@angular/router';
 import { CopisteriaPage } from './copisteria.page';
+import { copisteriaGuard } from 'src/app/guards/copisteria-guard';
 
 export const routes: Routes = [
   {
     path: '',
     component: CopisteriaPage,
+    canActivate: [copisteriaGuard],
     children: [
       {
         path: 'copisteria-ordini',

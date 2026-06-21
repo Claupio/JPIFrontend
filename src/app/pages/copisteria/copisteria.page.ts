@@ -29,10 +29,7 @@ export class CopisteriaPage implements OnInit {
 
   }
 
-  ionViewWillEnter() {
-    this.copisteriaService.setToken(this.route.snapshot.paramMap.get("token")!);
-  }
   ngOnInit() {
-    this.copisteriaService.setToken(this.route.snapshot.paramMap.get("token")!);
+    
   }
 }

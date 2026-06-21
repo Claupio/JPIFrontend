@@ -8,6 +8,7 @@ import{addIcons} from 'ionicons';
 import { eyeOutline, eyeOffOutline } from 'ionicons/icons';
 import { Router } from '@angular/router';
 import { AdminService } from '@services/admin-service';
+import { CopisteriaService } from '@services/copisteria-service';
 
 @Component({
   selector: 'app-schermata-iniziale',
@@ -24,7 +25,7 @@ export class LoginPage implements OnInit {
     name: "", password: ""
   }
 
-  constructor( private loginService: LoginService, private router: Router, private adminService: AdminService) {
+  constructor( private loginService: LoginService, private router: Router, private adminService: AdminService, private copisteria_service: CopisteriaService) {
     addIcons({ eyeOutline, eyeOffOutline });
   }
 
@@ -49,9 +50,9 @@ export class LoginPage implements OnInit {
         },
         next: (value) => {
           const {token} = value;
-          console.log(token)
           if(this.userData.name.startsWith("copisteria.")) {
-            this.router.navigate(["/copisteria/", token]);
+            this.copisteria_service.setToken(token);
+            this.router.navigate(["/copisteria"]);
           } else if(this.userData.name.startsWith("admin.")) {
             this.adminService.setToken(token)
             this.router.navigate(["/admin"]);

@@ -11,15 +11,17 @@ export class CopisteriaService {
 
   private baseURL: string = "http://localhost:3000"
 
-  private token: string = "";
-
   setToken(token: string) {
-    this.token = token;
+    localStorage.setItem("CopisteriaToken", token)
+  }
+
+  getToken() {
+    return localStorage.getItem("CopisteriaToken")
   }
 
   getOrdini(filtri: any): Observable<any> {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${this.getToken()}`
     });
 
     let params = new HttpParams();
@@ -28,14 +30,12 @@ export class CopisteriaService {
       params = params.set(key, JSON.stringify(value))
     }
 
-    console.log(this.token)
-
     return this.httpClient.get<any>(`${this.baseURL}/copisteria/ordini`, { headers, params});
   }
 
   cambiaStato(ordine: number, nuovoStato: string) {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${this.getToken()}`
     });
 
     console.log(nuovoStato)
@@ -45,7 +45,7 @@ export class CopisteriaService {
 
   cancellaOrdine(ordine: number, motivazione: string) {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${this.getToken()}`
     });
 
     return this.httpClient.put<any>(`${this.baseURL}/copisteria/ordini`, {stato: "CANCELLATO", ordine_id: ordine, motivazione: motivazione}, { headers });
@@ -54,7 +54,7 @@ export class CopisteriaService {
   scaricaOrdinePDF(ordine_id: number){
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${this.getToken()}`
     });
 
     let params = new HttpParams().set("ordine_id", ordine_id);
@@ -65,7 +65,7 @@ export class CopisteriaService {
 
   getOpzioniOrdini(): Observable<any>{
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${this.getToken()}`
     });
 
     let params = new HttpParams();
@@ -75,7 +75,7 @@ export class CopisteriaService {
   setOpzioniOrdini(opzioniOrdini: any): Observable<any> {
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${this.getToken()}`
     });
 
     let opzioniOrdini2: any = {};
@@ -91,7 +91,7 @@ export class CopisteriaService {
   addFormato(nuovoFormato: any) {
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${this.getToken()}`
     });
 
     return this.httpClient.post(`${this.baseURL}/copisteria/opzioni_ordini/`, nuovoFormato, { headers: headers });
@@ -100,7 +100,7 @@ export class CopisteriaService {
   deleteFormato(id: number) {
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${this.getToken()}`
     });
 
     return this.httpClient.delete(`${this.baseURL}/copisteria/opzioni_ordini/formati/${id}`, { headers: headers });
@@ -108,21 +108,21 @@ export class CopisteriaService {
 
   getFasceOrarie(): Observable<any> {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${this.getToken()}`
     });
     return this.httpClient.get<any>(`${this.baseURL}/copisteria/fasce_orarie`, { headers });
   }
 
   addFasciaOraria(nuovaFascia: any): Observable<any> {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${this.getToken()}`
     });
     return this.httpClient.post<any>(`${this.baseURL}/copisteria/fasce_orarie`, nuovaFascia, { headers });
   }
 
   deleteFasciaOraria(inizio_fascia: string, fine_fascia: string): Observable<any> {
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${this.getToken()}`
     });
     
     console.log(inizio_fascia)

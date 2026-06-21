@@ -8,4 +8,12 @@ export class ConsumatoreService {
   constructor(private httpClient: HttpClient) {}
 
   private baseURL: string = "http://localhost:3000"
+
+  setToken(token: string) {
+    localStorage.setItem("ConsumatoreToken", token)
+  }
+
+  getToken() {
+    return localStorage.getItem("ConsumatoreToken")
+  }
 }
