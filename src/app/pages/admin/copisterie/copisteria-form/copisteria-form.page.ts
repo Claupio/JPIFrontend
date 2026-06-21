@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from '@services/admin-service';
 import * as L from 'leaflet';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-copisteria-form',
@@ -20,13 +21,19 @@ export class CopisteriaFormPage implements OnInit {
   private map!: L.Map;
   private marker!: L.Marker;
 
+  async mostraToast(msg: string){
+    const toast = await this.toastCtrl.create({message: msg, duration: 2000});
+    await toast.present();
+  }
+
   onSubmit(form: NgForm) {
     if(form.valid) {
       (this.copisteria.copisteria_id ?
       this.adminService.modificaCopisteria(this.copisteria, this.password) :
       this.adminService.creaCopisteria(this.copisteria, this.password)).subscribe({
-        error(err) {
-            console.log(err)
+        error: (err) => {
+          console.log(err)
+          this.mostraToast(err.error?.message || 'Errore creazione copisteria')
         },
 
         next: (value) => {
@@ -55,7 +62,7 @@ export class CopisteriaFormPage implements OnInit {
     password_hash: ""
   };
   password: string="";
-  constructor(private route: ActivatedRoute, private adminService: AdminService, private router: Router, private httpClient: HttpClient) {
+  constructor(private route: ActivatedRoute, private adminService: AdminService, private router: Router, private httpClient: HttpClient, private toastCtrl: ToastController) {
     // Fix per le icone di default di Leaflet che spesso spariscono in Angular
     const iconRetinaUrl = 'assets/marker-icon-2x.png';
     const iconUrl = 'assets/marker-icon.png';
@@ -86,27 +93,22 @@ export class CopisteriaFormPage implements OnInit {
     shadowSize: [41, 41]        // Dimensioni dell'ombra
   });
 
-  // Applica questa configurazione a tutti i marker di default
   L.Marker.prototype.options.icon = defaultIcon;
-    // 1. Inizializza la mappa sulla coordinata di partenza
+
     this.map = L.map('map').setView([this.copisteria.latitudine, this.copisteria.longitudine], 13);
 
-    // 2. Aggiunge i tasselli (tiles) di OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
 
-    // 3. Crea il singolo marker trascinabile (draggable)
     this.marker = L.marker([this.copisteria.latitudine, this.copisteria.longitudine], { draggable: true }).addTo(this.map);
 
-    // 4. EVENTO A: L'utente trascina il marker sulla mappa
     this.marker.on('dragend', () => {
       const position = this.marker.getLatLng();
       this.copisteria.latitudine = parseFloat(position.lat.toFixed(6)); // Arrotonda per pulizia visiva
       this.copisteria.longitudine = parseFloat(position.lng.toFixed(6));
     });
 
-    // 5. EVENTO B: L'utente clicca un punto qualsiasi sulla mappa
     this.map.on('click', (e: L.LeafletMouseEvent) => {
       this.copisteria.latitudine = parseFloat(e.latlng.lat.toFixed(6));
       this.copisteria.longitudine = parseFloat(e.latlng.lng.toFixed(6));

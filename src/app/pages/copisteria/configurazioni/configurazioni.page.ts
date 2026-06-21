@@ -59,7 +59,7 @@ export class ConfigurazioniPage implements OnInit {
 
   async mostraToast(msg: string){
     const toast = await this.toastCtrl.create({message: msg, duration: 2000});
-    toast.present();
+    await toast.present();
   }
 
   async onAdd() {
