@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard } from '@ionic/angular/standalone';
 import { ConsumatoreService } from '@services/consumatore-service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-verifica-email',
@@ -16,7 +16,8 @@ export class VerificaEmailPage implements OnInit {
 
   token: string="";
   esito: string="token di verifica mail non valido";
-  constructor(private consumatoreService : ConsumatoreService, private route : ActivatedRoute) { }
+  esito2: string="torna alla schermata iniziale"
+  constructor(private consumatoreService : ConsumatoreService, private route : ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.token = this.route.snapshot.paramMap.get('token')!;
@@ -28,8 +29,13 @@ export class VerificaEmailPage implements OnInit {
 
       next: (value) => {
         this.esito = value.message
+        this.esito2 = "Accedi"
       }
     })
+  }
+
+  pulsante() {
+    this.router.navigate([this.esito2 === "Accedi" ? "/login" : "/"])
   }
 
 }
