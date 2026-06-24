@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -20,6 +20,12 @@ export class ConsumatoreService {
 
   verificaMail(tokenVerifica: string) : Observable<any> {
     return this.httpClient.post(this.baseURL + "/register/" + tokenVerifica, {})
+  }
+
+  recuperaPassword(email: string) {
+    let params = new HttpParams().set("email", email);
+
+    return this.httpClient.get<any>(`${this.baseURL}/copisteria/ordini`, { params})
   }
 
   modificaPasswordDaMail(token: string, new_password: string) : Observable<any> {

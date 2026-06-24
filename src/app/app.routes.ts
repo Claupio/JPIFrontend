@@ -30,6 +30,10 @@ export const routes: Routes = [
     path: 'modifica-password-da-email',
     loadComponent: () => import('./pages/modifica-password-da-email/modifica-password-da-email.page').then( m => m.ModificaPasswordDaEmailPage)
   },
+  {
+    path: 'recupera-password',
+    loadComponent: () => import('./pages/recupera-password/recupera-password.page').then( m => m.RecuperaPasswordPage)
+  },
 
 
   // {

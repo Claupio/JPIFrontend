@@ -22,7 +22,6 @@ export class ModificaPasswordDaEmailPage implements OnInit {
   constructor(private consumatoreService: ConsumatoreService, private route: ActivatedRoute, private router: Router, private toastCtrl: ToastController) { }
 
   mostraToast(msg: string, callback: any) : void {
-
     this.toastCtrl.create({message: msg, duration: 2000}).then((data) => {
       data.present().then(() => {callback()})
     })
