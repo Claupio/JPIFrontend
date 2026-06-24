@@ -23,6 +23,11 @@ export const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('@pages/admin/admin.routes').then(m => m.routes)
   },
+  {
+    path: 'verifica-email',
+    loadComponent: () => import('./pages/verifica-email/verifica-email.page').then( m => m.VerificaEmailPage)
+  },
+
   // {
   //   path: 'consumatore',
   //   canActivate: [consumatoreGuard]
