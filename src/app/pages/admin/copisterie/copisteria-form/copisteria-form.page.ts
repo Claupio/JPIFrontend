@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonCardContent, IonButton, IonInput, IonGrid, IonRow, IonCol, IonButtons, IonBackButton, IonIcon } from '@ionic/angular/standalone';
+import { IonContent, IonCard, IonCardContent, IonButton, IonInput, IonIcon } from '@ionic/angular/standalone';
 import {Copisteria} from '@models/copisteria'
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminService } from '@services/admin-service';
@@ -15,7 +15,7 @@ import { arrowBackOutline } from 'ionicons/icons';
   templateUrl: './copisteria-form.page.html',
   styleUrls: ['./copisteria-form.page.scss'],
   standalone: true,
-  imports: [IonInput, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonCardContent, IonButton, IonGrid, IonRow, IonCol, IonButtons, IonBackButton, IonIcon]
+  imports: [IonInput, IonContent, CommonModule, FormsModule, IonCard, IonCardContent, IonButton, IonIcon]
 })
 export class CopisteriaFormPage implements OnInit {
   

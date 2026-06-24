@@ -2,7 +2,7 @@ import { ConsumatoreService } from '@services/consumatore-service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonCard, IonButton, IonIcon } from '@ionic/angular/standalone';
+import { IonInput, IonContent,IonCard, IonButton, IonIcon, IonCardHeader, IonCardTitle } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
@@ -11,7 +11,7 @@ import { ToastController } from '@ionic/angular';
   templateUrl: './modifica-password-da-email.page.html',
   styleUrls: ['./modifica-password-da-email.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonCard, IonButton, IonIcon]
+  imports: [IonContent, IonInput, CommonModule, FormsModule, IonCard, IonButton, IonIcon, IonCardHeader, IonCardTitle]
 })
 export class ModificaPasswordDaEmailPage implements OnInit {
 

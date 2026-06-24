@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, ToastController, IonButton, IonCard } from '@ionic/angular/standalone';
+import {IonInput, IonContent, IonHeader, IonTitle, IonToolbar, ToastController, IonButton, IonCard, IonCardHeader, IonCardTitle } from '@ionic/angular/standalone';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConsumatoreService } from '@services/consumatore-service';
 
@@ -10,7 +10,7 @@ import { ConsumatoreService } from '@services/consumatore-service';
   templateUrl: './recupera-password.page.html',
   styleUrls: ['./recupera-password.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, IonButton, IonCard]
+  imports: [IonInput, IonContent, CommonModule, FormsModule, IonButton, IonCard, IonCardHeader, IonCardTitle]
 })
 export class RecuperaPasswordPage implements OnInit {
 

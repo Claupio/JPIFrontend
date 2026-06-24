@@ -9,7 +9,7 @@ import { AdminService } from '@services/admin-service';
   templateUrl: './segnalazioni.page.html',
   styleUrls: ['./segnalazioni.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, IonGrid, IonCol, IonRow, IonCard]
+  imports: [IonContent, CommonModule, FormsModule, IonCard]
 })
 export class SegnalazioniPage implements OnInit {
 

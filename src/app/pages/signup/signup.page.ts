@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import {  IonContent, IonInput, IonButton, IonCard, IonCardHeader, IonCardSubtitle,IonCardTitle,IonCardContent, IonIcon} from '@ionic/angular/standalone';
 import { RegistrazioneService } from '@services/registrazione-service';
 import{addIcons} from 'ionicons';
@@ -11,7 +12,7 @@ import { eyeOutline, eyeOffOutline } from 'ionicons/icons';
   templateUrl: './signup.page.html',
   styleUrls: ['./signup.page.scss'],
   standalone: true,
-  imports: [FormsModule, IonContent, IonInput, IonButton, IonCard, IonCardHeader, IonCardSubtitle,IonCardTitle,IonCardContent,IonIcon]
+  imports: [FormsModule, IonContent, IonInput, IonButton, IonCard, IonCardHeader,IonCardTitle,IonCardContent,IonIcon]
 })
 export class SignupPage implements OnInit {
   isPressed = false;
@@ -20,7 +21,7 @@ export class SignupPage implements OnInit {
     name: "", email: "", password: ""
   }
 
-  constructor(private registrazioneService: RegistrazioneService, private router: Router) {
+  constructor(private registrazioneService: RegistrazioneService, private router: Router, private toastCtrl: ToastController) {
     addIcons({ eyeOutline, eyeOffOutline });
   }
 
@@ -37,15 +38,20 @@ export class SignupPage implements OnInit {
     input.type = 'password';
   }
 
+  mostraToast(msg: string, callback: any) : void {
+    this.toastCtrl.create({message: msg, duration: 2000}).then((data) => {
+      data.present().then(() => {callback()})
+    })
+  }
+
   onSubmit(form: NgForm) {
     if(form.valid) {
       this.registrazioneService.register(this.userData.email, this.userData.password).subscribe({
         error: (err) => {
-          alert("registrazione fallita")
+          this.mostraToast(err.error?.message || "Registrazione Fallita", () => {})
         },
         next: (value) => {
-          alert("verificare la mail")
-          this.router.navigate(["/"])
+          this.mostraToast("verificare la mail", () => { this.router.navigate(["/"]); })
         },
         complete: () => {
 

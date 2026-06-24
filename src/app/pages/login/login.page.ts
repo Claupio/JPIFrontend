@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { IonContent, IonInput, IonButton, IonCard, IonCardHeader, IonCardSubtitle,IonCardTitle,IonCardContent, IonNote,IonIcon, } from '@ionic/angular/standalone';
+import { IonContent, IonInput, IonButton, IonCard, IonCardHeader, IonCardTitle,IonCardContent, IonNote,IonIcon, } from '@ionic/angular/standalone';
 import{addIcons} from 'ionicons';
 import { eyeOutline, eyeOffOutline } from 'ionicons/icons';
 import { Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { CopisteriaService } from '@services/copisteria-service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, IonInput, IonButton, IonCard, IonCardHeader, IonCardSubtitle,IonCardTitle,IonCardContent, IonNote, IonIcon,]
+  imports: [IonContent, CommonModule, FormsModule, IonInput, IonButton, IonCard, IonCardHeader,IonCardTitle,IonCardContent, IonNote, IonIcon,]
 
 })
 export class LoginPage implements OnInit {

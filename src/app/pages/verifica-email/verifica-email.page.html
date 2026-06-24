@@ -1,10 +1,15 @@
 <ion-content [fullscreen]="true" class="ion-padding colori-sfondo">
   <div class="center">
     <ion-card class="form-container">
-      <h1>{{esito}}</h1>
-      <button (click)="pulsante()">
+      <ion-card-header class="ion-text-center">
+        <img src ="./assets/icon/copisteria.png" class = "logo-header">
+        <ion-card-title class="ion-text-center"><h1>{{esito}}</h1></ion-card-title>
+      </ion-card-header>
+      <form>
+        <ion-button expand="block" class="login-button" type="submit" (click)="pulsante()">
         {{esito2}}
-      </button>
+      </ion-button>
+      </form>
     </ion-card>
   </div>
 </ion-content>

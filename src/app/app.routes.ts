@@ -24,10 +24,11 @@ export const routes: Routes = [
     loadChildren: () => import('@pages/admin/admin.routes').then(m => m.routes)
   },
   {
-    path: 'verifica-email',
+    path: 'verifica-email/:token',
     loadComponent: () => import('./pages/verifica-email/verifica-email.page').then( m => m.VerificaEmailPage)
-  },  {
-    path: 'modifica-password-da-email',
+  },
+  {
+    path: 'modifica-password-da-email/:token',
     loadComponent: () => import('./pages/modifica-password-da-email/modifica-password-da-email.page').then( m => m.ModificaPasswordDaEmailPage)
   },
   {
