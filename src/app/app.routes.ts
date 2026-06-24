@@ -26,7 +26,11 @@ export const routes: Routes = [
   {
     path: 'verifica-email',
     loadComponent: () => import('./pages/verifica-email/verifica-email.page').then( m => m.VerificaEmailPage)
+  },  {
+    path: 'modifica-password-da-email',
+    loadComponent: () => import('./pages/modifica-password-da-email/modifica-password-da-email.page').then( m => m.ModificaPasswordDaEmailPage)
   },
+
 
   // {
   //   path: 'consumatore',

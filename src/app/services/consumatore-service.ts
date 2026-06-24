@@ -21,4 +21,8 @@ export class ConsumatoreService {
   verificaMail(tokenVerifica: string) : Observable<any> {
     return this.httpClient.post(this.baseURL + "/register/" + tokenVerifica, {})
   }
+
+  modificaPasswordDaMail(token: string, new_password: string) : Observable<any> {
+    return this.httpClient.post(this.baseURL + "/recover_password", {token, new_password})
+  }
 }
