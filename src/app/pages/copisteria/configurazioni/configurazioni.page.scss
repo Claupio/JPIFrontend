@@ -110,6 +110,15 @@ ion-button.btn-add {
   &:last-child {
     border-bottom: none;
   }
+
+  &:hover {
+      background-color: var(--ion-color-light-tint);
+      .action-buttons {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
 }
 
 .col-name {
@@ -160,4 +169,16 @@ ion-button.btn-add {
     background: #FEF3C7;
     color: #D97706;
   }
+
 }
+
+.action-buttons {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+
+    ion-button {
+      margin: 0;
+      height: 32px;
+    }
+  }

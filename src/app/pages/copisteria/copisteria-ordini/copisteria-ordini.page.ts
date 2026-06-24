@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonSelect, IonSelectOption, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon, IonCol, IonRow, IonGrid, IonPopover, IonButtons, IonDatetime } from '@ionic/angular/standalone';
+import { IonContent, IonItem, IonSelect, IonSelectOption, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon, IonCol, IonRow, IonGrid, IonPopover, IonButtons, IonDatetime } from '@ionic/angular/standalone';
 import { AlertController, ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { addIcons } from 'ionicons';
@@ -25,7 +25,7 @@ import { CopisteriaService } from '@services/copisteria-service';
   templateUrl: './copisteria-ordini.page.html',
   styleUrls: ['./copisteria-ordini.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonSelect, IonSelectOption, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon, IonCol, IonRow, IonGrid, IonPopover, IonButtons, IonDatetime]
+  imports: [CommonModule, FormsModule, IonContent, IonItem, IonSelect, IonSelectOption, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon, IonCol, IonRow, IonGrid, IonPopover, IonButtons, IonDatetime]
 
 })
 
@@ -186,14 +186,14 @@ scaricaPDF(ordine_id: number){
   await toast.present();
 }
 
-  cambiaStato(ordine: any, vecchioStato:'EFFETTUATO' | 'IN_STAMPA' | 'STAMPATO') {
+  cambiaStato(ordine: number, vecchioStato:'EFFETTUATO' | 'IN_STAMPA' | 'STAMPATO') {
     const nextStato = {
       EFFETTUATO: "IN_STAMPA",
       IN_STAMPA: "STAMPATO",
       STAMPATO: "CONSEGNATO"
     }as const;
 
-    this.copisteriaService.cambiaStato(ordine.ordine_id, nextStato[vecchioStato]).subscribe({
+    this.copisteriaService.cambiaStato(ordine, nextStato[vecchioStato]).subscribe({
         error: (err) => {
           this.presentToast("fallito","danger");
           console.log(err)

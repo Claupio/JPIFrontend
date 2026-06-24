@@ -11,12 +11,14 @@ export class CopisteriaService {
 
   private baseURL: string = "http://localhost:3000"
 
+  private token: string = "";
+
   setToken(token: string) {
-    localStorage.setItem("CopisteriaToken", token)
+    localStorage.setItem("AdminToken", token)
   }
 
   getToken() {
-    return localStorage.getItem("CopisteriaToken")
+    return localStorage.getItem("AdminToken")
   }
 
   getOrdini(filtri: any): Observable<any> {
@@ -37,8 +39,6 @@ export class CopisteriaService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`
     });
-
-    console.log(nuovoStato)
 
     return this.httpClient.put<any>(`${this.baseURL}/copisteria/ordini`, {stato: nuovoStato, ordine_id: ordine}, { headers });
   }
@@ -133,5 +133,14 @@ export class CopisteriaService {
       .set('fine_fascia', fine_fascia);
 
     return this.httpClient.delete<any>(`${this.baseURL}/copisteria/fasce_orarie`, { headers, params });
+  }
+
+  getOrdiniMigliori(): Observable<any[]> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`
+    });
+    let params = new HttpParams();
+
+    return this.httpClient.get<any[]>(`${this.baseURL}/copisteria/ordini_migliori`, { headers, params });
   }
 }

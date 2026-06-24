@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonSegment, IonSegmentButton, IonLabel, IonButton, IonCard, IonIcon } from '@ionic/angular/standalone';
+import { IonContent, IonSegment, IonSegmentButton, IonLabel, IonButton, IonCard, IonIcon } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {AlertController,ToastController} from '@ionic/angular';
 import { pencilSharp, trash, documentOutline, printOutline, starOutline, addOutline,createOutline } from 'ionicons/icons';
 import { CopisteriaService } from '@services/copisteria-service';
+
 
 @Component({
   selector: 'app-configurazioni',
   templateUrl: './configurazioni.page.html',
   styleUrls: ['./configurazioni.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonSegment, IonSegmentButton, IonLabel, IonButton, IonCard, IonIcon]
+  imports: [IonContent, CommonModule, FormsModule, IonSegment, IonSegmentButton, IonLabel, IonButton, IonCard, IonIcon]
 })
 export class ConfigurazioniPage implements OnInit {
 
@@ -59,7 +60,7 @@ export class ConfigurazioniPage implements OnInit {
 
   async mostraToast(msg: string){
     const toast = await this.toastCtrl.create({message: msg, duration: 2000});
-    await toast.present();
+    toast.present();
   }
 
   async onAdd() {

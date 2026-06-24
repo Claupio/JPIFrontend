@@ -1,18 +1,110 @@
+/* Contenitore principale centrato */
+.center-container {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Card principale (allargata per il layout split) */
+.itembox.large-card {
+  width: 100%;
+  max-width: 1000px; 
+  padding: 10px;
+  border-radius: 16px;
+  border: 1px solid var(--ion-color-step-200);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+}
+
+/* Struttura a due colonne (di base incolonnata per mobile) */
+.split-layout {
+  display: flex;
+  flex-direction: column; 
+  gap: 24px;
+}
+
+.form-side, .map-side {
+  width: 100%;
+}
+
+/* --- NUOVO: Box e Stile per la freccia di ritorno (senza testo) --- */
+.back-button-container {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+ion-button.btn-back-arrow {
+  --border-radius: 50%;
+  --padding-start: 0;
+  --padding-end: 0;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  background: #f3f4f6;
+  
+  ion-icon {
+    font-size: 1.4rem;
+    color: #4b5563;
+  }
+}
+
+ion-button.btn-back-arrow:hover {
+  background: #e5e7eb;
+}
+/* ----------------------------------------------------------------- */
+
+/* Riga coordinate affiancate */
+.coordinates-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.coordinates-row ion-input {
+  flex: 1;
+}
+
+/* Mappa */
+#map {
+  width: 100%;
+  height: 400px; 
+  border-radius: 12px;
+  border: 1px solid var(--ion-color-step-200);
+}
+
+/* Pulsante invio form */
 .login-button {
   margin-top: 20px;
   --border-radius: 8px;
 }
 
-.logo-header{
-  height: 200px;
-  width: 200px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: -40px;
-  margin-top: -40px;
+/* Sfondo della pagina */
+.colori-sfondo {
+  --background: radial-gradient(circle at top left, #4fc3f7 10%, transparent 30%), radial-gradient(circle at bottom right, #de6ccb 10%, transparent 30%);
+  background-color: #ffffff;
 }
 
-#map {
-  width: 100%;
-  height: 500px;
+/* Layout per Desktop e Tablet (schermi da 768px in su) */
+@media (min-width: 768px) {
+  .split-layout {
+    flex-direction: row; 
+    align-items: stretch;
+  }
+
+  .form-side {
+    flex: 1.2;
+  }
+
+  .map-side {
+    flex: 1;
+    display: flex;
+  }
+
+  #map {
+    height: 100%;
+    min-height: 450px;
+  }
 }

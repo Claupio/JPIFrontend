@@ -1,0 +1,14 @@
+ion-tab-bar {
+  justify-content: center;
+  --background: #0d265c; 
+}
+
+ion-tab-button { 
+  max-width: 200px;
+  justify-content: center;
+  align-items: center;
+  --background: #0d265c; 
+
+  --color: rgb(155, 150, 150);   
+  --color-selected: #ffffff;      
+}

@@ -2,7 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, IonIcon, IonButton } from '@ionic/angular/standalone';
+import { IonContent, IonIcon, IonButton, IonCard } from '@ionic/angular/standalone';
 import { AdminService } from '@services/admin-service';
 import { addIcons } from 'ionicons';
 import { createOutline, trashOutline } from 'ionicons/icons';
@@ -13,7 +13,7 @@ import { Copisteria } from '@models/copisteria'
   templateUrl: './copisterie.page.html',
   styleUrls: ['./copisterie.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonGrid, IonRow, IonCol, IonIcon, IonButton]
+  imports: [IonContent, CommonModule, FormsModule, IonIcon, IonButton, IonCard]
 })
 export class CopisteriePage implements OnInit {
   aggiungiNuova() {

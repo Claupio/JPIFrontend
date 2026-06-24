@@ -39,22 +39,21 @@
           <div class="col-price">Prezzo</div>
           <div class="col-actions">Azioni</div>
         </div>
-
-        <div class="table-row cols-3">
-      @for (item of this.opzioniOrdini.prezzi_formati_carta | keyvalue; track item.key) {
-          <div class="col-name">{{ item.key }}</div>
-          <div class="col-price">€ {{ item.value }}</div>
-          <div class="col-actions">
-            <ion-button fill="clear" size="small" (click)="onEdit(item)">
-              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-            </ion-button>
-            <ion-button fill="clear" color="danger" size="small" (click)="onDelete(item)">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-button>
+        @for (item of this.opzioniOrdini.prezzi_formati_carta | keyvalue; track item.key) {
+          <div class="table-row cols-3">
+            <div class="col-name">{{ item.key }}</div>
+            <div class="col-price">€ {{ item.value }}</div>
+            <div class="col-actions">
+              <ion-button class = "action-buttons" fill="clear" size="small" (click)="onEdit(item)">
+                <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+              </ion-button>
+              <ion-button class = "action-buttons" fill="clear" color="danger" size="small" (click)="onDelete(item)">
+                <ion-icon slot="icon-only" name="trash"></ion-icon>
+              </ion-button>
+            </div>
           </div>
+        }
         
-      }
-      </div>
       </div>
     </ng-container>
 
@@ -74,20 +73,21 @@
           <div class="col-actions">Azioni</div>
         </div>
 
-        <div class="table-row cols-3" >
+        
           @for (item of this.opzioniOrdini.prezzi_metodi_stampa | keyvalue; track item.key) {
-          <div class="col-name">{{ item.key }}</div>
-          <div class="col-price">€ {{ item.value}}</div>
-          <div class="col-actions">
-            <ion-button fill="clear" size="small" (click)="onEdit(item)">
-              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-            </ion-button>
-            <ion-button fill="clear" color="danger" size="small" (click)="onDelete(item)">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-button>
-          </div>
+            <div class="table-row cols-3" >
+              <div class="col-name">{{ item.key }}</div>
+              <div class="col-price">€ {{ item.value}}</div>
+              <div class="col-actions">
+                <ion-button class = "action-buttons" fill="clear" size="small" (click)="onEdit(item)">
+                  <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+                </ion-button>
+                <ion-button class = "action-buttons" fill="clear" color="danger" size="small" (click)="onDelete(item)">
+                  <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
         }
-        </div>
       </div>
     </ng-container>
 
@@ -107,20 +107,22 @@
           <div class="col-actions">Azioni</div>
         </div>
 
-        <div class="table-row cols-3">
+        
           @for (item of this.opzioniOrdini.prezzi_add_on | keyvalue; track item.key) {
-          <div class="col-name">{{ item.key }}</div>
-          <div class="col-price">€ {{ item.value}}</div>
-          <div class="col-actions">
-            <ion-button fill="clear" size="small" (click)="onEdit(item)">
-              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-            </ion-button>
-            <ion-button fill="clear" color="danger" size="small" (click)="onDelete(item)">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-button>
+            <div class="table-row cols-3">
+              <div class="col-name">{{ item.key }}</div>
+              <div class="col-price">€ {{ item.value}}</div>
+              <div class="col-actions">
+                <ion-button class = "action-buttons" fill="clear" size="small" (click)="onEdit(item)">
+                  <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+                </ion-button>
+                <ion-button class = "action-buttons" fill="clear" color="danger" size="small" (click)="onDelete(item)">
+                  <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </ion-button>
+              </div>
           </div>
         }
-        </div>
+        
       </div>
     </ng-container>
 

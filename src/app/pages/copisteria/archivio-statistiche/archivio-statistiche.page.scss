@@ -1,0 +1,78 @@
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ion-color-dark);
+}
+
+.section-subtitle {
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+  margin-top: 4px;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+// Contenitore principale del grafico a barre
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 8px;
+}
+
+// Struttura della singola riga del grafico
+.chart-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .chart-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.95rem;
+
+    .chart-label {
+      font-weight: 600;
+      color: var(--ion-color-dark);
+      text-transform: capitalize; // Rende maiuscola la prima lettera delle opzioni del DB
+    }
+    
+    .chart-value {
+      color: var(--ion-color-medium);
+      font-size: 0.85rem;
+      
+      strong {
+        color: var(--ion-color-primary);
+        font-size: 1.05rem;
+      }
+    }
+  }
+
+  // Wrapper e personalizzazione della barra nativa di Ionic
+  .progress-wrapper {
+    width: 100%;
+    
+    .custom-bar {
+      height: 16px;
+      border-radius: 8px;
+      --background: var(--ion-color-light-shade, #e0e0e0);
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+  }
+}
+
+// Schermata di avviso per dati vuoti
+.no-data {
+  padding: 40px 16px;
+  color: var(--ion-color-medium);
+
+  ion-icon {
+    font-size: 3.5rem;
+    margin-bottom: 8px;
+  }
+  p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+}

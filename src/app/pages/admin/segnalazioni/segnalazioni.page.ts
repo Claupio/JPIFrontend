@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonGrid, IonCol, IonRow } from '@ionic/angular/standalone';
+import { IonContent, IonGrid, IonCol, IonRow, IonCard } from '@ionic/angular/standalone';
 import { AdminService } from '@services/admin-service';
 
 @Component({
@@ -9,7 +9,7 @@ import { AdminService } from '@services/admin-service';
   templateUrl: './segnalazioni.page.html',
   styleUrls: ['./segnalazioni.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, IonGrid, IonCol, IonRow]
+  imports: [IonContent, CommonModule, FormsModule, IonGrid, IonCol, IonRow, IonCard]
 })
 export class SegnalazioniPage implements OnInit {
 

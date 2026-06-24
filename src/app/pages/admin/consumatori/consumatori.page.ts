@@ -2,19 +2,23 @@ import { AdminService } from '@services/admin-service';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonGrid, IonRow, IonCol, IonButton, IonIcon, AlertController } from '@ionic/angular/standalone';
+import { IonContent, IonButton, IonIcon, AlertController, IonCard } from '@ionic/angular/standalone';
 import { Consumatore } from '@models/consumatore';
+import { addIcons } from 'ionicons';
+import { pencilSharp, trash} from 'ionicons/icons';
 
 @Component({
   selector: 'app-consumatori',
   templateUrl: './consumatori.page.html',
   styleUrls: ['./consumatori.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, IonGrid, IonRow, IonCol, IonButton, IonIcon]
+  imports: [IonContent, CommonModule, FormsModule, IonButton, IonIcon, IonCard]
 })
 export class ConsumatoriPage implements OnInit {
 
-  constructor(public adminService: AdminService, private alertController: AlertController) { }
+  constructor(public adminService: AdminService, private alertController: AlertController) { 
+    addIcons({ pencilSharp, trash});
+  }
 
   ngOnInit() {
     this.adminService.refreshConsumatori();

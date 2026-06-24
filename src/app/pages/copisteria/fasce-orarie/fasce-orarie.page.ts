@@ -16,9 +16,7 @@ registerLocaleData(localeIt);
   styleUrls: ['./fasce-orarie.page.scss'],
   standalone: true,
   imports: [
-    IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, 
-    FormsModule, IonButton, IonIcon, IonList, IonItemSliding, 
-    IonItem, IonLabel, IonItemOptions, IonItemOption, IonCard
+    IonContent, CommonModule, FormsModule, IonButton, IonIcon, IonCard
   ],
   providers: [
     

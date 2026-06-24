@@ -1,40 +1,97 @@
-.custom-table {
-  border: 1px solid var(--ion-color-light-shade);
-  border-radius: 8px;
-  overflow: hidden;
+.table-actions {
+  display: flex;
+  justify-content: end; 
+  align-items: center;
+  padding: 16px 16px 0 16px;
+}
 
-  // Stile dell'intestazione
-  .table-header {
-    background-color: var(--ion-color-light);
-    border-bottom: 2px solid var(--ion-color-light-shade);
-    padding: 10px 0;
+ion-button.btn-add {
+  --background: rgba(var(--ion-color-primary-rgb, 56, 128, 255), 0.08);
+  --color: var(--ion-color-primary);
+  --box-shadow: none;
+  font-weight: 600;
+  margin: 0;
+  
+  --border-style: solid;
+  --border-width: 1px;
+  --border-color: var(--ion-color-primary);
+  
+  --background-hover: rgba(var(--ion-color-primary-rgb, 56, 128, 255), 0.15);
+  --background-activated: rgba(var(--ion-color-primary-rgb, 56, 128, 255), 0.2);
+
+  ion-icon {
+    margin-inline-end: 6px;
   }
+}
 
-  // Stile delle righe di dati
-  .table-row {
-    border-bottom: 1px solid var(--ion-color-light-shade);
-    align-items: center; // Centra verticalmente il testo e i pulsanti
-    padding: 5px 0;
-    transition: background-color 0.2s ease;
+.table-container {
+  margin: 8px 16px 16px 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #E5E7EB;
+  background: white;
+}
 
-    &:hover {
+.table-header,
+.table-row {
+  display: grid;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 12px;
+}
+
+/* Configurazione specifica per 6 colonne: bilancia gli spazi dei dati della copisteria */
+.cols-6 {
+  grid-template-columns: 50px 1.2fr 1.5fr 2fr 1.5fr 90px;
+}
+
+.table-header {
+  background: #F9FAFB;
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #E5E7EB;
+
+  .col-actions {
+    justify-content: flex-end;
+  }
+}
+
+.table-row {
+  border-bottom: 1px solid #F3F4F6;
+  font-size: 0.95rem;
+  color: #1F2937;
+
+  &:hover {
       background-color: var(--ion-color-light-tint);
-
-      // Quando la riga è in hover, mostra i pulsanti
       .action-buttons {
         opacity: 1;
         visibility: visible;
       }
     }
-  }
 
-  // Stato iniziale dei pulsanti (nascosti)
+}
+
+.col-nick,
+.col-name,
+.col-address {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.col-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2px;
+
   .action-buttons {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s ease, visibility 0.2s ease;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
 
-    // Rimpiccioliamo leggermente i pulsanti per farli stare bene nella riga
     ion-button {
       margin: 0;
       height: 32px;

@@ -1,24 +1,30 @@
 <ion-content [fullscreen]="true">
-  <ion-grid class="custom-table">
 
-    <ion-row class="table-header">
-      <ion-col size="1"><strong>ID</strong></ion-col>
-      <ion-col size="2"><strong>email</strong></ion-col>
-      <ion-col size="3"><strong>password_hash</strong></ion-col>
-      <ion-col size="6"><strong>azioni</strong></ion-col>
-    </ion-row>
+  <ion-card class="ion-no-margin-top">
 
-    @for(consumatore of adminService.consumatori; track consumatore.consumatore_id) {
-      <ion-row class="table-row">
-        <ion-col size="1">{{consumatore.consumatore_id}}</ion-col>
-        <ion-col size="2">{{consumatore.email}}</ion-col>
-        <ion-col size="3">{{consumatore.password_hash}}</ion-col>
-        <ion-col size="2" class="action-buttons ion-text-center">
-          <ion-button fill="clear" color="danger" (click)="eliminaConsumatore(consumatore)">
-            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    }
-  </ion-grid>
+    <div class="table-container">
+      <div class="table-header cols-4">
+        <div class="col-id">ID</div>
+        <div class="col-email">Email</div>
+        <div class="col-password">Password Hash</div>
+        <div class="col-actions">Azioni</div>
+      </div>
+
+      @for(consumatore of adminService.consumatori; track consumatore.consumatore_id) {
+        <div class="table-row cols-4">
+          <div class="col-id">{{ consumatore.consumatore_id }}</div>
+          <div class="col-email">{{ consumatore.email }}</div>
+          <div class="col-password">{{ consumatore.password_hash }}</div>
+          
+          <div class="col-actions">
+            <ion-button class = "action-buttons" fill="clear" color="danger" size="small" (click)="eliminaConsumatore(consumatore)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      }
+    </div>
+
+  </ion-card>
+
 </ion-content>
