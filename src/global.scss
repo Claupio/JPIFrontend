@@ -56,3 +56,8 @@
 :root {
   --mio-colore-speciale: #ff5722;
 }
+
+.colori-sfondo{
+  --background: radial-gradient(circle at top left, #4fc3f7 10%, transparent 30%), radial-gradient(circle at bottom right, #de6ccb 10%, transparent 30%);
+  background-color: #ffffff;
+}
