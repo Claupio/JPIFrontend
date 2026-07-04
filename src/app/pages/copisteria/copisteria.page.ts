@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { addIcons } from 'ionicons';
 import { IonIcon, IonLabel, IonTabs, IonTabBar, IonTabButton, IonRouterOutlet, IonApp } from '@ionic/angular/standalone';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {  documentTextOutline,
   timeOutline,
   documentOutline,
   podiumOutline,
-  settingsOutline
+  settingsOutline,
+  exitOutline
 } from 'ionicons/icons';
 
 @Component({
@@ -23,11 +24,16 @@ export class CopisteriaPage implements OnInit {
 
   tabSelezionata: string = 'tab1';
 
-  constructor(private route: ActivatedRoute, private copisteriaService: CopisteriaService) {
-    addIcons({  documentTextOutline, documentOutline, timeOutline, podiumOutline, settingsOutline });
+  constructor(private router: Router, private copisteriaService: CopisteriaService) {
+    addIcons({  documentTextOutline, documentOutline, timeOutline, podiumOutline, settingsOutline, exitOutline });
   }
 
   ngOnInit() {
     
+  }
+
+  onLogout() {
+    this.copisteriaService.setToken("");
+    this.router.navigate(["/"]);
   }
 }

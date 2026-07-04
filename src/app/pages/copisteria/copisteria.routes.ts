@@ -9,9 +9,9 @@ export const routes: Routes = [
     canActivate: [copisteriaGuard],
     children: [
       {
-        path: 'copisteria-ordini',
+        path: 'ordini',
         loadComponent: () =>
-          import('./copisteria-ordini/copisteria-ordini.page').then((m) => m.CopisteriaOrdiniPage),
+          import('./ordini/ordini.page').then((m) => m.CopisteriaOrdiniPage),
       },
       {
         path: 'fasce-orarie',
@@ -22,12 +22,12 @@ export const routes: Routes = [
         loadComponent: () => import('./configurazioni/configurazioni.page').then( m => m.ConfigurazioniPage)
       },
       {
-        path: 'archivio-statistiche',
-        loadComponent: () => import('./archivio-statistiche/archivio-statistiche.page').then( m => m.ArchivioStatistichePage)
+        path: 'statistiche',
+        loadComponent: () => import('./statistiche/statistiche.page').then( m => m.ArchivioStatistichePage)
       },
       {
         path: '',
-        redirectTo: 'copisteria-ordini',
+        redirectTo: 'ordini',
         pathMatch: 'full',
       },
     ],

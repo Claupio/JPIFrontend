@@ -1,0 +1,22 @@
+.easter-page {
+  --background: white;
+}
+
+.canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.splash {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  pointer-events: none;
+}
+
+.splash svg {
+  width: 100%;
+  height: 100%;
+}

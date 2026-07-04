@@ -35,6 +35,11 @@ export const routes: Routes = [
     path: 'recupera-password',
     loadComponent: () => import('./pages/recupera-password/recupera-password.page').then( m => m.RecuperaPasswordPage)
   },
+  {
+    path: 'easter-egg',
+    loadComponent: () => import('./pages/easter-egg/easter-egg.page').then( m => m.EasterEggPage)
+  },
+
 
 
   // {

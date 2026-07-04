@@ -27,9 +27,12 @@ ion-button.btn-add {
 .table-container {
   margin: 8px 16px 16px 16px;
   border-radius: 12px;
-  overflow: hidden;
   border: 1px solid #E5E7EB;
   background: white;
+  
+  /* ABILITA LO SCROLL ORIZZONTALE SU MOBILE */
+  overflow-x: auto; 
+  -webkit-overflow-scrolling: touch; /* Rende lo scroll fluidissimo su iOS */
 }
 
 .table-header,
@@ -38,9 +41,12 @@ ion-button.btn-add {
   align-items: center;
   padding: 12px 16px;
   gap: 12px;
+  
+  /* RISOLUZIONE MOBILE: Impedisce alle colonne di collassare sotto gli 800px */
+  min-width: 800px; 
 }
 
-/* Configurazione specifica per 6 colonne: bilancia gli spazi dei dati della copisteria */
+/* Configurazione specifica per 6 colonne */
 .cols-6 {
   grid-template-columns: 50px 1.2fr 1.5fr 2fr 1.5fr 90px;
 }
@@ -63,17 +69,19 @@ ion-button.btn-add {
   color: #1F2937;
 
   &:hover {
-      background-color: var(--ion-color-light-tint);
-      .action-buttons {
-        opacity: 1;
-        visibility: visible;
-      }
+    background-color: var(--ion-color-light-tint);
+    .action-buttons {
+      opacity: 1;
+      visibility: visible;
     }
-
+  }
 }
 
+/* Ho aggiunto anche .col-pass qui per evitare che l'hash vada a capo rovinando l'altezza della riga */
+.col-id,
 .col-nick,
 .col-name,
+.col-pass,
 .col-address {
   display: block;
   overflow: hidden;
@@ -88,13 +96,21 @@ ion-button.btn-add {
   gap: 2px;
 
   .action-buttons {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
 
     ion-button {
       margin: 0;
       height: 32px;
     }
+  }
+}
+
+@media (max-width: 768px) {
+ 
+  .table-header,
+  .table-row {
+    padding: 10px 12px;
   }
 }

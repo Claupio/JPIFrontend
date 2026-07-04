@@ -1,0 +1,31 @@
+<ion-content
+  [fullscreen]="true"
+  class="easter-page"
+  (click)="createSplash($event)">
+
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">easter_egg</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+   <div class="canvas" (click)="createSplash($event)">
+
+    @for (splash of splashes; track splash.id) {
+
+      <div
+          class="splash"
+          [style.left.px]="splash.x"
+          [style.top.px]="splash.y"
+          [style.transform]="'translate(-50%, -50%) rotate(' + splash.rotation + 'deg) scale(' + splash.scale + ')'">
+
+          <div [innerHTML]="splash.svg"></div>
+
+      </div>
+
+    }
+
+  </div>
+
+
+</ion-content>

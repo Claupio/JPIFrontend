@@ -1,0 +1,34 @@
+<ion-content class="ion-padding">
+  <ion-card class="ion-no-margin ion-padding">
+    
+    <div class="header-container">
+      <span class="section-title">Opzioni Più Richieste</span>
+      <p class="section-subtitle">Classifica basata sul formato carta, metodo di stampa e add-on degli ordini consegnati.</p>
+    </div>
+
+    @if (statisticheOpzioni && statisticheOpzioni.length > 0) {
+      <div class="chart-container">
+        @for (stat of statisticheOpzioni; track stat.etichetta) {
+          <div class="chart-row">
+            
+            <div class="chart-info">
+              <span class="chart-label">{{ stat.etichetta }}</span>
+              <span class="chart-value"><strong>{{ stat.valore }}</strong> richieste</span>
+            </div>
+            
+            <div class="progress-wrapper">
+              <ion-progress-bar [value]="stat.percentualeBarra" color="primary" class="custom-bar"></ion-progress-bar>
+            </div>
+            
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="no-data ion-text-center">
+        <ion-icon name="stats-chart-outline"></ion-icon>
+        <p>Nessun dato statistico sulle opzioni disponibile nello storico.</p>
+      </div>
+    }
+
+  </ion-card>
+</ion-content>

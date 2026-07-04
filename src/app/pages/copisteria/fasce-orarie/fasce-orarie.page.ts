@@ -5,7 +5,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonIcon, IonList, IonItemSliding, IonItem, IonLabel, IonItemOptions, IonItemOption, IonCard } from '@ionic/angular/standalone';
 import { CopisteriaService } from '@services/copisteria-service';
 import localeIt from '@angular/common/locales/it';
-import { pencilSharp, trash,createOutline } from 'ionicons/icons';
+import { pencilSharp, trash,createOutline, hourglassOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 
 registerLocaleData(localeIt);
@@ -28,7 +28,7 @@ export class FasceOrariePage implements OnInit {
   fasceOrarie: any[] = []; 
 
   constructor(private alertCtrl: AlertController, private toastCtrl: ToastController, private copisteriaService: CopisteriaService) {
-    addIcons({ pencilSharp, trash, createOutline });
+    addIcons({ pencilSharp, trash, createOutline, hourglassOutline });
   }
 
   ngOnInit() {

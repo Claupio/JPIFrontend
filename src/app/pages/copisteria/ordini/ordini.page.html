@@ -1,0 +1,217 @@
+<ion-content>
+
+  <div class="filters-container">
+    <ion-item>
+      <ion-label position="stacked">Filtra per stato</ion-label>
+      <ion-select
+      [(ngModel)]="filtri.stato.eq"
+      (ionChange)="onInclusionChange()"
+      multiple="true"
+      interface="popover"
+      placeholder="Tutti">
+        <ion-select-option value="EFFETTUATO">EFFETTUATO</ion-select-option>
+        <ion-select-option value="IN_STAMPA">IN STAMPA</ion-select-option>
+        <ion-select-option value="STAMPATO">STAMPATO</ion-select-option>
+        <ion-select-option value="CONSEGNATO">CONSEGNATO</ion-select-option>
+        <ion-select-option value="CANCELLATO">CANCELLATO</ion-select-option>
+
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Non mostrate stato</ion-label>
+      <ion-select
+      [(ngModel)]="filtri.stato.ne"
+      (ionChange)="onInclusionChange()"
+      multiple="true"
+      interface="popover"
+      placeholder="Tutti"><ion-select-option value="EFFETTUATO">EFFETTUATO</ion-select-option>
+        <ion-select-option value="IN_STAMPA">IN STAMPA</ion-select-option>
+        <ion-select-option value="STAMPATO">STAMPATO</ion-select-option>
+        <ion-select-option value="CONSEGNATO">CONSEGNATO</ion-select-option>
+        <ion-select-option value="CANCELLATO">CANCELLATO</ion-select-option>
+
+      </ion-select>
+    </ion-item>
+
+    <ion-button id="datetime-filter-btn" fill="outline" color="primary">
+      📅 🕒 {{ filtri.tempo_minimo_ritiro.ge ? (filtri.tempo_minimo_ritiro.ge | date:'dd/MM/yyyy HH:mm') : 'Filtra per Data e Ora' }}
+    </ion-button>
+
+    <ion-popover #filtroPopover trigger="datetime-filter-btn" trigger-action="click">
+      <ng-template>
+        <ion-content>
+
+          <ion-datetime
+            #dateTime
+            locale="it-IT"
+            presentation="date-time"
+            [(ngModel)]="filtri.tempo_minimo_ritiro.ge"
+            >
+
+            <span slot="time-label">Tempo</span>
+
+            <ion-buttons slot="buttons">
+              <ion-button color="danger" (click)="filtri.tempo_minimo_ritiro.ge = null; filtroPopover.dismiss(); this.caricaOrdiniDalDB();">
+                Tutte
+              </ion-button>
+              <ion-button color="primary" (click)="dateTime.confirm();filtroPopover.dismiss(); this.caricaOrdiniDalDB();">
+                OK
+              </ion-button>
+            </ion-buttons>
+          </ion-datetime>
+
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+
+    <ion-button id="datetime-filter-btn2" fill="outline" color="primary">
+      📅 🕒 {{ filtri.tempo_minimo_ritiro.le ? (filtri.tempo_minimo_ritiro.le | date:'dd/MM/yyyy HH:mm') : 'Filtra per Data e Ora' }}
+    </ion-button>
+
+    <ion-popover #filtroPopover2 trigger="datetime-filter-btn2" trigger-action="click">
+      <ng-template>
+        <ion-content>
+
+          <ion-datetime
+            #dateTime2
+            locale="it-IT"
+            presentation="date-time"
+            [(ngModel)]="filtri.tempo_minimo_ritiro.le"
+            >
+
+            <span slot="time-label">Tempo</span>
+
+            <ion-buttons slot="buttons">
+              <ion-button color="danger" (click)="filtri.tempo_minimo_ritiro.le = null; filtroPopover2.dismiss(); this.caricaOrdiniDalDB();">
+                Tutte
+              </ion-button>
+              <ion-button color="primary" (click)="dateTime2.confirm();filtroPopover2.dismiss(); this.caricaOrdiniDalDB();">
+                OK
+              </ion-button>
+            </ion-buttons>
+          </ion-datetime>
+
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+
+
+
+  </div>
+
+  @for (ordine of this.ordini; track ordine.ordine_id) {
+  <ion-card
+  class="order-card">
+    <ion-card-content>
+
+      <ion-grid>
+
+        <ion-row>
+          <ion-col size="6" size-md="1.5" class="info-item">
+            <ion-icon name="document-text-outline"></ion-icon>
+
+            <strong>N. ORDINE</strong>
+            <p>#{{ordine.ordine_id}}</p>
+            <ion-chip  [color]="getColorStato(ordine.stato)" class="chip-con-pallino">
+              {{ ordine.stato }}
+            </ion-chip>
+          </ion-col>
+
+          <ion-col size="6" size-md="1.5" class="info-item">
+            <ion-icon name="document-outline"></ion-icon>
+            <strong>Formato Carta</strong>
+            <p>{{ordine.formato_carta}}</p>
+          </ion-col>
+
+          <ion-col size="6" size-md="1.5" class="info-item">
+            <ion-icon name="print-outline"></ion-icon>
+            <strong>Metodo di Stampa</strong>
+            <p>{{ordine.metodo_di_stampa}}</p>
+          </ion-col>
+
+          <ion-col size="6" size-md="1.5" class="info-item">
+            <ion-icon name="sparkles-outline"></ion-icon>
+            <strong>Add-on</strong>
+            <p>{{ordine.add_on}}</p>
+          </ion-col>
+
+
+          <ion-col size="6" size-md="1.5" class="info-item">
+            <ion-icon name="document-text-outline"></ion-icon>
+            <strong>Pagine</strong>
+            <p>{{ordine.numero_pagine}}</p>
+          </ion-col>
+
+          <ion-col size="6" size-md="1.5" class="info-item">
+            <ion-icon name="pricetag-outline"></ion-icon>
+            <strong>Prezzo</strong>
+            <p>€ {{ordine.prezzo}}</p>
+          </ion-col>
+
+          <ion-col size="5" size-md="2">
+
+            <div class="actions">
+
+              <ion-button
+              fill="outline"
+              color="primary"
+              (click)="scaricaPDF(ordine.ordine_id)">
+              <ion-icon
+                slot="start"
+                name="document-outline">
+              </ion-icon>
+                Stampa PDF
+              </ion-button>
+
+              <ion-button
+              fill="outline"
+              color="warning"
+              (click)="cambiaStato(ordine.ordine_id, ordine.stato)">
+               <ion-icon
+                slot="start"
+                name="refresh-outline">
+              </ion-icon>
+                Cambia stato
+              </ion-button>
+
+              <ion-button
+              fill="outline"
+              color="danger"
+              (click)="apriPopupCancellazione(ordine)">
+               <ion-icon
+                slot="start"
+                name="trash-outline">
+              </ion-icon>
+                Cancellazione ordine
+              </ion-button>
+
+            </div>
+
+          </ion-col>
+
+        </ion-row>
+
+      </ion-grid>
+
+      <div class="bottom-info">
+
+        <span>
+          <ion-icon name="time-outline"></ion-icon>
+          Fascia orario ritiro minimo: {{ ordine.tempo_minimo_ritiro | date:'dd/MM/yyyy HH:mm' }}
+        </span>
+        <span>
+          <ion-icon name="time-outline"></ion-icon>
+          Fascia orario ritiro massimo: {{ ordine.tempo_massimo_ritiro | date:'dd/MM/yyyy HH:mm' }}
+        </span>
+      </div>
+
+    </ion-card-content>
+
+  </ion-card>
+}
+</ion-content>
+
+
+
+

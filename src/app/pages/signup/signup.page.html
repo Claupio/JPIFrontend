@@ -9,29 +9,32 @@
       <ion-card-content>
         <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
           <ion-input
-            label="Nome"
-            label-placement="stacked"
-            type = "name"
-            name = "name"
-            fill="outline"
-            placeholder="Inserisci il tuo nome"
-            class="ion-margin-bottom"
-            required [(ngModel)] = "userData.name">
-          </ion-input>
-
-          <ion-input
             label="Email"
+            #emailCtrl="ngModel"
             label-placement="stacked"
             fill="outline"
             type="email"
             name="email"
             placeholder="Inserisci la tua email"
             class="ion-margin-bottom"
-            required [(ngModel)] = "userData.email">
+            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+            [(ngModel)]="userData.email">
           </ion-input>
+
+          @if (emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched)) {
+            <div class="error-message" style="margin-top: -10px; margin-bottom: 15px;">
+              @if (emailCtrl.errors?.['required']) {
+                <ion-note>• L'email è obbligatoria</ion-note>
+              }
+              @if (emailCtrl.errors?.['pattern']) {
+                <ion-note>• Inserisci un indirizzo email valido (es. nome@esempio.com)</ion-note>
+              }
+            </div>
+          }
 
           <ion-input
             #passwordInput
+            #passwordCtrl="ngModel"
             label="Password"
             label-placement="stacked"
             fill="outline"
@@ -39,7 +42,11 @@
             name="password"
             placeholder="Inserisci la password"
             class="ion-margin-bottom"
-            required [(ngModel)] = "userData.password">
+            required
+            minlength="8"
+            pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+            [(ngModel)] = "userData.password"
+            (ngModelChange)="checkPasswordRequirements()">
 
             <ion-icon
               slot="end"
@@ -53,10 +60,28 @@
             </ion-icon>
           </ion-input>
 
+          @if (passwordCtrl.invalid && (passwordCtrl.dirty || passwordCtrl.touched)) {
+            <div class="error-message">
+              @if (!passwordRequirements.hasLength) {
+                <ion-note>• Devono esserci almeno 8 caratteri</ion-note>
+              }
+              @if (!passwordRequirements.hasLetter) {
+                <ion-note>• Deve esserci almeno una lettera</ion-note>
+              }
+              @if (!passwordRequirements.hasNumber) {
+                <ion-note>• Deve esserci almeno un numero</ion-note>
+              }
+              @if (!passwordRequirements.hasSpecial) {
+                <ion-note>• Deve esserci almeno un carattere speciale (@$!%*?&)</ion-note>
+              }
+            </div>
+          }
+            
 
 
 
-          <ion-button type="submit" expand="block" class="login-button">
+
+          <ion-button type="submit" expand="block" class="login-button" [disabled]="registerForm.invalid">
             Iscriviti
           </ion-button>
 

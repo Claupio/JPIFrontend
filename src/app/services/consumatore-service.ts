@@ -69,4 +69,18 @@ export class ConsumatoreService {
 
     return this.httpClient.put<any>(`${this.baseURL}/consumatore/ordini/cancel`, {copisteria_id, ordine_id, formato_carta, metodo_di_stampa, inizio_fascia, fine_fascia, add_on}, { headers });
   }
+
+  getCopisterie(filtri: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`
+    });
+
+    let params = new HttpParams();
+
+    for(const [key, value] of Object.entries(filtri)) {
+      params = params.set(key, JSON.stringify(value))
+    }
+
+    return this.httpClient.get<any>(`${this.baseURL}/public/copisterie`, { headers, params});
+  }
 }

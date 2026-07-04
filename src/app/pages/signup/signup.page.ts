@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import {  IonContent, IonInput, IonButton, IonCard, IonCardHeader, IonCardSubtitle,IonCardTitle,IonCardContent, IonIcon} from '@ionic/angular/standalone';
+import { IonContent, IonInput, IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonIcon, IonNote } from '@ionic/angular/standalone';
 import{addIcons} from 'ionicons';
 import { eyeOutline, eyeOffOutline } from 'ionicons/icons';
 
@@ -12,7 +12,7 @@ import { eyeOutline, eyeOffOutline } from 'ionicons/icons';
   templateUrl: './signup.page.html',
   styleUrls: ['./signup.page.scss'],
   standalone: true,
-  imports: [FormsModule, IonContent, IonInput, IonButton, IonCard, IonCardHeader,IonCardTitle,IonCardContent,IonIcon]
+  imports: [FormsModule, IonContent, IonInput, IonButton, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonNote]
 })
 export class SignupPage implements OnInit {
   isPressed = false;
@@ -21,11 +21,27 @@ export class SignupPage implements OnInit {
     name: "", email: "", password: ""
   }
 
+  passwordRequirements = {
+    hasLength: false,
+    hasLetter: false,
+    hasNumber: false,
+    hasSpecial: false
+  };
+
   constructor(private consumatoreService: ConsumatoreService, private router: Router, private toastCtrl: ToastController) {
     addIcons({ eyeOutline, eyeOffOutline });
   }
 
   ngOnInit() {
+  }
+
+  checkPasswordRequirements() {
+    const pwd = this.userData.password || '';
+    
+    this.passwordRequirements.hasLength = pwd.length >= 8;
+    this.passwordRequirements.hasLetter = /[A-Za-z]/.test(pwd);
+    this.passwordRequirements.hasNumber = /\d/.test(pwd);
+    this.passwordRequirements.hasSpecial = /[@$!%*?&]/.test(pwd);
   }
 
   showPassword(input: any) {

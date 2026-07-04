@@ -1,7 +1,6 @@
 <ion-tabs>
-
   <ion-tab-bar slot="top">
-    <ion-tab-button tab="copisteria-ordini" href="/copisteria/copisteria-ordini">
+    <ion-tab-button tab="ordini" href="/copisteria/ordini">
       <ion-icon name="document-outline"></ion-icon>
       <ion-label>Ordini</ion-label>
     </ion-tab-button>
@@ -16,12 +15,16 @@
       <ion-label>Configurazioni</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="archivio-statistiche" href="/copisteria/archivio-statistiche">
+    <ion-tab-button tab="statistiche" href="/copisteria/statistiche">
       <ion-icon name="podium-outline"></ion-icon>
       <ion-label>Statistiche</ion-label>
     </ion-tab-button>
+
+    <ion-tab-button class="logout-btn" (click)="onLogout()">
+      <ion-icon name="exit-outline"></ion-icon>
+      <ion-label>Esci</ion-label>
+    </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
-
 
 
