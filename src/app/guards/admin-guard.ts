@@ -4,5 +4,6 @@ import { AdminService } from '@services/admin-service';
 
 export const adminGuard: CanActivateFn = (route, state) => {
   const s = inject(AdminService);
-  return s.getToken() !== null;
+  const t = s.getToken()
+  return  t !== null && t !== undefined && t !== '';
 };

@@ -4,5 +4,6 @@ import { CopisteriaService } from '@services/copisteria-service';
 
 export const copisteriaGuard: CanActivateFn = (route, state) => {
   const s = inject(CopisteriaService)
-  return s.getToken() !== null;
+  const t = s.getToken()
+  return  t !== null && t !== undefined && t !== '';
 };
