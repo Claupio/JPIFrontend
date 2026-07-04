@@ -22,6 +22,10 @@ export class ConsumatoreService {
     return this.httpClient.post(this.baseURL + "/register/" + tokenVerifica, {})
   }
 
+  register(email: string, password: string): Observable<any> {
+    return this.httpClient.post(this.baseURL + "/register", {email: email, password: password})
+  }
+
   recuperaPassword(email: string) {
     const headers = new HttpHeaders({});
     const params = new HttpParams().set("email", email);
@@ -58,5 +62,11 @@ export class ConsumatoreService {
     return this.httpClient.put<any>(`${this.baseURL}/consumatore/ordini/cancel`, {ordine_id: ordineId}, { headers });
   }
 
-  
+  modificaOrdine(copisteria_id: number, ordine_id: number, formato_carta: string, metodo_di_stampa: string, inizio_fascia: string, fine_fascia: string, add_on: [string]) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`
+    });
+
+    return this.httpClient.put<any>(`${this.baseURL}/consumatore/ordini/cancel`, {copisteria_id, ordine_id, formato_carta, metodo_di_stampa, inizio_fascia, fine_fascia, add_on}, { headers });
+  }
 }

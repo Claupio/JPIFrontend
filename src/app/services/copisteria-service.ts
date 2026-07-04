@@ -88,24 +88,6 @@ export class CopisteriaService {
     return this.httpClient.put(`${this.baseURL}/copisteria/opzioni_ordini/`, opzioniOrdini, { headers: headers });
   }
 
-  addFormato(nuovoFormato: any) {
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.getToken()}`
-    });
-
-    return this.httpClient.post(`${this.baseURL}/copisteria/opzioni_ordini/`, nuovoFormato, { headers: headers });
-  }
-
-  deleteFormato(id: number) {
-
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.getToken()}`
-    });
-
-    return this.httpClient.delete(`${this.baseURL}/copisteria/opzioni_ordini/formati/${id}`, { headers: headers });
-  }
-
   getFasceOrarie(): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`
@@ -125,9 +107,6 @@ export class CopisteriaService {
       'Authorization': `Bearer ${this.getToken()}`
     });
     
-    console.log(inizio_fascia)
-    console.log(fine_fascia)
-    // Il backend si aspetta i dati nei query parameters (req.query)
     let params = new HttpParams()
       .set('inizio_fascia', inizio_fascia)
       .set('fine_fascia', fine_fascia);

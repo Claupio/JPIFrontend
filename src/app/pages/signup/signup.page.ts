@@ -1,9 +1,9 @@
+import { ConsumatoreService } from '@services/consumatore-service';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import {  IonContent, IonInput, IonButton, IonCard, IonCardHeader, IonCardSubtitle,IonCardTitle,IonCardContent, IonIcon} from '@ionic/angular/standalone';
-import { RegistrazioneService } from '@services/registrazione-service';
 import{addIcons} from 'ionicons';
 import { eyeOutline, eyeOffOutline } from 'ionicons/icons';
 
@@ -21,7 +21,7 @@ export class SignupPage implements OnInit {
     name: "", email: "", password: ""
   }
 
-  constructor(private registrazioneService: RegistrazioneService, private router: Router, private toastCtrl: ToastController) {
+  constructor(private consumatoreService: ConsumatoreService, private router: Router, private toastCtrl: ToastController) {
     addIcons({ eyeOutline, eyeOffOutline });
   }
 
@@ -46,7 +46,7 @@ export class SignupPage implements OnInit {
 
   onSubmit(form: NgForm) {
     if(form.valid) {
-      this.registrazioneService.register(this.userData.email, this.userData.password).subscribe({
+      this.consumatoreService.register(this.userData.email, this.userData.password).subscribe({
         error: (err) => {
           this.mostraToast(err.error?.message || "Registrazione Fallita", () => {})
         },
