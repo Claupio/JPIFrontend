@@ -76,11 +76,7 @@ export class AdminService {
       authorization: "Bare " + this.getToken()!
     });
 
-    return this.httpClient.put(this.baseURL + "/admin/copisterie", {headers, body:
-      password
-      ? {...copisteria, password}
-      : copisteria
-    })
+    return this.httpClient.put(this.baseURL + "/admin/copisterie", password ? {...copisteria, password} : copisteria, {headers})
   }
 
   segnalazioni: Segnalazione[] = [];

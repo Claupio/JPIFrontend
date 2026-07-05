@@ -189,7 +189,39 @@
   line-height: 1.2;
 }
 
+/* MAPPA COPISTERIE */
+.map-section {
+  padding: 60px 10%;
+  text-align: center;
+  background-color: #f4f6f9; /* Un colore di sfondo leggero per staccare dalle altre sezioni */
+}
 
+.map-section h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+}
+
+.map-section p {
+  color: #444;
+  margin-bottom: 30px;
+}
+
+.map-container {
+  width: 100%;
+  max-width: 1000px; /* Limita la larghezza massima su schermi grandi */
+  margin: 0 auto;
+  border-radius: 15px;
+  overflow: hidden; /* Mantiene i bordi arrotondati sopra la mappa */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+#map {
+  height: 450px;
+  width: 100%;
+  z-index: 1; /* Importante per evitare che la mappa si sovrapponga a modali o header Ionic */
+}
 
 
 /* TRUST */
