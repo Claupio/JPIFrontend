@@ -16,6 +16,10 @@ export const routes: Routes = [
     loadComponent: () => import('@pages/signup/signup.page').then( m => m.SignupPage)
   },
   {
+    path: 'consumatore',
+    loadComponent: () => import('@pages/consumatore/consumatore.page').then(m => m.ConsumatorePage)
+  },
+  { 
     path: 'copisteria',
     loadChildren: () => import('@pages/copisteria/copisteria.routes').then(m => m.routes)
   },

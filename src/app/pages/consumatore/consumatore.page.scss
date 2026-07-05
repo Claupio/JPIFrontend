@@ -1,0 +1,454 @@
+/* ===== PAGINA ===== */
+
+ion-content {
+  --background: #f5f7fb;
+}
+
+/* ===== FILTRI ===== */
+
+.filters-container {
+  
+  // Stile base della card quando è DISATTIVATA (Bianca)
+  .filter-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 8px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: all 0.25s ease-in-out;
+
+    .filter-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #64748b; /* Grigio quando disattivato */
+      transition: color 0.22s ease;
+    }
+
+    // Effetto feedback quando l'utente preme il dito
+    &:active {
+      transform: scale(0.96);
+    }
+  }
+
+  // --- STATI ATTIVI CON COLORI PASTELLO ---
+
+  // IN CORSO: Giallo / Ambra
+  .filter-card.attivo-corso {
+    background: #fef3c7;
+    border-color: #f59e0b;
+    .filter-text { color: #b45309; }
+  }
+
+  // PRONTI: Verde
+  .filter-card.attivo-pronti {
+    background: #dcfce7;
+    border-color: #22c55e;
+    .filter-text { color: #15803d; }
+  }
+
+  // STORICO: Rosso
+  .filter-card.attivo-storico {
+    background: #fee2e2;
+    border-color: #ef4444;
+    .filter-text { color: #b91c1c; }
+  }
+
+  // Stile dell'ordinamento inferiore (rimane pulito)
+  .sort-card {
+    --background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    --padding-start: 12px;
+    
+    .sort-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      padding: 6px 0;
+      
+      .sort-label {
+        font-size: 0.75rem;
+        color: #94a3b8;
+        margin-bottom: 2px;
+      }
+      ion-select {
+        font-weight: 600;
+        color: #1e293b;
+      }
+    }
+  }
+}
+
+/* ===== CARD ===== */
+
+.order-card {
+  margin: 20px;
+  border-radius: 20px;
+  background: white;
+  border: 1px solid #ececec;
+  box-shadow:
+    0 2px 10px rgba(0,0,0,0.04);
+}
+
+.chip-con-pallino {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px; /* Spazio tra pallino e testo */
+
+  &::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background-color: currentColor; /* Prende in automatico il colore della chip (primary, warning, ecc.) */
+    border-radius: 50%; /* Lo rende un cerchio perfetto */
+  }
+}
+
+/* ===== CARD ORDINI ===== */
+
+.orders-list {
+  
+  // Stile per tutte le card degli ordini della pagina
+  ion-card.order-card {
+    --background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: transform 0.2s ease;
+
+    ion-card-content {
+      padding: 15px;
+    }
+
+    &:active {
+      transform: scale(0.985);
+    }
+  }
+
+
+  // Testo di fallback quando la lista è vuota
+  p.ion-text-center {
+    color: #64748b;
+    font-size: 0.95rem;
+    margin-top: 32px;
+  }
+}
+
+/* ===== HEADER ===== */
+ion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ececec;
+
+}
+
+/* ===== TITLE ===== */
+
+
+/* ===== TOOLBAR ===== */
+
+ion-toolbar {
+  position: relative;
+  background: #ffffff;
+  z-index: 2; /* Tiene la barra sopra l'ombra */
+}
+
+ion-toolbar::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; /* Spinge l'ombra leggermente verso il basso */
+  width: 100%;   /* Leggermente più stretta per un effetto più realistico */
+  height: 8px;
+  z-index: -1;  /* La mette dietro la toolbar */
+  
+  /* Il tuo gradiente a due colori */
+  background: linear-gradient(to right, #00d2ff, #ff007f); 
+  
+  /* Sfuoca il gradiente per trasformarlo in un'ombra */
+  filter: blur(8px); 
+  opacity: 0.6; /* Regola l'intensità dell'ombra */
+}
+
+/* ===== GRID ===== */
+
+ion-grid {
+  padding: 0;
+}
+
+ion-row {
+  display: flex;
+  align-items: stretch;
+}
+
+/* ===== SEZIONI CARD ===== */
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  border-right: 1px solid #ececec;
+  min-height: 120px;
+}
+
+/* rimuove linea ultimo elemento */
+ion-row ion-col:last-child {
+  border-right: none;
+  border-bottom: none;
+}
+
+/* ===== ICONE ===== */
+
+.info-item ion-icon {
+  font-size: 22px;
+  color: #6b7280;
+}
+
+/* ===== TITOLI ===== */
+
+.info-item strong {
+  font-size: 13px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ===== TESTI ===== */
+
+.info-item p {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* ===== CHIP STATO ===== */
+
+ion-chip {
+  width: fit-content;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* ===== BOTTONI ===== */
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+
+}
+
+.actions ion-button {
+  width: 100%;
+  height: 44px;
+  font-weight: 600;
+  text-transform: none;
+  --border-radius: 12px;
+}
+
+.actions ion-button[color="warning"] {
+  --background: rgba(var(--ion-color-warning-rgb), 0.1);
+  --color: var(--ion-color-warning);
+  --border-color: var(--ion-color-warning);
+}
+
+.actions ion-button[color="danger"] {
+  --background: rgba(var(--ion-color-danger-rgb), 0.1);
+  --color: var(--ion-color-danger);
+  --border-color: var(--ion-color-danger);
+}
+
+
+.bottom-info {
+  display: flex;
+  align-items: center;
+  
+  gap: 20px;
+  margin-top: 10px;
+  padding-top: 16px;
+  border-top: 1px solid #ececec;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.bottom-info .info-container {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 768px) {
+  .filters-container {
+    grid-template-columns: 1fr;
+  }
+
+  .info-item {
+    border-right: none;
+    border-bottom: 1px solid #ececec;
+    min-height: auto;
+  }
+
+  ion-row ion-col:last-child {
+    border-bottom: none;
+  }
+
+  .actions {
+    padding-top: 0;
+  }
+
+  .bottom-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ===== BOTTONE ELIMINAZIONE ===== */
+.right-actions-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Allinea tutto sul bordo destro */
+  justify-content: center;
+  position: relative;
+
+  // Rende il bottone piccolo e discreto nell'angolo in alto a destra della card
+  .delete-btn {
+    margin: 0;
+    --padding-start: 0;
+    --padding-end: 0;
+    height: 28px;
+    width: 28px;
+    position: absolute;
+    top: -12px; /* Spinge il cestino leggermente più in alto */
+    right: -4px;
+    
+    ion-icon {
+      font-size: 1.1rem;
+    }
+  }
+
+  .status-chip {
+    margin: 0 0 8px 0; /* Margine inferiore per staccarsi dal prezzo */
+  }
+
+  .order-price {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #1e293b;
+  }  
+}
+
+
+
+.morph-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
+.morph-element {
+  // --- STATO INIZIALE: BOTTONE ---
+  width: 220px; 
+  height: 48px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #00d2ff 0%, #ff007f 100%);
+  box-shadow: 0 4px 15px rgba(255, 0, 127, 0.3);
+  overflow: hidden;
+  cursor: pointer; // Tutto il bottone mostra la manina
+  
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+
+  .morph-header {
+    width: 100%;
+    height: 48px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;      // Centratura verticale perfetta
+    justify-content: center;  
+    padding: 0 20px;
+    color: white;
+    user-select: none;
+
+    .title-text {
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      text-align: center;
+      flex-grow: 1;           
+    }
+
+    .toggle-icon-wrapper {
+      color: white;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+      margin-left: auto; 
+      
+      // Quando è un "+", i click lo attraversano e colpiscono il bottone principale
+      pointer-events: none; 
+      
+      // Diventa cliccabile solo quando aggiungiamo la classe via HTML
+      &.is-clickable {
+        pointer-events: auto;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .card-content-body {
+    opacity: 0;
+    visibility: hidden;
+    padding: 0 20px 20px 20px;
+    transition: opacity 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    
+    ion-item {
+      --background: #f5f5f5;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+  }
+
+  // --- STATO ESPANSO: CARD A TUTTA PAGINA ---
+  &.is-expanded {
+    width: 100%;           
+    height: auto;         
+    border-radius: 0px;    
+    background: var(--ion-card-background, #ffffff); 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    cursor: default; // Rimuove la manina sullo sfondo della card aperta
+
+    .morph-header {
+      justify-content: space-between; 
+      border-bottom: 1px solid #eee;
+      
+      .title-text {
+        color: var(--ion-text-color, #333);
+        text-align: left;
+      }
+
+      .toggle-icon-wrapper {
+        color: #ff007f;    
+        transform: rotate(90deg); 
+      }
+    }
+
+    .card-content-body.show-content {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.3s ease 0.15s; 
+    }
+  }
+}

@@ -1,0 +1,202 @@
+<div class="selettore-copisteria">
+
+  <!-- Toggle vista: elenco (accordion) / mappa -->
+  <div class="vista-toggle">
+    <button type="button"
+            class="toggle-btn"
+            [class.attivo]="vistaSelezione === 'accordion'"
+            (click)="cambiaVista('accordion')">
+      <ion-icon name="list-outline"></ion-icon>
+      Elenco
+    </button>
+    <button type="button"
+            class="toggle-btn"
+            [class.attivo]="vistaSelezione === 'mappa'"
+            (click)="cambiaVista('mappa')">
+      <ion-icon name="map-outline"></ion-icon>
+      Mappa
+    </button>
+  </div>
+
+  @if(caricamentoInCorso){
+    <div class="stato-caricamento">
+      <ion-spinner name="dots"></ion-spinner>
+      <span>Carico le copisterie disponibili...</span>
+    </div>
+  }
+
+  @if(erroreCaricamento && !caricamentoInCorso){
+    <div class="stato-errore">
+      <span>Non è stato possibile caricare le copisterie. Riprova più tardi.</span>
+    </div>
+  }
+
+  
+
+  <ng-container *ngIf="!caricamentoInCorso && !erroreCaricamento">
+
+    <!-- VISTA AD ACCORDION -->
+    <ion-accordion-group *ngIf="vistaSelezione === 'accordion'" class="copisterie-accordion">
+      <ion-accordion *ngFor="let copisteria of copisterie" [value]="copisteria.copisteria_id.toString()">
+        <ion-item slot="header" lines="none" class="copisteria-header"
+                  [class.selezionata]="copisteriaScelta?.copisteria_id === copisteria.copisteria_id">
+          <ion-icon name="business-outline" slot="start"></ion-icon>
+          <ion-label>
+            <h3>{{ copisteria.nome }}</h3>
+            <p>{{ copisteria.indirizzo }}</p>
+          </ion-label>
+          <ion-icon *ngIf="copisteriaScelta?.copisteria_id === copisteria.copisteria_id"
+                    name="checkmark-circle-outline" color="success" slot="end"></ion-icon>
+        </ion-item>
+
+        <div slot="content" class="copisteria-content">
+          <ion-button expand="block" fill="outline" size="small" (click)="selezionaCopisteria(copisteria)">
+            Scegli questa copisteria
+          </ion-button>
+        </div>
+      </ion-accordion>
+
+      <p class="ion-text-center nessun-risultato" *ngIf="copisterie.length === 0">
+        Nessuna copisteria disponibile al momento.
+      </p>
+    </ion-accordion-group>
+
+    <!-- VISTA A MAPPA -->
+    <div class="mappa-wrapper" [hidden]="vistaSelezione !== 'mappa'">
+      <p class="mappa-hint errore" *ngIf="nessunaCopisteriaConCoordinate">
+        Nessuna copisteria ha una posizione impostata: usa l'elenco per scegliere.
+      </p>
+      <div #mapContainer class="mappa-container"></div>
+      <p class="mappa-hint" *ngIf="!nessunaCopisteriaConCoordinate">Tocca un marker per scegliere la copisteria</p>
+    </div>
+
+  </ng-container>
+
+  <!-- FORM ORDINE PER LA COPISTERIA SCELTA -->
+  <div class="form-ordine" *ngIf="copisteriaScelta as copisteria">
+    <div class="form-header">
+      <span class="form-titolo">Ordina da {{ copisteria.nome }}</span>
+      <ion-button fill="clear" size="small" (click)="deselezionaCopisteria()">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+
+    <!-- Formato carta -->
+    <div class="campo-form" *ngIf="opzioni(copisteria.prezzi_formati_carta).length; else nessunFormato">
+      <span class="campo-label">Formato carta</span>
+      <ion-radio-group [(ngModel)]="formatoCartaScelto" (ionChange)="onCampoFormCambiato()">
+        <ion-item lines="none" *ngFor="let formato of opzioni(copisteria.prezzi_formati_carta)">
+          <ion-radio slot="start" [value]="formato"></ion-radio>
+          <ion-label>{{ formato }}</ion-label>
+        </ion-item>
+      </ion-radio-group>
+    </div>
+    <ng-template #nessunFormato>
+      <p class="nessun-risultato">Questa copisteria non ha formati carta configurati.</p>
+    </ng-template>
+
+    <!-- Metodo di stampa -->
+    <div class="campo-form" *ngIf="opzioni(copisteria.prezzi_metodi_stampa).length; else nessunMetodo">
+      <span class="campo-label">Metodo di stampa</span>
+      <ion-radio-group [(ngModel)]="metodoDiStampaScelto" (ionChange)="onCampoFormCambiato()">
+        <ion-item lines="none" *ngFor="let metodo of opzioni(copisteria.prezzi_metodi_stampa)">
+          <ion-radio slot="start" [value]="metodo"></ion-radio>
+          <ion-label>{{ metodo }}</ion-label>
+        </ion-item>
+      </ion-radio-group>
+    </div>
+    <ng-template #nessunMetodo>
+      <p class="nessun-risultato">Questa copisteria non ha metodi di stampa configurati.</p>
+    </ng-template>
+
+    <!-- Add-on (opzionale) -->
+     @if(opzioni(copisteria.prezzi_add_on).length) {
+      <div class="campo-form">
+        <span class="campo-label">Opzioni aggiuntive</span>
+        @for(add_on of opzioni(copisteria.prezzi_add_on); track add_on ) {
+          <ion-item>
+            <ion-checkbox (ionChange)="selezioneAddOn($event, add_on)">
+              {{add_on}}
+            </ion-checkbox>
+          </ion-item>
+        }
+      </div>
+     }
+
+    <!-- <div class="campo-form" *ngIf="opzioni(copisteria.prezzi_add_on).length">
+      <span class="campo-label">Opzioni aggiuntive</span>
+      <ion-radio-group [(ngModel)]="addOnScelto" (ionChange)="onCampoFormCambiato()">
+        <ion-item lines="none">
+          <ion-radio slot="start" value="Nessuno"></ion-radio>
+          <ion-label>Nessuno</ion-label>
+        </ion-item>
+        <ion-item lines="none" *ngFor="let addOn of opzioni(copisteria.prezzi_add_on)">
+          <ion-radio slot="start" [value]="addOn"></ion-radio>
+          <ion-label>{{ addOn }}</ion-label>
+        </ion-item>
+      </ion-radio-group>
+    </div> -->
+
+    <!-- Numero pagine (stima per il preventivo: il valore reale viene ricalcolato dal server dal PDF) -->
+    <!-- <div class="campo-form">
+      <span class="campo-label">Numero pagine (stima)</span>
+      <ion-input type="number" min="1" [(ngModel)]="numeroPagineStimato" (ionChange)="onCampoFormCambiato()" placeholder="Es. 20"></ion-input>
+    </div> -->
+
+    <!-- Fascia oraria di ritiro -->
+    <div class="campo-form">
+      <span class="campo-label">Fascia oraria di ritiro</span>
+
+      <div class="stato-caricamento" *ngIf="caricamentoFasce">
+        <ion-spinner name="dots"></ion-spinner>
+        <span>Carico le fasce orarie...</span>
+      </div>
+
+      <p class="nessun-risultato errore" *ngIf="erroreFasce && !caricamentoFasce">
+        Non è stato possibile caricare le fasce orarie.
+      </p>
+
+      <ion-select *ngIf="!caricamentoFasce && !erroreFasce"
+                  [(ngModel)]="fasciaSelezionata"
+                  [compareWith]="confrontaFasce"
+                  (ionChange)="onCampoFormCambiato()"
+                  interface="popover"
+                  placeholder="Scegli una fascia oraria">
+        <ion-select-option *ngFor="let fascia of fasceOrarie" [value]="fascia">
+          {{ fascia.inizio_fascia }} - {{ fascia.fine_fascia }}
+        </ion-select-option>
+      </ion-select>
+
+      <p class="nessun-risultato" *ngIf="!caricamentoFasce && !erroreFasce && fasceOrarie.length === 0">
+        Questa copisteria non ha fasce orarie configurate.
+      </p>
+    </div>
+
+    <!-- File PDF da stampare -->
+    <div class="campo-form">
+      <span class="campo-label">File PDF da stampare</span>
+      <ion-input type="file" accept="application/pdf" class="file-input" (change)="onFileSelezionato($event)" />
+      <p class="file-selezionato" *ngIf="fileSelezionato">{{ fileSelezionato.name }}</p>
+      <p class="nessun-risultato errore" *ngIf="erroreFile">{{ erroreFile }}</p>
+    </div>
+
+    <!-- Riepilogo preventivo -->
+    <div class="stato-caricamento" *ngIf="caricamentoPreventivo">
+      <ion-spinner name="dots"></ion-spinner>
+      <span>Calcolo il preventivo...</span>
+    </div>
+
+    <p class="nessun-risultato errore" *ngIf="errorePreventivo">
+      Non è stato possibile calcolare il preventivo. Controlla i dati inseriti.
+    </p>
+
+    <div class="riepilogo-preventivo" *ngIf="preventivo && !caricamentoPreventivo">
+      <span class="riepilogo-prezzo">~ € {{ preventivo.prezzo }}</span>
+      <span class="riepilogo-ritiro">Pronto entro: {{ preventivo.tempo_massimo_ritiro }}</span>
+    </div>
+    <!-- <p class="mappa-hint" *ngIf="preventivo && !caricamentoPreventivo">
+      Prezzo stimato sul numero di pagine indicato: il prezzo finale sarà ricalcolato sul PDF caricato.
+    </p> -->
+  </div>
+
+</div>

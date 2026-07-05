@@ -29,8 +29,11 @@
     "@capacitor/status-bar": "8.0.2",
     "@ionic/angular": "^8.0.0",
     "@types/leaflet": "^1.9.21",
+    "buffer": "^6.0.3",
     "ionicons": "^7.0.0",
     "leaflet": "^1.9.4",
+    "pdf-parse": "^2.4.5",
+    "pdfjs-dist": "^6.1.200",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

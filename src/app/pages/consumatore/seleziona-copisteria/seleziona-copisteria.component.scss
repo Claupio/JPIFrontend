@@ -1,0 +1,197 @@
+.selettore-copisteria {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+  .vista-toggle {
+    display: flex;
+    gap: 8px;
+    background: #f5f7fb;
+    padding: 4px;
+    border-radius: 12px;
+
+    .toggle-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: none;
+      background: transparent;
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      ion-icon { font-size: 1rem; }
+
+      &.attivo {
+        background: #ffffff;
+        color: #1e293b;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+      }
+    }
+  }
+
+  .stato-caricamento, .stato-errore {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    padding: 20px 0;
+    font-size: 0.85rem;
+    color: #64748b;
+  }
+
+  .stato-errore { color: #b91c1c; }
+
+  .copisterie-accordion {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+
+    .copisteria-header {
+      --background: #ffffff;
+
+      h3 { font-size: 0.95rem; font-weight: 600; color: #1e293b; margin: 0; }
+      p { font-size: 0.8rem; color: #64748b; margin: 2px 0 0; }
+
+      &.selezionata {
+        --background: #dcfce7;
+      }
+    }
+
+    .copisteria-content {
+      padding: 10px 16px 16px;
+    }
+  }
+
+  .mappa-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    .mappa-container {
+      width: 100%;
+      height: 220px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+
+    .mappa-hint {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      text-align: center;
+      margin: 0;
+
+      &.errore {
+        color: #b91c1c;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .form-ordine {
+    border-top: 1px dashed #e2e8f0;
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .form-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .form-titolo {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #1e293b;
+      }
+    }
+
+    .campo-form {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .campo-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+      }
+
+      ion-radio-group {
+        display: flex;
+        flex-direction: column;
+      }
+
+      ion-item {
+        --background: #f5f5f5;
+        border-radius: 8px;
+        margin-bottom: 4px;
+      }
+
+      ion-input {
+        --background: #f5f5f5;
+        border-radius: 8px;
+        --padding-start: 10px;
+        --padding-end: 10px;
+      }
+
+      .file-input {
+        font-size: 0.85rem;
+        color: #64748b;
+        padding: 8px;
+        background: #f5f5f5;
+        border-radius: 8px;
+        border: 1px dashed #cbd5e1;
+      }
+
+      .file-selezionato {
+        font-size: 0.8rem;
+        color: #15803d;
+        font-weight: 600;
+        margin: 4px 0 0;
+      }
+    }
+
+    .riepilogo-preventivo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #dcfce7;
+      border: 1px solid #22c55e;
+      border-radius: 12px;
+      padding: 12px 16px;
+
+      .riepilogo-prezzo {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #15803d;
+      }
+
+      .riepilogo-ritiro {
+        font-size: 0.8rem;
+        color: #166534;
+      }
+    }
+  }
+
+  .nessun-risultato {
+    color: #64748b;
+    font-size: 0.85rem;
+    padding: 12px 0;
+
+    &.errore {
+      color: #b91c1c;
+      font-weight: 600;
+    }
+  }
+}
