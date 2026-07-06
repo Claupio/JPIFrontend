@@ -53,7 +53,7 @@ export class CopisteriaFormPage implements OnInit {
     longitudine: 9.1900,
     prezzi_add_on: {},
     prezzi_formati_carta: {},
-    prezzi_metodi_di_stampa: {},
+    prezzi_metodi_stampa: {},
     password_hash: ""
   };
   password: string="";
@@ -180,7 +180,7 @@ export class CopisteriaFormPage implements OnInit {
     longitudine: 9.1900,
     prezzi_add_on: {},
     prezzi_formati_carta: {},
-    prezzi_metodi_di_stampa: {},
+    prezzi_metodi_stampa: {},
     password_hash: ""
   };
       }

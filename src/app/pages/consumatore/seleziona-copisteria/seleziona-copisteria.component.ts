@@ -1,6 +1,6 @@
 import { DocumentInitParameters } from './../../../../../node_modules/pdfjs-dist/types/src/display/api.d';
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { CommonModule, NumberSymbol } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonAccordionGroup, IonAccordion, IonItem, IonLabel, IonList, IonRadioGroup, IonRadio, IonButton, IonIcon, IonSpinner, IonInput, IonSelect, IonSelectOption, CheckboxChangeEventDetail, IonCheckbox } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
@@ -10,9 +10,10 @@ import {
 import * as L from 'leaflet';
 
 import { ConsumatoreService } from '@services/consumatore-service';
-import { Copisteria, FasciaOraria, RispostaPreventivo } from './copisteria.model';
-import {Buffer} from 'buffer';
-import { PDFParse } from 'pdf-parse';
+import {RispostaPreventivo } from './copisteria.model';
+import {Copisteria} from '@models/copisteria';
+import {FasciaOraria} from '@models/fascia_oraria';
+
 import * as pdfjsLib from 'pdfjs-dist';
 import { IonCheckboxCustomEvent } from '@ionic/core';
 
@@ -45,7 +46,7 @@ throw new Error('Method not implemented.');
   // Emesso ogni volta che il preventivo viene calcolato con successo e c'è
   // un file PDF pronto: tutti i dati necessari per creare l'ordine.
   @Output() preventivoPronto = new EventEmitter<{
-    copisteria: Copisteria;
+    copisteria_id: number;
     formato_carta: string;
     metodo_di_stampa: string;
     add_on: string[];
@@ -54,6 +55,38 @@ throw new Error('Method not implemented.');
     prezzoStimato: number;
     tempo_massimo_ritiro: string;
   } | null>();
+
+  needFile=true;
+
+  private preselezionaCopistera = () => {};
+  private preselezionaFasciaOraria = () => {}
+
+  @Input()
+  set ordine(value: any) {
+    if(value === null) return;
+
+   this.preselezionaCopistera = () => {
+    const a1 = this.copisterie.filter(c => c.copisteria_id == value.copisteria_id)
+    if(a1.length > 0) this.selezionaCopisteria(a1[0]);
+    this.preselezionaCopistera = () => {};
+    this.onCampoFormCambiato();
+   }
+
+   this.preselezionaFasciaOraria = () => {
+    const a2 = this.fasceOrarie.filter(f => f.inizio_fascia == value.tempo_minimo_ritiro);
+    console.log(value.tempo_minimo_ritiro, a2)
+    this.fasciaSelezionata = a2[0];
+    this.formatoCartaScelto = value.formato_carta;
+    this.metodoDiStampaScelto = value.metodo_di_stampa;
+    this.numeroPagineStimato = value.numero_pagine;
+    this.preselezionaFasciaOraria = () => {};
+    this.onCampoFormCambiato();
+   }
+
+   this.needFile = false;
+  }
+
+
 
   copisterie: Copisteria[] = [];
   caricamentoInCorso = true;
@@ -70,7 +103,7 @@ throw new Error('Method not implemented.');
   // Usato solo per calcolare il preventivo: il numero di pagine reale
   // dell'ordine viene ricalcolato dal server leggendo il PDF caricato,
   // quindi il prezzo qui è una stima e potrebbe differire leggermente.
-  numeroPagineStimato: number | null = null;
+  @Input() numeroPagineStimato: number | null = null;
   fasciaSelezionata: FasciaOraria | null = null;
 
   fileSelezionato: File | null = null;
@@ -96,6 +129,7 @@ throw new Error('Method not implemented.');
   }
 
   caricaCopisterie() {
+
     this.caricamentoInCorso = true;
     this.erroreCaricamento = false;
 
@@ -105,6 +139,7 @@ throw new Error('Method not implemented.');
       next: (data: Copisteria[]) => {
         this.copisterie = (data ?? []).map(c => this.normalizzaCopisteria(c));
         this.caricamentoInCorso = false;
+        this.preselezionaCopistera();
       },
       error: (err: any) => {
         console.error(err);
@@ -226,7 +261,27 @@ throw new Error('Method not implemented.');
     this.consumatoreService.getFasceOrarie({ copisteria_id: { eq: copisteriaId } }).subscribe({
       next: (data: FasciaOraria[]) => {
         this.fasceOrarie = data ?? [];
+        this.fasceOrarie = this.fasceOrarie.filter((f, j, a) => {
+          for(let i = 0; i < this.copisteriaScelta!.numero_giorni_conservazione; ++i) {
+              while(true) {
+                  if(a[j + 1] === undefined) return false;
+
+                  const d1 = new Date(a[j].inizio_fascia);
+                  const d2 = new Date(a[j + 1].inizio_fascia);
+
+                  j += 1;
+
+                  if(d1.getUTCFullYear() < d2.getUTCFullYear() || d1.getUTCMonth() < d2.getUTCMonth() || d1.getUTCDate() < d2.getUTCDate()) {
+                      break;
+                  }
+              }
+          }
+
+          return true;
+        });
+
         this.caricamentoFasce = false;
+        this.preselezionaFasciaOraria();
       },
       error: (err: any) => {
         console.error(err);
@@ -254,8 +309,6 @@ throw new Error('Method not implemented.');
       this.erroreFile = null;
       this.fileSelezionato = file;
     }
-
-    //pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`
 
     const typedArray = new Uint8Array(await file!.arrayBuffer());
 
@@ -309,7 +362,7 @@ throw new Error('Method not implemented.');
         this.preventivo = risposta;
         this.caricamentoPreventivo = false;
         this.preventivoPronto.emit({
-          copisteria: this.copisteriaScelta!,
+          copisteria_id: this.copisteriaScelta!.copisteria_id,
           formato_carta: this.formatoCartaScelto!,
           metodo_di_stampa: this.metodoDiStampaScelto!,
           add_on: this.addOnScelto,
@@ -332,6 +385,6 @@ throw new Error('Method not implemented.');
       !!this.metodoDiStampaScelto &&
       // !!this.numeroPagineStimato && this.numeroPagineStimato > 0 &&
       !!this.fasciaSelezionata &&
-      !!this.fileSelezionato;
+      (!this.needFile || !!this.fileSelezionato);
   }
 }

@@ -33,8 +33,8 @@
 
         <ion-col size="4" size-sm="4">
           <div class="filter-card" 
-              [ngClass]="{'attivo-storico': mostraArchiviati}" 
-              (click)="mostraArchiviati = !mostraArchiviati; caricaOrdiniConsumatore()">
+              [ngClass]="{'attivo-storico': mostraStorico}" 
+              (click)="mostraStorico = !mostraStorico; caricaOrdiniConsumatore()">
             <span class="filter-text">Storico</span>
           </div>
         </ion-col>
@@ -63,24 +63,24 @@
 <div class="morph-container">
   
   <div class="morph-element" 
-       [class.is-expanded]="isCardVisible" 
-       (click)="!isCardVisible && toggleOrderForm()">
+       [class.is-expanded]="IDordineDaModificare == -1" 
+       (click)="!(IDordineDaModificare == -1) && toggleOrderForm()">
     
     <div class="morph-header">
       
       <span class="title-text">
-        {{ isCardVisible ? 'Dettagli Nuovo Ordine' : 'Nuovo Ordine' }}
+        {{ IDordineDaModificare == -1 ? 'Dettagli Nuovo Ordine' : 'Nuovo Ordine' }}
       </span>
 
       <div class="toggle-icon-wrapper" 
-           [class.is-clickable]="isCardVisible"
-           (click)="isCardVisible && toggleOrderForm(); $event.stopPropagation()">
-        <ion-icon [name]="isCardVisible ? 'close-outline' : 'add-outline'"></ion-icon>
+           [class.is-clickable]="IDordineDaModificare == -1"
+           (click)="IDordineDaModificare == -1 && toggleOrderForm(); $event.stopPropagation()">
+        <ion-icon [name]="IDordineDaModificare == -1 ? 'close-outline' : 'add-outline'"></ion-icon>
       </div>
       
     </div>
 
-    <div class="card-content-body" [class.show-content]="isCardVisible">
+    <div class="card-content-body" [class.show-content]="IDordineDaModificare == -1">
       <app-seleziona-copisteria
         (preventivoPronto)="onPreventivoPronto($event)">
       </app-seleziona-copisteria>
@@ -98,52 +98,102 @@
 
 <div class="orders-list">
   @for (ordine of ordiniVisualizzati; track ordine.ordine_id) {
-    <ion-card class="order-card ion-activatable">
-      <ion-ripple-effect></ion-ripple-effect>
+
+    @if(IDordineDaModificare == ordine.ordine_id){
+      <div class="morph-container">
+      <div class="morph-element" 
+          [class.is-expanded]="IDordineDaModificare == ordine.ordine_id">
+        
+        <div class="morph-header">
+          
+          <span class="title-text">Modifica Ordine</span>
+
+          <div class="toggle-icon-wrapper" 
+              [class.is-clickable]="IDordineDaModificare == ordine.ordine_id"
+              (click)="IDordineDaModificare = null; preventivoOrdine = null; $event.stopPropagation()">
+            <ion-icon name="close-outline"></ion-icon>
+          </div>
+          
+        </div>
+
+        <div class="card-content-body" [class.show-content]="IDordineDaModificare == ordine.ordine_id">
+          <app-seleziona-copisteria
+            (preventivoPronto)="onPreventivoPronto($event)"
+            [ordine] = "ordine">
+          </app-seleziona-copisteria>
+          <div class="action-buttons">
+            <ion-button expand="block" [disabled]="!puoInviareOrdine()" (click)="modificaOrdine(ordine.ordine_id); $event.stopPropagation()">
+              Modifica Ordine
+            </ion-button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    } @else {
+      <ion-card class="order-card ion-activatable">
       <ion-card-content>
-        <ion-grid class="ion-no-padding">
-          <ion-row class="ion-align-items-center">
-            
-            <ion-col size="6">
-              <div class="order-header">
-                <span class="order-number">#{{ordine.ordine_id}}</span>
-                <ion-chip color="primary" outline>
-                  <ion-icon name="document-outline"></ion-icon>
-                  <ion-label>{{ordine.formato_carta}}</ion-label>
-                </ion-chip>
-                <ion-chip color="secondary" outline>
-                  <ion-icon name="print-outline"></ion-icon> <ion-label>{{ordine.metodo_di_stampa}}</ion-label>
-                </ion-chip>
-              </div>
-              <p class="order-date">
-                <ion-icon name="time-outline"></ion-icon> 
-                Ritiro: {{ordine.tempo_minimo_ritiro | date:'dd/MM/yyyy HH:mm'}}
-              </p>
-              <p class="cancel-reason" *ngIf="ordine.stato === 'CANCELLATO' && ordine.motivazione_cancellazione">
-                Motivo annullamento: {{ordine.motivazione_cancellazione}}
-              </p>
-            </ion-col>
-            
-            <ion-col size="6" class="right-actions-col">
-              <div style="display: flex; flex-direction: row; justify-content: flex-end; padding-bottom: 10px; width: 100%;">
-                @if (ordine.stato === 'EFFETTUATO') {
-                  <ion-button fill="clear" color="danger" class="" (click)="cancellaOrdine(ordine.ordine_id); $event.stopPropagation();">
-                    <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
-                  </ion-button>
-                  <ion-button fill="clear" color="warning" class="" (click)="modificaOrdine(ordine.ordine_id); $event.stopPropagation();">
-                    <ion-icon slot="icon-only" name="create-outline"></ion-icon>
-                  </ion-button>
-                }</div>
+
+        <ion-grid class="ion-no-padding" [hidden]="IDordineDaModificare == ordine.ordine_id">
+            <ion-row class="ion-align-items-center">
+              <ion-col size="6">
+                <div class="order-header">
+                  <span class="order-number">#{{ordine.ordine_id}}</span>
+                  <ion-chip color="primary" outline>
+                    <ion-icon name="document-outline"></ion-icon>
+                    <ion-label>{{ordine.formato_carta}}</ion-label>
+                  </ion-chip>
+                  <ion-chip color="secondary" outline>
+                    <ion-icon name="print-outline"></ion-icon> <ion-label>{{ordine.metodo_di_stampa}}</ion-label>
+                  </ion-chip>
+                </div>
+                <p class="order-date">
+                  <ion-icon name="time-outline"></ion-icon> 
+                  Ritiro: {{ordine.tempo_minimo_ritiro | date:'dd/MM/yyyy HH:mm'}}
+                </p>
+                <!-- <p class="cancel-reason" *ngIf="ordine.stato === 'CANCELLATO' && ordine.motivazione_cancellazione">
+                  Motivo annullamento: {{ordine.motivazione_cancellazione}}
+                </p> non esiste ordine.motivazione_cancellazione -->
+              </ion-col>
               
-              <ion-chip [color]="getColorStatoConsumatore(ordine.stato)" class="status-chip">
-                  {{ getEtichettaConsumatore(ordine.stato) }}
-              </ion-chip>
-              <h3 class="order-price">€ {{ordine.prezzo}}</h3>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+              <ion-col size="6" class="right-actions-col">
+                <div style="display: flex; flex-direction: row; justify-content: flex-end; padding-bottom: 10px; width: 100%;">
+                  @if(ordine.stato == 'EFFETTUATO') {
+                    <ion-button fill="clear" color="danger" class="" (click)="cancellaOrdine(ordine.ordine_id); $event.stopPropagation();">
+                      <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+                    </ion-button>
+                  }
+
+                  @if (ordine.stato === 'EFFETTUATO' || ordine.stato == 'CANCELLATO') {
+                    <ion-button fill="clear" color="warning" class="" (click)="toggleModifyOrder(ordine.ordine_id); $event.stopPropagation();">
+                      <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+                    </ion-button>
+
+                    <ion-button fill="clear" color="danger" class="" (click)="eliminaOrdine(ordine.ordine_id); $event.stopPropagation();">
+                      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                    </ion-button>
+                  }
+
+                  @if(ordine.stato != "CONSEGNATO" && ordine.stato != "CANCELLATO") {
+                    <ion-button fill="clear" color="medium" class="" (click)="segnalaCopisteria(ordine.copisteria_id); $event.stopPropagation();">
+                      <ion-icon slot="icon-only" name="flag-outline"></ion-icon>
+                    </ion-button>
+                  }
+                </div>
+                
+                <ion-chip [color]="getColorStatoConsumatore(ordine.stato)" class="status-chip">
+                    {{ getEtichettaConsumatore(ordine.stato) }}
+                </ion-chip>
+                <!-- | number:'1.2-2' -->
+                <h3 class="order-price">€ {{ordine.prezzo }}</h3>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
       </ion-card-content>
     </ion-card>
+    }
+    
+    
   } @empty {
     <p class="ion-padding ion-text-center">Nessun ordine corrisponde ai filtri selezionati</p>
   }

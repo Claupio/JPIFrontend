@@ -30,7 +30,6 @@ export class ConsumatoreService {
     const headers = new HttpHeaders({});
     const params = new HttpParams().set("email", email);
 
-    console.log(email)
     return this.httpClient.get<any>(`${this.baseURL}/recover_password`, {headers, params})
   }
 
@@ -42,8 +41,6 @@ export class ConsumatoreService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`
     });
-
-    console.log("Token in getOrdiniConsumatore:", this.getToken());
 
     let params = new HttpParams();
 
@@ -62,12 +59,22 @@ export class ConsumatoreService {
     return this.httpClient.put<any>(`${this.baseURL}/consumatore/ordini/cancel`, {ordine_id: ordineId}, { headers });
   }
 
-  modificaOrdine(copisteria_id: number, ordine_id: number, formato_carta: string, metodo_di_stampa: string, inizio_fascia: string, fine_fascia: string, add_on: [string]) {
+  eliminaOrdine(ordineId: number): Observable<any> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`
     });
 
-    return this.httpClient.put<any>(`${this.baseURL}/consumatore/ordini/cancel`, {copisteria_id, ordine_id, formato_carta, metodo_di_stampa, inizio_fascia, fine_fascia, add_on}, { headers });
+    const params = new HttpParams().set("ordine_id", ordineId)
+
+    return this.httpClient.delete<any>(`${this.baseURL}/consumatore/ordini`, { headers, params });
+  }
+
+  modificaOrdine(copisteria_id: number, ordine_id: number, formato_carta: string, metodo_di_stampa: string, inizio_fascia: string, fine_fascia: string, add_on: string[]) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`
+    });
+
+    return this.httpClient.put<any>(`${this.baseURL}/consumatore/ordini`, {copisteria_id, ordine_id, formato_carta, metodo_di_stampa, inizio_fascia, fine_fascia, add_on}, { headers });
   }
 
   getCopisterie(filtri: any): Observable<any> {
@@ -105,6 +112,22 @@ export class ConsumatoreService {
     });
 
     return this.httpClient.post(`${this.baseURL}/consumatore/ordini`, formData, {headers});
+  }
+
+  segnalaCopisteria(copisteria_id: number, motivazione: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`
+    });
+
+    return this.httpClient.post(`${this.baseURL}/consumatore/segnalazioni`, {copisteria_id, motivazione}, {headers});
+  }
+
+  modificaPassword(vecchia_password: string, nuova_password: string) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`
+    });
+
+    return this.httpClient.put(`${this.baseURL}/consumatore/password`, {vecchia_password, password: nuova_password}, {headers});
   }
 
   richiediPreventivo(caratteristiche: any) {

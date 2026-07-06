@@ -24,11 +24,11 @@ export class AdminService {
   }
 
   copisterie: Copisteria[] = [];
-  private _filtri: any = {};
-  filtri: any = new Proxy(this._filtri, {
+  private _filtri_copisterie: any = {};
+  filtri_copisterie: any = new Proxy(this._filtri_copisterie, {
     set: (target, proprieta, valore) => {
 
-      this._filtri[proprieta] = valore;
+      this._filtri_copisterie[proprieta] = valore;
       this.refreshCopisterie();
       return true;
     }
@@ -41,7 +41,7 @@ export class AdminService {
 
     let params = new HttpParams();
 
-    for(const [key, value] of Object.entries(this.filtri)) {
+    for(const [key, value] of Object.entries(this.filtri_copisterie)) {
       params = params.set(key, JSON.stringify(value))
     }
 

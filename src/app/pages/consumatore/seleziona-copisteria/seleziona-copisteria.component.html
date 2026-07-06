@@ -172,13 +172,15 @@
       </p>
     </div>
 
-    <!-- File PDF da stampare -->
-    <div class="campo-form">
-      <span class="campo-label">File PDF da stampare</span>
-      <ion-input type="file" accept="application/pdf" class="file-input" (change)="onFileSelezionato($event)" />
-      <p class="file-selezionato" *ngIf="fileSelezionato">{{ fileSelezionato.name }}</p>
-      <p class="nessun-risultato errore" *ngIf="erroreFile">{{ erroreFile }}</p>
-    </div>
+    @if(needFile) {
+      <!-- File PDF da stampare -->
+      <div class="campo-form">
+        <span class="campo-label">File PDF da stampare</span>
+        <ion-input type="file" accept="application/pdf" class="file-input" (change)="onFileSelezionato($event)" />
+        <p class="file-selezionato" *ngIf="fileSelezionato">{{ fileSelezionato.name }}</p>
+        <p class="nessun-risultato errore" *ngIf="erroreFile">{{ erroreFile }}</p>
+      </div>
+    }
 
     <!-- Riepilogo preventivo -->
     <div class="stato-caricamento" *ngIf="caricamentoPreventivo">

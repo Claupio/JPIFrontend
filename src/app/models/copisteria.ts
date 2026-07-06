@@ -8,6 +8,6 @@ export interface Copisteria {
   password_hash?: string;
   numero_giorni_conservazione: number;
   prezzi_formati_carta: any,
-  prezzi_metodi_di_stampa: any,
+  prezzi_metodi_stampa: any,
   prezzi_add_on: any
 };

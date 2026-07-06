@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon, IonCol, IonRow, IonGrid, IonFab, IonFabButton, IonInfiniteScroll, IonInfiniteScrollContent, IonRippleEffect, IonCheckbox, IonSelect, IonSelectOption, IonButtons, IonAvatar, IonCardHeader, IonCardTitle } from '@ionic/angular/standalone';
-import { ToastController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { 
-  documentOutline, timeOutline, trashOutline, addOutline, printOutline, createOutline, closeOutline
+  documentOutline, timeOutline, trashOutline, addOutline, printOutline, createOutline, closeOutline, closeCircleOutline, flagOutline
 } from 'ionicons/icons';
 import { CopisteriaService } from '@services/copisteria-service';
 import { ConsumatoreService } from '@services/consumatore-service';
 import { SelezionaCopisteriaComponent } from './seleziona-copisteria/seleziona-copisteria.component';
-import { Copisteria } from './seleziona-copisteria/copisteria.model';
+import { Copisteria } from '@models/copisteria'; 
 
 @Component({
   selector: 'app-consumatore',
@@ -32,9 +32,6 @@ import { Copisteria } from './seleziona-copisteria/copisteria.model';
 
 
 export class ConsumatorePage implements OnInit {
-modificaOrdine(arg0: any) {
-throw new Error('Method not implemented.');
-}
 
   ordiniRaw: any[] = [];          // Contiene tutti gli ordini presi dal DB
   ordiniVisualizzati: any[] = []; // Array filtrato e ordinato mostrato nell'HTML
@@ -42,11 +39,12 @@ throw new Error('Method not implemented.');
   // Model per le Checkbox di filtro
   mostraInCorso: boolean = true;
   mostraPronti: boolean = true;
-  mostraArchiviati: boolean = true;
+  mostraStorico: boolean = true;
 
-  // Model per la card aggiunta ordini
-  isCardVisible: boolean = false;
-  isFabVisible: boolean = true;
+  // Model per la card modifica ordini
+
+  isLeaving = false;
+  showNewComponent = false;
 
   // Model per l'ordinamento
   criterioOrdinamento: string = 'data-desc';
@@ -54,7 +52,7 @@ throw new Error('Method not implemented.');
   // Stato del form "Nuovo Ordine": preventivo pronto (null finché il form
   // nel componente figlio non è completo, incluso il PDF, e /preventivo riesce)
   preventivoOrdine: {
-    copisteria: Copisteria;
+    copisteria_id: number;
     formato_carta: string;
     metodo_di_stampa: string;
     add_on: string[];
@@ -64,13 +62,16 @@ throw new Error('Method not implemented.');
     tempo_massimo_ritiro: string;
   } | null = null;
 
+  IDordineDaModificare: number | null = null;
+
   paginaCorrente = 1;
 
   constructor(
     private consumatoreService: ConsumatoreService, 
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private alertCtrl: AlertController
   ) {
-    addIcons({ documentOutline, timeOutline, trashOutline, addOutline, printOutline, createOutline, closeOutline });
+    addIcons({ documentOutline, timeOutline, trashOutline, addOutline, printOutline, createOutline, closeOutline, closeCircleOutline, flagOutline });
   }
 
   ngOnInit() {
@@ -97,7 +98,7 @@ throw new Error('Method not implemented.');
       nascondi_stato.push('STAMPATO');
     }
 
-    if (this.mostraArchiviati) {
+    if (this.mostraStorico) {
       mostra_stato.push('CANCELLATO', 'CONSEGNATO');
     } else {
       nascondi_stato.push('CANCELLATO', 'CONSEGNATO');
@@ -133,7 +134,7 @@ throw new Error('Method not implemented.');
     //     return this.mostraPronti;
     //   }
     //   if (ordine.stato === 'CANCELLATO' || ordine.stato === 'CONSEGNATO') {
-    //     return this.mostraArchiviati;
+    //     return this.mostraStorico;
     //   }
     //   return true;
     // });
@@ -184,17 +185,125 @@ throw new Error('Method not implemented.');
   }
 
   toggleOrderForm() {
-    this.isCardVisible = !this.isCardVisible;
-    this.isFabVisible = !this.isFabVisible;
+    this.IDordineDaModificare = this.IDordineDaModificare == -1 ? null : -1;
 
     // Reset del form ogni volta che la card viene chiusa/riaperta
-    if (!this.isCardVisible) {
+    if (this.IDordineDaModificare == null) {
       this.preventivoOrdine = null;
     }
   }
 
+  toggleModifyOrder(ordineId: number) {
+    this.isLeaving = true;
+
+    setTimeout(() => {
+      this.IDordineDaModificare = ordineId;
+      this.isLeaving = false;
+      this.showNewComponent = true;
+    }, 400);
+  }
+
   onPreventivoPronto(preventivo: typeof this.preventivoOrdine) {
     this.preventivoOrdine = preventivo;
+  }
+
+  segnalaCopisteria(copisteria_id: number) {
+    const alert = this.alertCtrl.create({
+      header: 'Segnala Copisteria',
+      inputs: [
+        {
+          name: 'segnalazione',
+          type: 'textarea',
+          placeholder: 'Specifica il problema riscontrato...'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Annulla',
+          role: 'cancel'
+        },
+        {
+          text: 'Invia Segnalazione',
+          handler: (data) => {
+            if (data.segnalazione && data.segnalazione.trim() !== '') {
+              this.consumatoreService.segnalaCopisteria(copisteria_id, data.segnalazione).subscribe({
+                next: (data) =>{
+                  this.toastCtrl.create({
+                    message: 'Copisteria Segnalata',
+                    duration: 3000,
+                    position: 'bottom',
+                    color: 'success',
+                    buttons: [{ text: 'OK', role: 'cancel' }]
+                  }).then((toast) => (toast.present().then(() => {})));
+                },
+                error: (err) =>{
+                  console.error('Errore nella segnalazione', err);
+                  this.toastCtrl.create({
+                    message: 'Errore nella segnalazione',
+                    duration: 3000,
+                    position: 'bottom',
+                    color: 'danger',
+                    buttons: [{ text: 'OK', role: 'cancel' }]
+                  }).then((toast) => (toast.present().then(() => {})));
+                }
+              })
+            }
+          }
+        }
+      ]
+    }).then(a => a.present());
+  }
+
+  cambiaPassword() {
+    const alert = this.alertCtrl.create({
+      header: 'Cambia Password',
+      inputs: [
+        {
+          name: 'vecchia_password',
+          type: 'textarea',
+          placeholder: 'Inserisci la tua password attuale'
+        },
+        {
+          name: 'nuova_password',
+          type: 'textarea',
+          placeholder: 'Inserisci la tua nuova password'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Annulla',
+          role: 'cancel'
+        },
+        {
+          text: 'Invia Segnalazione',
+          handler: (data) => {
+            if (data.segnalazione && data.segnalazione.trim() !== '') {
+              this.consumatoreService.modificaPassword(data.vecchia_password, data.nuova_password).subscribe({
+                next: (data) =>{
+                  this.toastCtrl.create({
+                    message: 'Password Cambiata correttamente',
+                    duration: 3000,
+                    position: 'bottom',
+                    color: 'success',
+                    buttons: [{ text: 'OK', role: 'cancel' }]
+                  }).then((toast) => (toast.present()));
+                },
+                error: (err) =>{
+                  console.error('Errore nella segnalazione', err);
+                  this.toastCtrl.create({
+                    message: 'Errore nella segnalazione',
+                    duration: 3000,
+                    position: 'bottom',
+                    color: 'danger',
+                    buttons: [{ text: 'OK', role: 'cancel' }]
+                  }).then((toast) => (toast.present()));
+                }
+              })
+            }
+          }
+        }
+      ]
+    }).then(a => a.present());
   }
 
   puoInviareOrdine(): boolean {
@@ -212,7 +321,7 @@ throw new Error('Method not implemented.');
     // li calcola il server dal PDF.
     const formData = new FormData();
     formData.append('pdf', this.preventivoOrdine.file, this.preventivoOrdine.file.name);
-    formData.append('copisteria_id', String(this.preventivoOrdine.copisteria.copisteria_id));
+    formData.append('copisteria_id', String(this.preventivoOrdine.copisteria_id));
     formData.append('formato_carta', this.preventivoOrdine.formato_carta);
     formData.append('metodo_di_stampa', this.preventivoOrdine.metodo_di_stampa);
     formData.append('inizio_fascia', this.preventivoOrdine.fascia.inizio_fascia);
@@ -228,8 +337,40 @@ throw new Error('Method not implemented.');
           color: 'success',
           buttons: [{ text: 'OK', role: 'cancel' }]
         }).then((toast) => (toast.present().then(() => {
-          this.paginaCorrente = 1;
           this.toggleOrderForm();
+          this.caricaOrdiniConsumatore();
+        })));
+      },
+      error: (err: any) => {
+        console.error(err);
+        this.toastCtrl.create({
+          message: 'Errore durante l\'invio dell\'ordine.',
+          duration: 3000,
+          position: 'bottom',
+          color: 'danger',
+          buttons: [{ text: 'OK', role: 'cancel' }]
+        }).then((toast) => toast.present());
+      }
+    });
+  }
+
+  modificaOrdine(ordine_id: number) {
+        if (!this.preventivoOrdine) {
+      return;
+    }
+
+    console.log(ordine_id);
+
+    this.consumatoreService.modificaOrdine(this.preventivoOrdine.copisteria_id, ordine_id, this.preventivoOrdine.formato_carta, this.preventivoOrdine.metodo_di_stampa, this.preventivoOrdine.fascia.inizio_fascia, this.preventivoOrdine.fascia.fine_fascia, this.preventivoOrdine.add_on).subscribe({
+      next: () => {
+        this.toastCtrl.create({
+          message: '🎉 Ordine modificato con successo alla copisteria!',
+          duration: 3000,
+          position: 'bottom',
+          color: 'success',
+          buttons: [{ text: 'OK', role: 'cancel' }]
+        }).then((toast) => (toast.present().then(() => {
+          this.IDordineDaModificare = null;
           this.caricaOrdiniConsumatore();
         })));
       },
@@ -257,6 +398,33 @@ throw new Error('Method not implemented.');
           buttons: [{ text: 'OK', role: 'cancel' }]
         }).then((toast) => toast.present());
         this.caricaOrdiniConsumatore();
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastCtrl.create({
+          message: 'Errore durante la cancellazione dell\'ordine.',
+          duration: 3000,
+          position: 'bottom',
+          color: 'danger',
+          buttons: [{ text: 'OK', role: 'cancel' }]
+        }).then((toast) => toast.present());
+      }
+    });
+    
+  }
+
+  eliminaOrdine(ordineId: number){
+    this.consumatoreService.eliminaOrdine(ordineId).subscribe({
+      next: () => {
+        this.toastCtrl.create({
+          message: 'Ordine eliminato con successo.',
+          duration: 3000,
+          position: 'bottom',
+          color: 'success',
+          buttons: [{ text: 'OK', role: 'cancel' }]
+        }).then((toast) => toast.present());
+        this.ordiniVisualizzati = this.ordiniVisualizzati.filter(o => o.ordine_id !== ordineId)
+        //this.caricaOrdiniConsumatore();
       },
       error: (err) => {
         console.error(err);
