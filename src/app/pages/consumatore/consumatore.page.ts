@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon, IonCol, IonRow, IonGrid, IonFab, IonFabButton, IonInfiniteScroll, IonInfiniteScrollContent, IonRippleEffect, IonCheckbox, IonSelect, IonSelectOption, IonButtons, IonAvatar, IonCardHeader, IonCardTitle, IonList, IonModal } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon, IonCol, IonRow, IonGrid, IonFab, IonFabButton, IonInfiniteScroll, IonInfiniteScrollContent, IonRippleEffect, IonCheckbox, IonSelect, IonSelectOption, IonButtons, IonAvatar, IonCardHeader, IonCardTitle, IonList, IonModal, IonPopover } from '@ionic/angular/standalone';
 import { AlertController, ToastController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { 
-  documentOutline, timeOutline, trashOutline, addOutline, printOutline, createOutline, closeOutline, closeCircleOutline, flagOutline, calendar
+  documentOutline, timeOutline, trashOutline, addOutline, printOutline, createOutline, closeOutline, closeCircleOutline, flagOutline, calendar, ellipsisVertical
 } from 'ionicons/icons';
 import { CopisteriaService } from '@services/copisteria-service';
 import { ConsumatoreService } from '@services/consumatore-service';
 import { SelezionaCopisteriaComponent } from './seleziona-copisteria/seleziona-copisteria.component';
 import { Copisteria } from '@models/copisteria'; 
 import { FasciaOraria } from '@models/fascia_oraria';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-consumatore',
@@ -27,7 +28,8 @@ import { FasciaOraria } from '@models/fascia_oraria';
     IonCardTitle,
     SelezionaCopisteriaComponent,
     IonList,
-    IonModal
+    IonModal,
+    IonPopover
 ]
 })
 
@@ -72,9 +74,10 @@ export class ConsumatorePage implements OnInit {
   constructor(
     public consumatoreService: ConsumatoreService, 
     private toastCtrl: ToastController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private router: Router
   ) {
-    addIcons({ documentOutline, timeOutline, trashOutline, addOutline, printOutline, createOutline, closeOutline, closeCircleOutline, flagOutline, calendar });
+    addIcons({ documentOutline, timeOutline, trashOutline, addOutline, printOutline, createOutline, closeOutline, closeCircleOutline, flagOutline, calendar, ellipsisVertical });
   }
 
   ngOnInit() {
@@ -196,6 +199,11 @@ export class ConsumatorePage implements OnInit {
     }
   }
 
+  logout() {
+    this.consumatoreService.setToken('');
+    this.router.navigate(["/"]);
+  }
+
   toggleModifyOrder(ordineId: number) {
     this.isLeaving = true;
 
@@ -263,12 +271,12 @@ export class ConsumatorePage implements OnInit {
       inputs: [
         {
           name: 'vecchia_password',
-          type: 'textarea',
+          type: 'password',
           placeholder: 'Inserisci la tua password attuale'
         },
         {
           name: 'nuova_password',
-          type: 'textarea',
+          type: 'password',
           placeholder: 'Inserisci la tua nuova password'
         }
       ],
@@ -278,13 +286,13 @@ export class ConsumatorePage implements OnInit {
           role: 'cancel'
         },
         {
-          text: 'Invia Segnalazione',
+          text: 'Cambia Password',
           handler: (data) => {
-            if (data.segnalazione && data.segnalazione.trim() !== '') {
+            if (data.vecchia_password && data.vecchia_password.trim() !== '' && data.nuova_password && data.nuova_password.trim() !== '') {
               this.consumatoreService.modificaPassword(data.vecchia_password, data.nuova_password).subscribe({
                 next: (data) =>{
                   this.toastCtrl.create({
-                    message: 'Password Cambiata correttamente',
+                    message: 'Password cambiata correttamente',
                     duration: 3000,
                     position: 'bottom',
                     color: 'success',
@@ -292,9 +300,9 @@ export class ConsumatorePage implements OnInit {
                   }).then((toast) => (toast.present()));
                 },
                 error: (err) =>{
-                  console.error('Errore nella segnalazione', err);
+                  console.error('Errore nel cambio password', err);
                   this.toastCtrl.create({
-                    message: 'Errore nella segnalazione',
+                    message: 'Errore nel cambio password ',
                     duration: 3000,
                     position: 'bottom',
                     color: 'danger',

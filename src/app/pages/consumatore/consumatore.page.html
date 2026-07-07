@@ -6,8 +6,27 @@
         <img src="assets/icon/foglio.png" alt="homepage" />
       </ion-avatar>
     </ion-buttons>
+    <ion-buttons slot="start">
+      <ion-button id="menu-button">
+        <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+<ion-popover trigger="menu-button" dismissOnSelect="true">
+  <ng-template>
+    <ion-list lines="none">
+      <ion-item button (click)="cambiaPassword()">
+        <ion-label>Cambia password</ion-label>
+      </ion-item>
+
+      <ion-item button (click)="logout()">
+        <ion-label>Logout</ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-template>
+</ion-popover>
 
 <ion-content>
   <div>

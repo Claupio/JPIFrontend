@@ -193,7 +193,7 @@
     </p>
 
     <div class="riepilogo-preventivo" *ngIf="preventivo && !caricamentoPreventivo">
-      <span class="riepilogo-prezzo">~ € {{ preventivo.prezzo }}</span>
+      <span class="riepilogo-prezzo">€ {{ preventivo.prezzo  | number:'1.2-2' }}</span>
       <span class="riepilogo-ritiro">Pronto entro: {{ preventivo.tempo_massimo_ritiro }}</span>
     </div>
     <!-- <p class="mappa-hint" *ngIf="preventivo && !caricamentoPreventivo">

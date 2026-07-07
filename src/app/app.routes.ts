@@ -17,6 +17,7 @@ export const routes: Routes = [
   },
   {
     path: 'consumatore',
+    canActivate: [consumatoreGuard],
     loadComponent: () => import('@pages/consumatore/consumatore.page').then(m => m.ConsumatorePage)
   },
   { 
