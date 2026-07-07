@@ -238,7 +238,10 @@
           track item.inizio_fascia + item.fine_fascia
         ) {
           <ion-item>
-            <ion-label>{{ item.inizio_fascia }} - {{ item.fine_fascia }}</ion-label>
+            <ion-label>
+              {{ item.inizio_fascia | date:'EEE dd MMM yyyy' }}
+              {{ item.inizio_fascia | date:'HH:mm' }} - {{ item.fine_fascia | date:'HH:mm' }}
+            </ion-label>
           </ion-item>
         } @empty {
           <ion-item>

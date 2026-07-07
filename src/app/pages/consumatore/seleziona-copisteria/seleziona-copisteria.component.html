@@ -163,7 +163,8 @@
                   interface="popover"
                   placeholder="Scegli una fascia oraria">
         <ion-select-option *ngFor="let fascia of fasceOrarie" [value]="fascia">
-          {{ fascia.inizio_fascia }} - {{ fascia.fine_fascia }}
+          {{ fascia.inizio_fascia | date:'EEE dd MMM yyyy' }}
+          {{ fascia.inizio_fascia | date:'HH:mm' }} - {{ fascia.fine_fascia | date:'HH:mm' }}
         </ion-select-option>
       </ion-select>
 
