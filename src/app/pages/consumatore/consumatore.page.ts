@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon, IonCol, IonRow, IonGrid, IonFab, IonFabButton, IonInfiniteScroll, IonInfiniteScrollContent, IonRippleEffect, IonCheckbox, IonSelect, IonSelectOption, IonButtons, IonAvatar, IonCardHeader, IonCardTitle } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon, IonCol, IonRow, IonGrid, IonFab, IonFabButton, IonInfiniteScroll, IonInfiniteScrollContent, IonRippleEffect, IonCheckbox, IonSelect, IonSelectOption, IonButtons, IonAvatar, IonCardHeader, IonCardTitle, IonList, IonModal } from '@ionic/angular/standalone';
 import { AlertController, ToastController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { 
-  documentOutline, timeOutline, trashOutline, addOutline, printOutline, createOutline, closeOutline, closeCircleOutline, flagOutline
+  documentOutline, timeOutline, trashOutline, addOutline, printOutline, createOutline, closeOutline, closeCircleOutline, flagOutline, calendar
 } from 'ionicons/icons';
 import { CopisteriaService } from '@services/copisteria-service';
 import { ConsumatoreService } from '@services/consumatore-service';
 import { SelezionaCopisteriaComponent } from './seleziona-copisteria/seleziona-copisteria.component';
 import { Copisteria } from '@models/copisteria'; 
+import { FasciaOraria } from '@models/fascia_oraria';
 
 @Component({
   selector: 'app-consumatore',
@@ -24,7 +25,9 @@ import { Copisteria } from '@models/copisteria';
     IonInfiniteScrollContent, IonRippleEffect, IonCheckbox, IonSelect, IonSelectOption, IonButtons, IonAvatar,
     IonCardHeader,
     IonCardTitle,
-    SelezionaCopisteriaComponent
+    SelezionaCopisteriaComponent,
+    IonList,
+    IonModal
 ]
 })
 
@@ -67,11 +70,11 @@ export class ConsumatorePage implements OnInit {
   paginaCorrente = 1;
 
   constructor(
-    private consumatoreService: ConsumatoreService, 
+    public consumatoreService: ConsumatoreService, 
     private toastCtrl: ToastController,
     private alertCtrl: AlertController
   ) {
-    addIcons({ documentOutline, timeOutline, trashOutline, addOutline, printOutline, createOutline, closeOutline, closeCircleOutline, flagOutline });
+    addIcons({ documentOutline, timeOutline, trashOutline, addOutline, printOutline, createOutline, closeOutline, closeCircleOutline, flagOutline, calendar });
   }
 
   ngOnInit() {
@@ -437,6 +440,23 @@ export class ConsumatorePage implements OnInit {
         }).then((toast) => toast.present());
       }
     });
-    
+  }
+
+  fasceOrarieRitiroOrdine: FasciaOraria[] | null = null;
+
+  visualizzaFasceOrarieCopisteria(copisteriaId: number, tempo_minimo_ritiro: string, tempo_massimo_ritiro: string) {
+    this.consumatoreService.getFasceOrarie({
+      copisteria_id: {eq: copisteriaId},
+      inizio_fascia: {ge: tempo_minimo_ritiro},
+      fine_fascia: {le: tempo_massimo_ritiro}
+    }).subscribe({
+      next: (value) => {
+        this.fasceOrarieRitiroOrdine = value;
+      },
+
+      error: (err) => {
+
+      }
+    })
   }
 }

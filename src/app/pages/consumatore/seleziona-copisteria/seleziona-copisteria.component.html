@@ -115,7 +115,7 @@
         <span class="campo-label">Opzioni aggiuntive</span>
         @for(add_on of opzioni(copisteria.prezzi_add_on); track add_on ) {
           <ion-item>
-            <ion-checkbox (ionChange)="selezioneAddOn($event, add_on)">
+            <ion-checkbox [checked]="addOnScelto.includes(add_on)" (ionChange)="selezioneAddOn($event, add_on)">
               {{add_on}}
             </ion-checkbox>
           </ion-item>

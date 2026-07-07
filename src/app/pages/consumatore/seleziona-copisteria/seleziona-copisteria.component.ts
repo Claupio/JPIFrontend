@@ -74,11 +74,15 @@ throw new Error('Method not implemented.');
 
    this.preselezionaFasciaOraria = () => {
     const a2 = this.fasceOrarie.filter(f => f.inizio_fascia == value.tempo_minimo_ritiro);
-    console.log(value.tempo_minimo_ritiro, a2)
     this.fasciaSelezionata = a2[0];
     this.formatoCartaScelto = value.formato_carta;
     this.metodoDiStampaScelto = value.metodo_di_stampa;
     this.numeroPagineStimato = value.numero_pagine;
+
+    for(let add_on of JSON.parse(value.add_on)) {
+      this.selezioneAddOn({detail: {checked: true}}, add_on)
+    }
+    
     this.preselezionaFasciaOraria = () => {};
     this.onCampoFormCambiato();
    }
@@ -299,8 +303,6 @@ throw new Error('Method not implemented.');
   async onFileSelezionato(event: Event) {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0] ?? null;
-
-    console.log(file)
 
     if (file && file.type !== 'application/pdf') {
       this.erroreFile = 'Il file deve essere un PDF.';

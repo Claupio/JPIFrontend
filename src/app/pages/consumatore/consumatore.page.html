@@ -174,18 +174,24 @@
                     </ion-button>
                   }
 
+                  <ion-button fill="clear" color="medium" class="" (click)="segnalaCopisteria(ordine.copisteria_id); $event.stopPropagation();">
+                    <ion-icon slot="icon-only" name="flag-outline"></ion-icon>
+                  </ion-button>
+
                   @if(ordine.stato != "CONSEGNATO" && ordine.stato != "CANCELLATO") {
-                    <ion-button fill="clear" color="medium" class="" (click)="segnalaCopisteria(ordine.copisteria_id); $event.stopPropagation();">
-                      <ion-icon slot="icon-only" name="flag-outline"></ion-icon>
+                    <ion-button fill="clear" color="primary" class="" (click)="visualizzaFasceOrarieCopisteria(ordine.copisteria_id, ordine.tempo_minimo_ritiro, ordine.tempo_massimo_ritiro); $event.stopPropagation()">
+                      <ion-icon slot="icon-only" name="calendar"></ion-icon>
                     </ion-button>
                   }
+
+                  
                 </div>
                 
                 <ion-chip [color]="getColorStatoConsumatore(ordine.stato)" class="status-chip">
                     {{ getEtichettaConsumatore(ordine.stato) }}
                 </ion-chip>
-                <!-- | number:'1.2-2' -->
-                <h3 class="order-price">€ {{ordine.prezzo }}</h3>
+
+                <h3 class="order-price">€ {{ordine.prezzo | number:'1.2-2' }}</h3>
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -198,5 +204,31 @@
     <p class="ion-padding ion-text-center">Nessun ordine corrisponde ai filtri selezionati</p>
   }
 </div>
+
+<ion-modal [isOpen] = "fasceOrarieRitiroOrdine != null" (didDismiss) = "fasceOrarieRitiroOrdine = null;"  [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 0.8]">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Fasce orarie ritiro</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-list>
+        @for (
+          item of fasceOrarieRitiroOrdine!;
+          track item.inizio_fascia + item.fine_fascia
+        ) {
+          <ion-item>
+            <ion-label>{{ item.inizio_fascia }} - {{ item.fine_fascia }}</ion-label>
+          </ion-item>
+        } @empty {
+          <ion-item>
+            <ion-label>Nessuna fascia oraria disponibile per il ritiro dell'ordine, cantattare la copisteria.</ion-label>
+          </ion-item>
+        }
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>
 
 </ion-content>

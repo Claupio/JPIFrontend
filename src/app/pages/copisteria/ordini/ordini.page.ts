@@ -73,8 +73,7 @@ onExclusionChange() {
 caricaOrdiniDalDB(){
   this.copisteriaService.getOrdini(this.filtri).subscribe({
     next: (data) =>{
-      console.log(data)
-      this.ordini = data;
+      this.ordini = data.map((o: any) => ({...o, addOnList: JSON.parse(o.add_on)}));
     },
     error: (err) =>{
       console.error('Errore nel recupero degli ordini', err);

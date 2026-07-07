@@ -133,7 +133,12 @@
           <ion-col size="6" size-md="1.5" class="info-item">
             <ion-icon name="sparkles-outline"></ion-icon>
             <strong>Add-on</strong>
-            <p>{{ordine.add_on}}</p>
+            @for(add_on of ordine.addOnList; track add_on) {
+              <p>{{add_on}}</p>
+            } @empty {
+              <p>Nessuno</p>
+            }
+            
           </ion-col>
 
 
