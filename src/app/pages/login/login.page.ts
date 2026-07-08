@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { AdminService } from '@services/admin-service';
 import { CopisteriaService } from '@services/copisteria-service';
 import { ConsumatoreService } from '@services/consumatore-service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-schermata-iniziale',
@@ -26,7 +27,7 @@ export class LoginPage implements OnInit {
     name: "", password: ""
   }
 
-  constructor( private loginService: LoginService, private router: Router, private adminService: AdminService, private copisteria_service: CopisteriaService, private consumatoreService: ConsumatoreService) {
+  constructor( private loginService: LoginService, private router: Router, private adminService: AdminService, private copisteria_service: CopisteriaService, private consumatoreService: ConsumatoreService, private toastCtrl: ToastController) {
     addIcons({ eyeOutline, eyeOffOutline });
   }
 
@@ -47,7 +48,13 @@ export class LoginPage implements OnInit {
     if(form.valid) {
       this.loginService.login(this.userData.name, this.userData.password).subscribe({
         error: (err) => {
-          alert("login fallita")
+          this.toastCtrl.create({
+          message: 'Credenziali errate.',
+          duration: 3000,
+          position: 'bottom',
+          color: 'danger',
+          buttons: [{ text: 'OK', role: 'cancel' }]
+        }).then((toast) => toast.present());
         },
         next: (value) => {
           const {token} = value;

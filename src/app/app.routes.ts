@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { consumatoreGuard } from './guards/consumatore-guard';
+import { adminGuard } from './guards/admin-guard';
+import { copisteriaGuard } from './guards/copisteria-guard';
 
 export const routes: Routes = [
   {
@@ -22,10 +24,12 @@ export const routes: Routes = [
   },
   { 
     path: 'copisteria',
+    canActivate: [copisteriaGuard],
     loadChildren: () => import('@pages/copisteria/copisteria.routes').then(m => m.routes)
   },
   {
     path: 'admin',
+    canActivate: [adminGuard],
     loadChildren: () => import('@pages/admin/admin.routes').then(m => m.routes)
   },
   {

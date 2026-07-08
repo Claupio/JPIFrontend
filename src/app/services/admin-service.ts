@@ -24,15 +24,7 @@ export class AdminService {
   }
 
   copisterie: Copisteria[] = [];
-  private _filtri_copisterie: any = {};
-  filtri_copisterie: any = new Proxy(this._filtri_copisterie, {
-    set: (target, proprieta, valore) => {
-
-      this._filtri_copisterie[proprieta] = valore;
-      this.refreshCopisterie();
-      return true;
-    }
-  });
+  filtri_copisterie: any = {};
 
   refreshCopisterie() {
     const headers = new HttpHeaders({
@@ -80,16 +72,7 @@ export class AdminService {
   }
 
   segnalazioni: Segnalazione[] = [];
-
-  private _filtri_segnalazioni: any = {};
-  filtri_segnalazioni: any = new Proxy(this._filtri_segnalazioni, {
-    set: (target, proprieta, valore) => {
-
-      this._filtri_segnalazioni[proprieta] = valore;
-      this.refreshSegnalazioni();
-      return true;
-    }
-  });
+  filtri_segnalazioni: any = {};
 
   refreshSegnalazioni() {
     const headers = new HttpHeaders({
@@ -111,18 +94,7 @@ export class AdminService {
   }
 
   consumatori: Consumatore[] = [];
-
-  private _filtri_consumatori: any = {};
-  filtri_consumatori: any = new Proxy(this._filtri_consumatori, {
-    set: (target, proprieta, valore) => {
-
-      this._filtri_consumatori[proprieta] = valore;
-
-      this.refreshConsumatori();
-
-      return true;
-    }
-  });
+  filtri_consumatori: any = {};
 
   refreshConsumatori() {
     const headers = new HttpHeaders({

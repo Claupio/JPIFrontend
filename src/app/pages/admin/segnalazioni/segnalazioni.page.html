@@ -11,11 +11,49 @@
         <div class="col-reason">Motivazione</div>
       </div>
 
+      <div class="table-row cols-reports">
+          <div class="col-id-cop">
+              <ion-input
+              type="text"
+              class="table-input"
+              placeholder="ID separati da virgola"
+
+              (ionChange)="filtroIdCopoisteriaChange($event)">
+            </ion-input>
+            
+          </div>
+          <div class="col-id-cons">
+            <ion-input
+              type="text"
+              class="table-input"
+              placeholder="ID separati da virgola"
+              (ionChange)="filtroIdConsumatoreChange($event)">
+            </ion-input>
+          </div>
+          <div class="col-time">
+    <ion-button id="datetime-filter-btn" fill="outline" color="primary">
+      {{ adminService.filtri_segnalazioni.tempo.ge ? (adminService.filtri_segnalazioni.tempo.ge | date:'dd/MM/yyyy HH:mm') : 'Inferiore' }}
+    </ion-button>
+
+    <ion-button id="datetime-filter-btn2" fill="outline" color="primary">
+      {{ adminService.filtri_segnalazioni.tempo.le ? (adminService.filtri_segnalazioni.tempo.le | date:'dd/MM/yyyy HH:mm') : 'Superiore' }}
+    </ion-button>
+          </div>
+          <div class="col-reason">
+            <ion-input
+              type="text"
+              class="table-input"
+              placeholder="Testo sa ricercare"
+              (ionChange)="filtroIdMotivazioneChange($event)">
+            </ion-input>
+          </div>
+        </div>
+
       @for(segnalazione of adminService.segnalazioni; track `${segnalazione.consumatore_id} ${segnalazione.copisteria_id} ${segnalazione.tempo}`) {
         <div class="table-row cols-reports">
           <div class="col-id-cop">#{{ segnalazione.copisteria_id }}</div>
           <div class="col-id-cons">#{{ segnalazione.consumatore_id }}</div>
-          <div class="col-time">{{ segnalazione.tempo }}</div>
+          <div class="col-time">{{ segnalazione.tempo | date:'EEE dd MMM yyyy HH:mm' }} </div>
           <div class="col-reason">{{ segnalazione.motivazione }}</div>
         </div>
       }
@@ -25,3 +63,55 @@
   </ion-card>
 
 </ion-content>
+
+<ion-popover #filtroPopover trigger="datetime-filter-btn" trigger-action="click">
+  <ng-template>
+    <ion-content>
+
+      <ion-datetime
+        #dateTime
+        locale="it-IT"
+        presentation="date-time"
+        [(ngModel)]="adminService.filtri_segnalazioni.tempo.le">
+
+        <span slot="time-label">Tempo</span>
+
+        <ion-buttons slot="buttons">
+          <ion-button color="danger" (click)="adminService.filtri_segnalazioni.tempo.ge = null; filtroPopover.dismiss(); adminService.refreshSegnalazioni();">
+            Tutte
+          </ion-button>
+          <ion-button color="primary" (click)="filtroTempoInfChange(dateTime)">
+            OK
+          </ion-button>
+        </ion-buttons>
+      </ion-datetime>
+
+    </ion-content>
+  </ng-template>
+</ion-popover>
+
+<ion-popover #filtroPopover2 trigger="datetime-filter-btn2" trigger-action="click">
+      <ng-template>
+        <ion-content>
+
+          <ion-datetime
+            #dateTime2
+            locale="it-IT"
+            presentation="date-time"
+            [(ngModel)]="adminService.filtri_segnalazioni.tempo.le">
+
+            <span slot="time-label">Tempo</span>
+
+            <ion-buttons slot="buttons">
+              <ion-button color="danger" (click)="adminService.filtri_segnalazioni.tempo.le = null; filtroPopover2.dismiss(); adminService.refreshSegnalazioni()">
+                Tutte
+              </ion-button>
+              <ion-button color="primary" (click)="filtroTempoSupChange(dateTime2)">
+                OK
+              </ion-button>
+            </ion-buttons>
+          </ion-datetime>
+
+        </ion-content>
+      </ng-template>
+    </ion-popover>
