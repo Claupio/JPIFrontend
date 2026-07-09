@@ -60,7 +60,7 @@
       </p>
     </ion-accordion-group>
 
-    <div class="mappa-wrapper" [hidden]="vistaSelezione !== 'mappa'">
+    <div class="mappa-wrapper" *ngIf="vistaSelezione === 'mappa'">
       <p class="mappa-hint errore" *ngIf="nessunaCopisteriaConCoordinate">
         Nessuna copisteria ha una posizione impostata: usa l'elenco per scegliere.
       </p>
