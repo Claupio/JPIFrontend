@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, DATE_PIPE_DEFAULT_TIMEZONE } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonGrid, IonCol, IonRow, IonCard, IonTextarea, IonItem, IonInput, IonButton, IonPopover, IonButtons } from '@ionic/angular/standalone';
+import { IonContent, IonCard, IonInput, IonButton, IonPopover, IonButtons } from '@ionic/angular/standalone';
 import { AdminService } from '@services/admin-service';
 import { IonDatetime } from '@ionic/angular';
 
@@ -10,7 +10,7 @@ import { IonDatetime } from '@ionic/angular';
   templateUrl: './segnalazioni.page.html',
   styleUrls: ['./segnalazioni.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, IonCard, IonTextarea, IonItem, IonInput, IonButton, IonPopover, IonButtons]
+  imports: [IonContent, CommonModule, FormsModule, IonCard, IonInput, IonButton, IonPopover, IonButtons]
 })
 export class SegnalazioniPage implements OnInit {
 
@@ -19,7 +19,6 @@ export class SegnalazioniPage implements OnInit {
   }
 
   ngOnInit() {
-    // this.adminService.refreshSegnalazioni();
   }
 
   ionViewDidEnter() {

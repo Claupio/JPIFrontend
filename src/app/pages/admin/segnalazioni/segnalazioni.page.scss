@@ -22,7 +22,7 @@
     }
 }
 
-/* Griglia specifica per le segnalazioni: dà ampio respiro alla motivazione (3fr) */
+
 .cols-reports {
   grid-template-columns: repeat(4, 1fr);
 }
@@ -53,8 +53,6 @@
 
 .col-reason {
   color: #1F2937;
-  /* Se vuoi che il testo lungo vada a capo normalmente invece di essere troncato, 
-     lascia 'normal'. Se preferisci una sola riga, imposta 'nowrap' e aggiungi text-overflow */
   white-space: normal; 
   word-break: break-word;
 }

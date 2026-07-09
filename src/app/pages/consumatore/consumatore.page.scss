@@ -1,14 +1,9 @@
-/* ===== PAGINA ===== */
-
 ion-content {
   --background: #f5f7fb;
 }
 
-/* ===== FILTRI ===== */
-
 .filters-container {
   
-  // Stile base della card quando è DISATTIVATA (Bianca)
   .filter-card {
     background: #ffffff;
     border: 1px solid #e2e8f0;
@@ -22,40 +17,33 @@ ion-content {
     .filter-text {
       font-size: 0.9rem;
       font-weight: 600;
-      color: #64748b; /* Grigio quando disattivato */
+      color: #64748b; 
       transition: color 0.22s ease;
     }
 
-    // Effetto feedback quando l'utente preme il dito
     &:active {
       transform: scale(0.96);
     }
   }
 
-  // --- STATI ATTIVI CON COLORI PASTELLO ---
-
-  // IN CORSO: Giallo / Ambra
   .filter-card.attivo-corso {
     background: #fef3c7;
     border-color: #f59e0b;
     .filter-text { color: #b45309; }
   }
 
-  // PRONTI: Verde
   .filter-card.attivo-pronti {
     background: #dcfce7;
     border-color: #22c55e;
     .filter-text { color: #15803d; }
   }
 
-  // STORICO: Rosso
   .filter-card.attivo-storico {
     background: #fee2e2;
     border-color: #ef4444;
     .filter-text { color: #b91c1c; }
   }
 
-  // Stile dell'ordinamento inferiore (rimane pulito)
   .sort-card {
     --background: #ffffff;
     border: 1px solid #e2e8f0;
@@ -82,36 +70,31 @@ ion-content {
   }
 }
 
-/* ===== CARD ===== */
-
 .order-card {
   margin: 20px;
   border-radius: 20px;
   background: white;
   border: 1px solid #ececec;
   box-shadow:
-    0 2px 10px rgba(0,0,0,0.04);
+    0 4px 12px rgba(0,0,0,0.04);
 }
 
 .chip-con-pallino {
   display: inline-flex;
   align-items: center;
-  gap: 6px; /* Spazio tra pallino e testo */
+  gap: 6px; 
 
   &::before {
     content: '';
     width: 8px;
     height: 8px;
-    background-color: currentColor; /* Prende in automatico il colore della chip (primary, warning, ecc.) */
-    border-radius: 50%; /* Lo rende un cerchio perfetto */
+    background-color: currentColor; 
+    border-radius: 50%; 
   }
 }
 
-/* ===== CARD ORDINI ===== */
-
 .orders-list {
   
-  // Stile per tutte le card degli ordini della pagina
   ion-card.order-card {
     --background: #ffffff;
     border-radius: 16px;
@@ -127,8 +110,6 @@ ion-content {
     }
   }
 
-
-  // Testo di fallback quando la lista è vuota
   p.ion-text-center {
     color: #64748b;
     font-size: 0.95rem;
@@ -136,7 +117,6 @@ ion-content {
   }
 }
 
-/* ===== HEADER ===== */
 ion-header {
   display: flex;
   justify-content: space-between;
@@ -145,34 +125,25 @@ ion-header {
 
 }
 
-/* ===== TITLE ===== */
-
-
-/* ===== TOOLBAR ===== */
-
 ion-toolbar {
   position: relative;
   background: #ffffff;
-  z-index: 2; /* Tiene la barra sopra l'ombra */
+  z-index: 2; 
 }
 
 ion-toolbar::after {
   content: '';
   position: absolute;
-  bottom: -4px; /* Spinge l'ombra leggermente verso il basso */
-  width: 100%;   /* Leggermente più stretta per un effetto più realistico */
+  bottom: -4px; 
+  width: 100%;   
   height: 8px;
-  z-index: -1;  /* La mette dietro la toolbar */
+  z-index: -1;  
   
-  /* Il tuo gradiente a due colori */
   background: linear-gradient(to right, #00d2ff, #ff007f); 
   
-  /* Sfuoca il gradiente per trasformarlo in un'ombra */
   filter: blur(8px); 
-  opacity: 0.6; /* Regola l'intensità dell'ombra */
+  opacity: 0.6; 
 }
-
-/* ===== GRID ===== */
 
 ion-grid {
   padding: 0;
@@ -182,8 +153,6 @@ ion-row {
   display: flex;
   align-items: stretch;
 }
-
-/* ===== SEZIONI CARD ===== */
 
 .info-item {
   display: flex;
@@ -195,20 +164,16 @@ ion-row {
   min-height: 120px;
 }
 
-/* rimuove linea ultimo elemento */
 ion-row ion-col:last-child {
   border-right: none;
   border-bottom: none;
 }
-
-/* ===== ICONE ===== */
 
 .info-item ion-icon {
   font-size: 22px;
   color: #6b7280;
 }
 
-/* ===== TITOLI ===== */
 
 .info-item strong {
   font-size: 13px;
@@ -217,8 +182,6 @@ ion-row ion-col:last-child {
   letter-spacing: 0.5px;
 }
 
-/* ===== TESTI ===== */
-
 .info-item p {
   margin: 0;
   font-size: 18px;
@@ -226,15 +189,11 @@ ion-row ion-col:last-child {
   color: #111827;
 }
 
-/* ===== CHIP STATO ===== */
-
 ion-chip {
   width: fit-content;
   margin-top: 10px;
   font-weight: 600;
 }
-
-/* ===== BOTTONI ===== */
 
 .actions {
   display: flex;
@@ -263,7 +222,6 @@ ion-chip {
   --color: var(--ion-color-danger);
   --border-color: var(--ion-color-danger);
 }
-
 
 .bottom-info {
   display: flex;
@@ -307,15 +265,13 @@ ion-chip {
   }
 }
 
-/* ===== BOTTONE ELIMINAZIONE ===== */
 .right-actions-col {
   display: flex;
   flex-direction: column;
-  align-items: flex-end; /* Allinea tutto sul bordo destro */
+  align-items: flex-end; 
   justify-content: center;
   position: relative;
 
-  // Rende il bottone piccolo e discreto nell'angolo in alto a destra della card
   .delete-btn {
     margin: 0;
     --padding-start: 0;
@@ -323,7 +279,7 @@ ion-chip {
     height: 28px;
     width: 28px;
     position: absolute;
-    top: -12px; /* Spinge il cestino leggermente più in alto */
+    top: -12px; 
     right: -4px;
     
     ion-icon {
@@ -332,7 +288,7 @@ ion-chip {
   }
 
   .status-chip {
-    margin: 0 0 8px 0; /* Margine inferiore per staccarsi dal prezzo */
+    margin: 0 0 8px 0; 
   }
 
   .order-price {
@@ -343,8 +299,6 @@ ion-chip {
   }  
 }
 
-
-
 .morph-container {
   width: 100%;
   display: flex;
@@ -353,14 +307,13 @@ ion-chip {
 }
 
 .morph-element {
-  // --- STATO INIZIALE: BOTTONE ---
   width: 220px; 
   height: 48px;
-  border-radius: 24px;
+  border-radius: 16px;
   background: linear-gradient(135deg, #00d2ff 0%, #ff007f 100%);
   box-shadow: 0 4px 15px rgba(255, 0, 127, 0.3);
   overflow: hidden;
-  cursor: pointer; // Tutto il bottone mostra la manina
+  cursor: pointer; 
   
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
@@ -371,7 +324,7 @@ ion-chip {
     height: 48px;
     min-height: 48px;
     display: flex;
-    align-items: center;      // Centratura verticale perfetta
+    align-items: center;    
     justify-content: center;  
     padding: 0 20px;
     color: white;
@@ -394,10 +347,8 @@ ion-chip {
       transition: transform 0.3s ease;
       margin-left: auto; 
       
-      // Quando è un "+", i click lo attraversano e colpiscono il bottone principale
       pointer-events: none; 
       
-      // Diventa cliccabile solo quando aggiungiamo la classe via HTML
       &.is-clickable {
         pointer-events: auto;
         cursor: pointer;
@@ -421,8 +372,8 @@ ion-chip {
     }
   }
 
-  // --- STATO ESPANSO: CARD A TUTTA PAGINA ---
   &.is-expanded {
+    margin: 15px 20px 15px 20px;
     width: 100%;           
     height: auto;         
     border-radius: 0px;    
@@ -458,7 +409,7 @@ ion-chip {
     width: 0; 
     height: 0;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow:hidden;
+    overflow:hidden;  
   }
 
   .ordine-card {
@@ -466,25 +417,32 @@ ion-chip {
     opacity: 1;
     transition: transform .4s cubic-bezier(0.4, 0, 0.2, 1), opacity .4s;
     transform-origin: center;
+    padding: 14px 8px;
+   
+    --border-radius: 16px;
+    border-radius: 16px;
   }
 
   &.reverse {
 
     .morph-element2 {
-      width: 100%;           
+      margin: 15px 20px 15px 20px;
+      width: auto;  
       height: auto;         
-      border-radius: 0px;    
+               
+      border-radius: 16px;    
       background: var(--ion-card-background, #ffffff); 
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
       overflow: auto;
-
+      
       .morph-header {
         width: 100%;
         height: 48px;
         min-height: 48px;
         align-items: center;
+        padding: 0 16px;
         padding: 0 20px;
         user-select: none;
         display: flex;
@@ -503,11 +461,11 @@ ion-chip {
 
         .toggle-icon-wrapper {
           font-size: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.3s ease;
-      margin-left: auto; 
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.3s ease;
+          margin-left: auto; 
           color: #ff007f;    
           transform: rotate(90deg); 
         }
@@ -517,6 +475,7 @@ ion-chip {
         opacity: 1;
         visibility: visible;
         transition: opacity 0.3s ease 0.15s; 
+        padding: 16px;
       }
     }
 
@@ -524,6 +483,7 @@ ion-chip {
       transform: scale(0);
       opacity: 0;
       display: none;
+      
     }
   }
 }

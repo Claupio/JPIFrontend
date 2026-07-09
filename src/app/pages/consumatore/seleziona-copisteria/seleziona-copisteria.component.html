@@ -35,7 +35,6 @@
 
   <ng-container *ngIf="!caricamentoInCorso && !erroreCaricamento">
 
-    <!-- VISTA AD ACCORDION -->
     <ion-accordion-group *ngIf="vistaSelezione === 'accordion'" class="copisterie-accordion">
       <ion-accordion *ngFor="let copisteria of copisterie" [value]="copisteria.copisteria_id.toString()">
         <ion-item slot="header" lines="none" class="copisteria-header"
@@ -61,7 +60,6 @@
       </p>
     </ion-accordion-group>
 
-    <!-- VISTA A MAPPA -->
     <div class="mappa-wrapper" [hidden]="vistaSelezione !== 'mappa'">
       <p class="mappa-hint errore" *ngIf="nessunaCopisteriaConCoordinate">
         Nessuna copisteria ha una posizione impostata: usa l'elenco per scegliere.
@@ -72,7 +70,6 @@
 
   </ng-container>
 
-  <!-- FORM ORDINE PER LA COPISTERIA SCELTA -->
   <div class="form-ordine" *ngIf="copisteriaScelta as copisteria">
     <div class="form-header">
       <span class="form-titolo">Ordina da {{ copisteria.nome }}</span>
@@ -81,7 +78,6 @@
       </ion-button>
     </div>
 
-    <!-- Formato carta -->
     <div class="campo-form" *ngIf="opzioni(copisteria.prezzi_formati_carta).length; else nessunFormato">
       <span class="campo-label">Formato carta</span>
       <ion-radio-group [(ngModel)]="formatoCartaScelto" (ionChange)="onCampoFormCambiato()">
@@ -95,7 +91,6 @@
       <p class="nessun-risultato">Questa copisteria non ha formati carta configurati.</p>
     </ng-template>
 
-    <!-- Metodo di stampa -->
     <div class="campo-form" *ngIf="opzioni(copisteria.prezzi_metodi_stampa).length; else nessunMetodo">
       <span class="campo-label">Metodo di stampa</span>
       <ion-radio-group [(ngModel)]="metodoDiStampaScelto" (ionChange)="onCampoFormCambiato()">
@@ -123,27 +118,6 @@
       </div>
      }
 
-    <!-- <div class="campo-form" *ngIf="opzioni(copisteria.prezzi_add_on).length">
-      <span class="campo-label">Opzioni aggiuntive</span>
-      <ion-radio-group [(ngModel)]="addOnScelto" (ionChange)="onCampoFormCambiato()">
-        <ion-item lines="none">
-          <ion-radio slot="start" value="Nessuno"></ion-radio>
-          <ion-label>Nessuno</ion-label>
-        </ion-item>
-        <ion-item lines="none" *ngFor="let addOn of opzioni(copisteria.prezzi_add_on)">
-          <ion-radio slot="start" [value]="addOn"></ion-radio>
-          <ion-label>{{ addOn }}</ion-label>
-        </ion-item>
-      </ion-radio-group>
-    </div> -->
-
-    <!-- Numero pagine (stima per il preventivo: il valore reale viene ricalcolato dal server dal PDF) -->
-    <!-- <div class="campo-form">
-      <span class="campo-label">Numero pagine (stima)</span>
-      <ion-input type="number" min="1" [(ngModel)]="numeroPagineStimato" (ionChange)="onCampoFormCambiato()" placeholder="Es. 20"></ion-input>
-    </div> -->
-
-    <!-- Fascia oraria di ritiro -->
     <div class="campo-form">
       <span class="campo-label">Fascia oraria di ritiro</span>
 
@@ -174,7 +148,6 @@
     </div>
 
     @if(needFile) {
-      <!-- File PDF da stampare -->
       <div class="campo-form">
         <span class="campo-label">File PDF da stampare</span>
         <ion-input type="file" accept="application/pdf" class="file-input" (change)="onFileSelezionato($event)" />
@@ -183,7 +156,6 @@
       </div>
     }
 
-    <!-- Riepilogo preventivo -->
     <div class="stato-caricamento" *ngIf="caricamentoPreventivo">
       <ion-spinner name="dots"></ion-spinner>
       <span>Calcolo il preventivo...</span>
@@ -197,9 +169,7 @@
       <span class="riepilogo-prezzo">€ {{ preventivo.prezzo  | number:'1.2-2' }}</span>
       <span class="riepilogo-ritiro">Pronto entro: {{ preventivo.tempo_massimo_ritiro }}</span>
     </div>
-    <!-- <p class="mappa-hint" *ngIf="preventivo && !caricamentoPreventivo">
-      Prezzo stimato sul numero di pagine indicato: il prezzo finale sarà ricalcolato sul PDF caricato.
-    </p> -->
+
   </div>
 
 </div>

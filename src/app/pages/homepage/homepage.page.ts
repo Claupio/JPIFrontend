@@ -30,7 +30,6 @@ export class HomepagePage implements OnInit {
   }
 
   initMap() {
-    // 1. Forza le icone di default da web (fix standard di Leaflet in Angular)
     const defaultIcon = L.icon({
       iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
       iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
@@ -42,26 +41,20 @@ export class HomepagePage implements OnInit {
     });
     L.Marker.prototype.options.icon = defaultIcon;
 
-    // 2. Inizializza la mappa (imposta il centro sull'Italia, o modificalo per la tua città)
     this.map = L.map('map').setView([41.8719, 12.5674], 6);
 
-    // 3. Aggiungi i layer di OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(this.map);
 
-    // 4. Recupera le copisterie dal backend usando ConsumatoreService
-    // Passiamo un oggetto vuoto {} come filtri per recuperarle tutte
     this.consumatoreService.getCopisterie({}).subscribe({
       next: (copisterie: any[]) => {
         console.log(copisterie)
         if (copisterie && copisterie.length > 0) {
           copisterie.forEach(copisteria => {
-            // Verifica che latitudine e longitudine siano presenti
             if (copisteria.latitudine && copisteria.longitudine) {
               const marker = L.marker([copisteria.latitudine, copisteria.longitudine]).addTo(this.map);
               
-              // Aggiungi un popup cliccabile
               marker.bindPopup(`
                 <div style="text-align:center;">
                   <strong>${copisteria.nome}</strong><br>
@@ -86,8 +79,8 @@ export class HomepagePage implements OnInit {
     const elemento = document.getElementById(id);
     if (elemento) {
       elemento.scrollIntoView({
-        behavior: 'smooth', // Fa in modo che lo scorrimento sia fluido e non a scatto
-        block: 'start'      // Allinea la parte alta dell'elemento con la parte alta della vista
+        behavior: 'smooth', 
+        block: 'start'      
       });
     }
   }

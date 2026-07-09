@@ -168,28 +168,28 @@
             <ion-col size="6" class="right-actions-col">
               <div style="display: flex; flex-direction: row; justify-content: flex-end; padding-bottom: 10px; width: 100%;">
                 @if(ordine.stato == 'EFFETTUATO') {
-                  <ion-button fill="clear" color="danger" class="" (click)="cancellaOrdine(ordine.ordine_id); $event.stopPropagation();">
-                    <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+                  <ion-button fill="clear" color="danger" class="" title="cancella odine(archivia)" (click)="cancellaOrdine(ordine.ordine_id); $event.stopPropagation();">
+                    <ion-icon slot="icon-only" name="close-circle-outline" ></ion-icon>
                   </ion-button>
                 }
 
                 @if (ordine.stato === 'EFFETTUATO' || ordine.stato == 'CANCELLATO') {
-                  <ion-button fill="clear" color="warning" class="" (click)="toggleModifyOrder(ordine.ordine_id); $event.stopPropagation();">
+                  <ion-button fill="clear" color="warning" class="" title="modifica ordine" (click)="toggleModifyOrder(ordine.ordine_id); $event.stopPropagation();">
                     <ion-icon slot="icon-only" name="create-outline"></ion-icon>
                   </ion-button>
 
-                  <ion-button fill="clear" color="danger" class="" (click)="eliminaOrdine(ordine.ordine_id); $event.stopPropagation();">
+                  <ion-button fill="clear" color="danger" class="" title="elimina ordine" (click)="eliminaOrdine(ordine.ordine_id); $event.stopPropagation();">
                     <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
                   </ion-button>
                 }
 
-                <ion-button fill="clear" color="medium" class="" (click)="segnalaCopisteria(ordine.copisteria_id); $event.stopPropagation();">
+                <ion-button fill="clear" color="medium" class="" title="segnalazione" (click)="segnalaCopisteria(ordine.copisteria_id); $event.stopPropagation();">
                   <ion-icon slot="icon-only" name="flag-outline"></ion-icon>
                 </ion-button>
 
                 @if(ordine.stato != "CONSEGNATO" && ordine.stato != "CANCELLATO") {
-                  <ion-button fill="clear" color="primary" class="" (click)="visualizzaFasceOrarieCopisteria(ordine.copisteria_id, ordine.tempo_minimo_ritiro, ordine.tempo_massimo_ritiro); $event.stopPropagation()">
-                    <ion-icon slot="icon-only" name="calendar"></ion-icon>
+                  <ion-button fill="clear" color="primary" class="" title="calendario" (click)="visualizzaFasceOrarieCopisteria(ordine.copisteria_id, ordine.tempo_minimo_ritiro, ordine.tempo_massimo_ritiro); $event.stopPropagation()">
+                    <ion-icon slot="icon-only" name="calendar" ></ion-icon>
                   </ion-button>
                 }
 

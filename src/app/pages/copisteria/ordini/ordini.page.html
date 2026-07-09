@@ -151,7 +151,7 @@
           <ion-col size="6" size-md="1.5" class="info-item">
             <ion-icon name="pricetag-outline"></ion-icon>
             <strong>Prezzo</strong>
-            <p>€ {{ordine.prezzo}}</p>
+            <p>€ {{ordine.prezzo | number:'1.2-2' }}</p>
           </ion-col>
 
           <ion-col size="5" size-md="2">

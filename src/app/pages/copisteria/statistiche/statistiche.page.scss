@@ -12,7 +12,6 @@
   line-height: 1.4;
 }
 
-// Contenitore principale del grafico a barre
 .chart-container {
   display: flex;
   flex-direction: column;
@@ -20,7 +19,6 @@
   margin-top: 8px;
 }
 
-// Struttura della singola riga del grafico
 .chart-row {
   display: flex;
   flex-direction: column;
@@ -35,7 +33,7 @@
     .chart-label {
       font-weight: 600;
       color: var(--ion-color-dark);
-      text-transform: capitalize; // Rende maiuscola la prima lettera delle opzioni del DB
+      text-transform: capitalize;
     }
     
     .chart-value {
@@ -49,7 +47,6 @@
     }
   }
 
-  // Wrapper e personalizzazione della barra nativa di Ionic
   .progress-wrapper {
     width: 100%;
     
@@ -62,7 +59,6 @@
   }
 }
 
-// Schermata di avviso per dati vuoti
 .no-data {
   padding: 40px 16px;
   color: var(--ion-color-medium);

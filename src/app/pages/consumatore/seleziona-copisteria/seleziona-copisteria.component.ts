@@ -2,7 +2,7 @@ import { DocumentInitParameters } from './../../../../../node_modules/pdfjs-dist
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule, NumberSymbol } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonAccordionGroup, IonAccordion, IonItem, IonLabel, IonList, IonRadioGroup, IonRadio, IonButton, IonIcon, IonSpinner, IonInput, IonSelect, IonSelectOption, CheckboxChangeEventDetail, IonCheckbox } from '@ionic/angular/standalone';
+import { IonAccordionGroup, IonAccordion, IonItem, IonLabel, IonRadioGroup, IonRadio, IonButton, IonIcon, IonSpinner, IonInput, IonSelect, IonSelectOption, CheckboxChangeEventDetail, IonCheckbox } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
   mapOutline, listOutline, checkmarkCircleOutline, businessOutline, closeOutline
@@ -18,7 +18,7 @@ import * as pdfjsLib from 'pdfjs-dist';
 import { IonCheckboxCustomEvent } from '@ionic/core';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.mjs', // Nota: usa .js se sei su versioni molto vecchie di pdfjs
+  'pdfjs-dist/build/pdf.worker.mjs',
   import.meta.url
 ).href;
 
@@ -29,7 +29,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
   styleUrls: ['./seleziona-copisteria.component.scss'],
   imports: [
     CommonModule, FormsModule,
-    IonAccordionGroup, IonAccordion, IonItem, IonLabel, IonList,
+    IonAccordionGroup, IonAccordion, IonItem, IonLabel,
     IonRadioGroup, IonRadio, IonButton, IonIcon, IonSpinner, IonInput, IonSelect, IonSelectOption,
     IonCheckbox
 ]
@@ -41,10 +41,9 @@ throw new Error('Method not implemented.');
 
   @ViewChild('mapContainer') mapContainerRef?: ElementRef<HTMLDivElement>;
 
-  // Emesso quando cambia la copisteria scelta (null se deselezionata)
+  
   @Output() copisteriaSelezionata = new EventEmitter<Copisteria | null>();
-  // Emesso ogni volta che il preventivo viene calcolato con successo e c'è
-  // un file PDF pronto: tutti i dati necessari per creare l'ordine.
+  
   @Output() preventivoPronto = new EventEmitter<{
     copisteria_id: number;
     formato_carta: string;
@@ -90,8 +89,6 @@ throw new Error('Method not implemented.');
    this.needFile = false;
   }
 
-
-
   copisterie: Copisteria[] = [];
   caricamentoInCorso = true;
   erroreCaricamento = false;
@@ -100,13 +97,10 @@ throw new Error('Method not implemented.');
 
   copisteriaScelta: Copisteria | null = null;
 
-  // Selezioni del form ordine per la copisteria scelta
   formatoCartaScelto: string | null = null;
   metodoDiStampaScelto: string | null = null;
   addOnScelto: string[] = [];
-  // Usato solo per calcolare il preventivo: il numero di pagine reale
-  // dell'ordine viene ricalcolato dal server leggendo il PDF caricato,
-  // quindi il prezzo qui è una stima e potrebbe differire leggermente.
+  
   @Input() numeroPagineStimato: number | null = null;
   fasciaSelezionata: FasciaOraria | null = null;
 
@@ -137,8 +131,6 @@ throw new Error('Method not implemented.');
     this.caricamentoInCorso = true;
     this.erroreCaricamento = false;
 
-    // Filtro vuoto = tutte le copisterie. Per cercare per nome:
-    // this.consumatoreService.getCopisterie({ nome: { like: '%testo%' } })
     this.consumatoreService.getCopisterie({}).subscribe({
       next: (data: Copisteria[]) => {
         this.copisterie = (data ?? []).map(c => this.normalizzaCopisteria(c));
@@ -153,8 +145,6 @@ throw new Error('Method not implemented.');
     });
   }
 
-  // Le colonne prezzi_* sono TEXT in SQLite: se arrivano come stringa JSON
-  // vanno parsate; se il backend le restituisce già come oggetto, non cambia nulla.
   private normalizzaCopisteria(c: Copisteria): Copisteria {
     const parse = (v: any) => typeof v === 'string' ? JSON.parse(v || '{}') : (v ?? {});
     return {
@@ -341,8 +331,6 @@ throw new Error('Method not implemented.');
     this.preventivoPronto.emit(null);
   }
 
-  // Chiamato ogni volta che una scelta del form cambia: appena tutti i campi
-  // obbligatori sono compilati (incluso il PDF), richiede il preventivo.
   onCampoFormCambiato() {
     this.preventivo = null;
     this.preventivoPronto.emit(null);
@@ -385,7 +373,6 @@ throw new Error('Method not implemented.');
   moduloCompleto(): boolean {
     return !!this.formatoCartaScelto &&
       !!this.metodoDiStampaScelto &&
-      // !!this.numeroPagineStimato && this.numeroPagineStimato > 0 &&
       !!this.fasciaSelezionata &&
       (!this.needFile || !!this.fileSelezionato);
   }

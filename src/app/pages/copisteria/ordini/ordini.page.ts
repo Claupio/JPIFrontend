@@ -158,9 +158,7 @@ scaricaPDF(ordine_id: number){
 }
 
   eseguiCancellazione(ordine: any, motivo: string) {
-    // Logica backend qui (invio mail e delete)
     this.ordini = this.ordini.filter(o => o.id !== ordine.id);
-    //this.ordiniFiltrati = [...this.ordini];
     this.mostraToast('Ordine cancellato e cliente notificato.');
   }
 
@@ -177,10 +175,10 @@ scaricaPDF(ordine_id: number){
   async presentToast(message: string, color: 'success' | 'danger' = 'success') {
   const toast = await this.toastCtrl.create({
     message: message,
-    duration: 3000,          // Sparisce da solo dopo 3 secondi
-    position: 'bottom',      // Puoi usare 'top', 'middle', 'bottom'
+    duration: 3000,          
+    position: 'bottom',      
     color: color,           
-    buttons: [{ text: 'OK', role: 'cancel' }] // Permette di chiuderlo prima
+    buttons: [{ text: 'OK', role: 'cancel' }] 
   });
   await toast.present();
 }

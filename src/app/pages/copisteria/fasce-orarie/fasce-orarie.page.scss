@@ -47,6 +47,10 @@
 
   &:hover {
     background-color: var(--ion-color-light-tint, #fbfbff);
+    .action-button {
+        opacity: 1;
+        visibility: visible;
+      }
   }
 }
 
@@ -71,8 +75,8 @@
 
 .col-actions {
   display: flex;
-  justify-content:end; /* Cambiato da flex-end a center */
-  align-items: center;     /* Centra verticalmente */
+  justify-content:end;
+  align-items: center;     
   gap: 4px;
 
   ion-button {
@@ -82,7 +86,7 @@
   }
 }
 
-// Stile per quando non ci sono dati
+
 .no-data {
   padding: 40px 16px;
   color: var(--ion-color-medium);
@@ -115,3 +119,14 @@
     margin-inline-end: 6px;
   }
 }
+
+.action-button {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+
+    ion-button {
+      margin: 0;
+      height: 32px;
+    }
+  }

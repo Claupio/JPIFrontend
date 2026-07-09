@@ -1,18 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, LOCALE_ID  } from '@angular/core';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon, IonCol, IonRow, IonGrid, IonFab, IonFabButton, IonInfiniteScroll, IonInfiniteScrollContent, IonRippleEffect, IonCheckbox, IonSelect, IonSelectOption, IonButtons, IonAvatar, IonCardHeader, IonCardTitle, IonList, IonModal, IonPopover } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonItem, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon, IonCol, IonRow, IonGrid,IonSelect, IonSelectOption, IonButtons, IonAvatar, IonList, IonModal, IonPopover } from '@ionic/angular/standalone';
 import { AlertController, ToastController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { 
-  documentOutline, timeOutline, trashOutline, addOutline, printOutline, createOutline, closeOutline, closeCircleOutline, flagOutline, calendar, ellipsisVertical
-} from 'ionicons/icons';
-import { CopisteriaService } from '@services/copisteria-service';
+import { documentOutline, timeOutline, trashOutline, addOutline, printOutline, createOutline, closeOutline, closeCircleOutline, flagOutline, calendar, ellipsisVertical} from 'ionicons/icons';
 import { ConsumatoreService } from '@services/consumatore-service';
 import { SelezionaCopisteriaComponent } from './seleziona-copisteria/seleziona-copisteria.component';
-import { Copisteria } from '@models/copisteria'; 
 import { FasciaOraria } from '@models/fascia_oraria';
 import { Router } from '@angular/router';
+import localeIt from '@angular/common/locales/it';
+registerLocaleData(localeIt);
 
 @Component({
   selector: 'app-consumatore',
@@ -22,40 +20,29 @@ import { Router } from '@angular/router';
   imports: [
     CommonModule, FormsModule, IonContent, IonHeader, IonTitle, IonToolbar,
     IonItem, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon,
-    IonCol, IonRow, IonGrid, IonFab, IonFabButton, IonInfiniteScroll,
-    IonInfiniteScrollContent, IonRippleEffect, IonCheckbox, IonSelect, IonSelectOption, IonButtons, IonAvatar,
-    IonCardHeader,
-    IonCardTitle,
-    SelezionaCopisteriaComponent,
-    IonList,
-    IonModal,
-    IonPopover
-]
+    IonCol, IonRow, IonGrid, IonSelect, IonSelectOption, IonButtons, IonAvatar,
+    SelezionaCopisteriaComponent, IonList, IonModal, IonPopover],
+  providers: [
+    
+    { provide: LOCALE_ID, useValue: 'it-IT' }
+  ]
 })
-
-//se l'ordine è già in stampa non si può più modificare 
 
 
 export class ConsumatorePage implements OnInit {
 
-  ordiniRaw: any[] = [];          // Contiene tutti gli ordini presi dal DB
-  ordiniVisualizzati: any[] = []; // Array filtrato e ordinato mostrato nell'HTML
+  ordiniRaw: any[] = [];          
+  ordiniVisualizzati: any[] = []; 
 
-  // Model per le Checkbox di filtro
   mostraInCorso: boolean = true;
   mostraPronti: boolean = true;
   mostraStorico: boolean = true;
 
-  // Model per la card modifica ordini
-
   isLeaving = false;
   showNewComponent = false;
 
-  // Model per l'ordinamento
   criterioOrdinamento: string = 'data-desc';
 
-  // Stato del form "Nuovo Ordine": preventivo pronto (null finché il form
-  // nel componente figlio non è completo, incluso il PDF, e /preventivo riesce)
   preventivoOrdine: {
     copisteria_id: number;
     formato_carta: string;
@@ -129,23 +116,8 @@ export class ConsumatorePage implements OnInit {
     });
   }
 
-  // Funzione centrale che filtra e ordina l'array in base alle scelte utente
   aggiornaVista()
    {
-    // let filtrati = this.ordiniRaw.filter((ordine: any) => {
-    //   if (ordine.stato === 'EFFETTUATO' || ordine.stato === 'IN_STAMPA') {
-    //     return this.mostraInCorso;
-    //   }
-    //   if (ordine.stato === 'STAMPATO') {
-    //     return this.mostraPronti;
-    //   }
-    //   if (ordine.stato === 'CANCELLATO' || ordine.stato === 'CONSEGNATO') {
-    //     return this.mostraStorico;
-    //   }
-    //   return true;
-    // });
-
-    // 2. ORDINAMENTO
     this.ordiniVisualizzati = this.ordiniRaw.sort((a: any, b: any) => {
       if (this.criterioOrdinamento === 'data-desc') {
         return new Date(b.tempo_minimo_ritiro).getTime() - new Date(a.tempo_minimo_ritiro).getTime();
@@ -193,7 +165,6 @@ export class ConsumatorePage implements OnInit {
   toggleOrderForm() {
     this.IDordineDaModificare = this.IDordineDaModificare == -1 ? null : -1;
 
-    // Reset del form ogni volta che la card viene chiusa/riaperta
     if (this.IDordineDaModificare == null) {
       this.preventivoOrdine = null;
     }
@@ -326,10 +297,6 @@ export class ConsumatorePage implements OnInit {
       return;
     }
 
-    // Multipart/form-data come richiesto da ordini.js: campo file "pdf" +
-    // campi testo copisteria_id, formato_carta, metodo_di_stampa,
-    // inizio_fascia, fine_fascia, add_on. Niente numero_pagine/prezzo:
-    // li calcola il server dal PDF.
     const formData = new FormData();
     formData.append('pdf', this.preventivoOrdine.file, this.preventivoOrdine.file.name);
     formData.append('copisteria_id', String(this.preventivoOrdine.copisteria_id));
@@ -435,7 +402,6 @@ export class ConsumatorePage implements OnInit {
           buttons: [{ text: 'OK', role: 'cancel' }]
         }).then((toast) => toast.present());
         this.ordiniVisualizzati = this.ordiniVisualizzati.filter(o => o.ordine_id !== ordineId)
-        //this.caricaOrdiniConsumatore();
       },
       error: (err) => {
         console.error(err);
