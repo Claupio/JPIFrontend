@@ -100,9 +100,9 @@
     </div>
 
     <div class="card-content-body" [class.show-content]="IDordineDaModificare == -1">
-      <app-seleziona-copisteria
+      <app-caratteristiche-ordine
         (preventivoPronto)="onPreventivoPronto($event)">
-      </app-seleziona-copisteria>
+      </app-caratteristiche-ordine>
       <div class="action-buttons">
         <ion-button expand="block" [disabled]="!puoInviareOrdine()" (click)="apriNuovoOrdine(); $event.stopPropagation()">
           Invia Ordine
@@ -132,10 +132,10 @@
         </div>
 
         <div class="card-content-body" [class.show-content]="IDordineDaModificare == ordine.ordine_id">
-          <app-seleziona-copisteria
+          <app-caratteristiche-ordine
             (preventivoPronto)="onPreventivoPronto($event)"
             [ordine] = "ordine">
-          </app-seleziona-copisteria>
+          </app-caratteristiche-ordine>
           <div class="action-buttons">
             <ion-button expand="block" [disabled]="!puoInviareOrdine()" (click)="modificaOrdine(ordine.ordine_id); $event.stopPropagation()">
               Modifica Ordine

@@ -6,7 +6,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { documentOutline, timeOutline, trashOutline, addOutline, printOutline, createOutline, closeOutline, closeCircleOutline, flagOutline, calendar, ellipsisVertical} from 'ionicons/icons';
 import { ConsumatoreService } from '@services/consumatore-service';
-import { SelezionaCopisteriaComponent } from './seleziona-copisteria/seleziona-copisteria.component';
+import { CaratteristicheOrdineComponent } from './caratteristiche-ordine/caratteristiche-ordine.component';
 import { FasciaOraria } from '@models/fascia_oraria';
 import { Router } from '@angular/router';
 import localeIt from '@angular/common/locales/it';
@@ -21,7 +21,7 @@ registerLocaleData(localeIt);
     CommonModule, FormsModule, IonContent, IonHeader, IonTitle, IonToolbar,
     IonItem, IonCard, IonChip, IonLabel, IonCardContent, IonButton, IonIcon,
     IonCol, IonRow, IonGrid, IonSelect, IonSelectOption, IonButtons, IonAvatar,
-    SelezionaCopisteriaComponent, IonList, IonModal, IonPopover],
+    CaratteristicheOrdineComponent, IonList, IonModal, IonPopover],
   providers: [
     
     { provide: LOCALE_ID, useValue: 'it-IT' }
@@ -48,7 +48,7 @@ export class ConsumatorePage implements OnInit {
     formato_carta: string;
     metodo_di_stampa: string;
     add_on: string[];
-    fascia: { copisteria_id: number; inizio_fascia: string; fine_fascia: string };
+    fascia: FasciaOraria;
     file: File;
     prezzoStimato: number;
     tempo_massimo_ritiro: string;
@@ -133,11 +133,6 @@ export class ConsumatorePage implements OnInit {
       }
       return 0;
     });
-  }
-
-  caricaAltriOrdini(event: any) {
-    this.paginaCorrente++;
-    this.caricaOrdiniConsumatore(event);
   }
 
   getEtichettaConsumatore(stato: string): string {
@@ -269,7 +264,14 @@ export class ConsumatorePage implements OnInit {
         {
           text: 'Cambia Password',
           handler: (data) => {
+
+            const test_password = (pwd: string) => pwd.length >= 8 && /[A-Za-z]/.test(pwd) && /\d/.test(pwd) && /[@$!%*?&]/.test(pwd);
+
             if (data.vecchia_password && data.vecchia_password.trim() !== '' && data.nuova_password && data.nuova_password.trim() !== '') {
+              if(!test_password(data.nuova_password)) {
+                this.mostraToastFallimento('Nuova password non sicura');
+                return;
+              }
               this.consumatoreService.modificaPassword(data.vecchia_password, data.nuova_password).subscribe({
                 next: (data) =>{
                   this.mostraToastSuccesso('Password cambiata correttamente.');

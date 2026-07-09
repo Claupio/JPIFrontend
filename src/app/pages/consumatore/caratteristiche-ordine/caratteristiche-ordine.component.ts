@@ -1,4 +1,4 @@
-import { DocumentInitParameters } from './../../../../../node_modules/pdfjs-dist/types/src/display/api.d';
+import { DocumentInitParameters } from 'pdfjs-dist/types/src/display/api';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule, NumberSymbol } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -23,10 +23,10 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
 ).href;
 
 @Component({
-  selector: 'app-seleziona-copisteria',
+  selector: 'app-caratteristiche-ordine',
   standalone: true,
-  templateUrl: './seleziona-copisteria.component.html',
-  styleUrls: ['./seleziona-copisteria.component.scss'],
+  templateUrl: './caratteristiche-ordine.component.html',
+  styleUrls: ['./caratteristiche-ordine.component.scss'],
   imports: [
     CommonModule, FormsModule,
     IonAccordionGroup, IonAccordion, IonItem, IonLabel,
@@ -34,7 +34,7 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
     IonCheckbox
 ]
 })
-export class SelezionaCopisteriaComponent implements OnInit {
+export class CaratteristicheOrdineComponent implements OnInit {
 gestisciSelezione($event: IonCheckboxCustomEvent<CheckboxChangeEventDetail<any>>,arg1: string) {
 throw new Error('Method not implemented.');
 }
