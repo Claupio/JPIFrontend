@@ -189,6 +189,28 @@ export class ConsumatorePage implements OnInit {
     this.preventivoOrdine = preventivo;
   }
 
+  private async mostraToastSuccesso(testo: string) {
+    const toast = await this.toastCtrl.create({
+      message: testo,
+      duration: 3000,
+      position: 'bottom',
+      color: 'success',
+      buttons: [{ text: 'OK', role: 'cancel' }]
+    });
+    await toast.present();
+  }
+
+  private async mostraToastFallimento(testo: string) {
+    const toast = await this.toastCtrl.create({
+      message: testo,
+      duration: 3000,
+      position: 'bottom',
+      color: 'danger',
+      buttons: [{ text: 'OK', role: 'cancel' }]
+    });
+    await toast.present();
+  }
+
   segnalaCopisteria(copisteria_id: number) {
     const alert = this.alertCtrl.create({
       header: 'Segnala Copisteria',
@@ -210,23 +232,11 @@ export class ConsumatorePage implements OnInit {
             if (data.segnalazione && data.segnalazione.trim() !== '') {
               this.consumatoreService.segnalaCopisteria(copisteria_id, data.segnalazione).subscribe({
                 next: (data) =>{
-                  this.toastCtrl.create({
-                    message: 'Copisteria Segnalata',
-                    duration: 3000,
-                    position: 'bottom',
-                    color: 'success',
-                    buttons: [{ text: 'OK', role: 'cancel' }]
-                  }).then((toast) => (toast.present().then(() => {})));
+                  this.mostraToastSuccesso('Copisteria Segnalata.')
                 },
                 error: (err) =>{
                   console.error('Errore nella segnalazione', err);
-                  this.toastCtrl.create({
-                    message: 'Errore nella segnalazione',
-                    duration: 3000,
-                    position: 'bottom',
-                    color: 'danger',
-                    buttons: [{ text: 'OK', role: 'cancel' }]
-                  }).then((toast) => (toast.present().then(() => {})));
+                  this.mostraToastFallimento('Errore nella segnalazione.')
                 }
               })
             }
@@ -262,23 +272,11 @@ export class ConsumatorePage implements OnInit {
             if (data.vecchia_password && data.vecchia_password.trim() !== '' && data.nuova_password && data.nuova_password.trim() !== '') {
               this.consumatoreService.modificaPassword(data.vecchia_password, data.nuova_password).subscribe({
                 next: (data) =>{
-                  this.toastCtrl.create({
-                    message: 'Password cambiata correttamente',
-                    duration: 3000,
-                    position: 'bottom',
-                    color: 'success',
-                    buttons: [{ text: 'OK', role: 'cancel' }]
-                  }).then((toast) => (toast.present()));
+                  this.mostraToastSuccesso('Password cambiata correttamente.');
                 },
                 error: (err) =>{
                   console.error('Errore nel cambio password', err);
-                  this.toastCtrl.create({
-                    message: 'Errore nel cambio password ',
-                    duration: 3000,
-                    position: 'bottom',
-                    color: 'danger',
-                    buttons: [{ text: 'OK', role: 'cancel' }]
-                  }).then((toast) => (toast.present()));
+                  this.mostraToastFallimento('Errore nel cambio password.');
                 }
               })
             }
@@ -308,32 +306,20 @@ export class ConsumatorePage implements OnInit {
 
     this.consumatoreService.creaOrdine(formData).subscribe({
       next: () => {
-        this.toastCtrl.create({
-          message: '🎉 Ordine inviato con successo alla copisteria!',
-          duration: 3000,
-          position: 'bottom',
-          color: 'success',
-          buttons: [{ text: 'OK', role: 'cancel' }]
-        }).then((toast) => (toast.present().then(() => {
+        this.mostraToastSuccesso('Ordine inviato con successo alla copisteria.').then(() => {
           this.toggleOrderForm();
           this.caricaOrdiniConsumatore();
-        })));
+        });
       },
       error: (err: any) => {
         console.error(err);
-        this.toastCtrl.create({
-          message: 'Errore durante l\'invio dell\'ordine.',
-          duration: 3000,
-          position: 'bottom',
-          color: 'danger',
-          buttons: [{ text: 'OK', role: 'cancel' }]
-        }).then((toast) => toast.present());
+        this.mostraToastFallimento('Errore durante l\'invio dell\'ordine.')
       }
     });
   }
 
   modificaOrdine(ordine_id: number) {
-        if (!this.preventivoOrdine) {
+    if (!this.preventivoOrdine) {
       return;
     }
 
@@ -341,26 +327,14 @@ export class ConsumatorePage implements OnInit {
 
     this.consumatoreService.modificaOrdine(this.preventivoOrdine.copisteria_id, ordine_id, this.preventivoOrdine.formato_carta, this.preventivoOrdine.metodo_di_stampa, this.preventivoOrdine.fascia.inizio_fascia, this.preventivoOrdine.fascia.fine_fascia, this.preventivoOrdine.add_on).subscribe({
       next: () => {
-        this.toastCtrl.create({
-          message: '🎉 Ordine modificato con successo alla copisteria!',
-          duration: 3000,
-          position: 'bottom',
-          color: 'success',
-          buttons: [{ text: 'OK', role: 'cancel' }]
-        }).then((toast) => (toast.present().then(() => {
+        this.mostraToastSuccesso('Ordine modificato con successo alla copisteria.').then(() => {
           this.IDordineDaModificare = null;
           this.caricaOrdiniConsumatore();
-        })));
+        });
       },
       error: (err: any) => {
         console.error(err);
-        this.toastCtrl.create({
-          message: 'Errore durante l\'invio dell\'ordine.',
-          duration: 3000,
-          position: 'bottom',
-          color: 'danger',
-          buttons: [{ text: 'OK', role: 'cancel' }]
-        }).then((toast) => toast.present());
+        this.mostraToastFallimento('Errore durante l\'invio dell\'ordine.');
       }
     });
   }
@@ -368,24 +342,12 @@ export class ConsumatorePage implements OnInit {
   cancellaOrdine(ordineId: number){
     this.consumatoreService.cancellaOrdine(ordineId).subscribe({
       next: () => {
-        this.toastCtrl.create({
-          message: 'Ordine cancellato con successo.',
-          duration: 3000,
-          position: 'bottom',
-          color: 'success',
-          buttons: [{ text: 'OK', role: 'cancel' }]
-        }).then((toast) => toast.present());
+        this.mostraToastSuccesso('Ordine cancellato con successo.');
         this.caricaOrdiniConsumatore();
       },
       error: (err) => {
         console.error(err);
-        this.toastCtrl.create({
-          message: 'Errore durante la cancellazione dell\'ordine.',
-          duration: 3000,
-          position: 'bottom',
-          color: 'danger',
-          buttons: [{ text: 'OK', role: 'cancel' }]
-        }).then((toast) => toast.present());
+        this.mostraToastFallimento('Errore durante la cancellazione dell\'ordine.');
       }
     });
     
@@ -394,24 +356,12 @@ export class ConsumatorePage implements OnInit {
   eliminaOrdine(ordineId: number){
     this.consumatoreService.eliminaOrdine(ordineId).subscribe({
       next: () => {
-        this.toastCtrl.create({
-          message: 'Ordine eliminato con successo.',
-          duration: 3000,
-          position: 'bottom',
-          color: 'success',
-          buttons: [{ text: 'OK', role: 'cancel' }]
-        }).then((toast) => toast.present());
+        this.mostraToastSuccesso('Ordine eliminato con successo.');
         this.ordiniVisualizzati = this.ordiniVisualizzati.filter(o => o.ordine_id !== ordineId)
       },
       error: (err) => {
         console.error(err);
-        this.toastCtrl.create({
-          message: 'Errore durante la cancellazione dell\'ordine.',
-          duration: 3000,
-          position: 'bottom',
-          color: 'danger',
-          buttons: [{ text: 'OK', role: 'cancel' }]
-        }).then((toast) => toast.present());
+        this.mostraToastFallimento('Errore durante l\'eliminazione dell\'ordine.')
       }
     });
   }
@@ -428,9 +378,7 @@ export class ConsumatorePage implements OnInit {
         this.fasceOrarieRitiroOrdine = value;
       },
 
-      error: (err) => {
-
-      }
+      error: (err) => this.mostraToastFallimento('Errore reperimento fasce orarie.')
     })
   }
 }
