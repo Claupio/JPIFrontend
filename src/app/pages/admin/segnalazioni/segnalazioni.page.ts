@@ -33,12 +33,19 @@ export class SegnalazioniPage implements OnInit {
   }
 
   filtroIdCopoisteriaChange(event: any) {
+
     this.adminService.filtri_segnalazioni.copisteria_id.eq = (event.target.value ?? '').split(',',).map((s: any) => s.trim())
+    const a = this.adminService.filtri_segnalazioni.copisteria_id.eq;
+
+    if(a.length === 1 && a[0] === "") this.adminService.filtri_segnalazioni.copisteria_id.eq = "";
     this.adminService.refreshSegnalazioni();
   }
 
   filtroIdConsumatoreChange(event: any) {
     this.adminService.filtri_segnalazioni.consumatore_id.eq = (event.target.value ?? '').split(',',).map((s: any) => s.trim())
+
+    const a = this.adminService.filtri_segnalazioni.consumatore_id.eq;
+    if(a.length === 1 && a[0] === "") this.adminService.filtri_segnalazioni.consumatore_id.eq = "";
     this.adminService.refreshSegnalazioni();
   }
 
