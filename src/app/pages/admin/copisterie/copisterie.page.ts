@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonContent, IonIcon, IonButton, IonCard } from '@ionic/angular/standalone';
 import { AdminService } from '@services/admin-service';
 import { addIcons } from 'ionicons';
-import { createOutline, trashOutline } from 'ionicons/icons';
+import { addOutline, createOutline, trashOutline } from 'ionicons/icons';
 import { AlertController } from '@ionic/angular/standalone'
 import { Copisteria } from '@models/copisteria'
 @Component({
@@ -23,7 +23,7 @@ export class CopisteriePage implements OnInit {
   adminService: AdminService;
 
   constructor(private router: Router, adminService: AdminService, private alertController: AlertController) {
-    addIcons({ createOutline, trashOutline });
+    addIcons({ createOutline, trashOutline, addOutline });
     this.adminService = adminService
   }
 

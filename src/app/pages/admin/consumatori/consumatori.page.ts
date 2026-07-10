@@ -30,32 +30,40 @@ export class ConsumatoriPage implements OnInit {
 
   async eliminaConsumatore(consumatore: Consumatore) {
     const alert = await this.alertController.create({
-      header: 'Conferma Eliminazione',
-      message: `Sei sicuro di voler eliminare il consumatore **${consumatore.email}**? Questa azione non è reversibile.`,
-      buttons: [
-        {
-          text: 'Annulla',
-          role: 'cancel',
-          cssClass: 'secondary',
-          handler: () => {
-            console.log('Eliminazione annullata');
-          }
-        },
-        {
-          text: 'Elimina',
-          role: 'destructive',
-          handler: () => {
-            this.adminService.eliminaConsumatore(consumatore.consumatore_id).subscribe({
+    header: 'Cancella Consumatore: ' + consumatore.email,
+    inputs: [
+      {
+        name: 'motivazione',
+        type: 'textarea',
+        placeholder: 'Specifica la motivazione per il cliente...'
+      }
+    ],
+    buttons: [
+      {
+        text: 'Annulla',
+        role: 'cancel'
+      },
+      {
+        text: 'Invia Mail e Cancella',
+        handler: (data) => {
+          if (data.motivazione && data.motivazione.trim() !== '') {
+            this.adminService.eliminaConsumatore(consumatore.consumatore_id, data.motivazione).subscribe({
               error(err) {
                 console.log(err)
               },
               next: (value) => {
               },
             })
+            return true; 
+          } else {
+            
+            console.log('Motivazione obbligatoria');
+            return false; 
           }
         }
-      ]
-    });
+      }
+    ]
+  });
 
     await alert.present();
   }

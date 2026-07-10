@@ -166,16 +166,16 @@ export class ConfigurazioniPage implements OnInit {
       const alert = await this.alertCtrl.create({
         header: 'Modifica Formato Carta',
         inputs: [
-          { name: 'name', type: 'text', placeholder: 'Nome (es. A4)',value: item.name},
-          { name: 'price', type: 'number', placeholder: 'Prezzo (es. 0.10)', min: 0 ,value: item.price}
+          { name: 'name', type: 'text', placeholder: 'Nome (es. A4)',value: item.key},
+          { name: 'price', type: 'number', placeholder: 'Prezzo (es. 0.10)', min: 0 ,value: item.value}
         ],
         buttons: [
           { text: 'Annulla', role: 'cancel' },
           {
             text: 'Salva',
             handler: (data) => {
-              if (data.name !== item.name) {
-              delete this.opzioniOrdini.prezzi_formati_carta[item.name];
+              if (data.name !== item.key) {
+              delete this.opzioniOrdini.prezzi_formati_carta[item.key];
               }
               
               this.opzioniOrdini.prezzi_formati_carta[data.name] = data.price;
@@ -191,15 +191,15 @@ export class ConfigurazioniPage implements OnInit {
       const alert = await this.alertCtrl.create({
         header: 'Modifica Formato Carta',
         inputs: [
-          { name: 'name', type: 'text', placeholder: 'Nome (Stampa Colori)',value: item.name},
-          { name: 'price', type: 'number', placeholder: 'Prezzo (es. 0.10)', min: 0 ,value: item.price}
+          { name: 'name', type: 'text', placeholder: 'Nome (Stampa Colori)',value: item.key},
+          { name: 'price', type: 'number', placeholder: 'Prezzo (es. 0.10)', min: 0 ,value: item.value}
         ],
         buttons: [
           { text: 'Annulla', role: 'cancel' },
           {
             text: 'Salva',
             handler: (data) => {
-              if (data.name !== item.name) {
+              if (data.name !== item.key) {
               delete this.opzioniOrdini.prezzi_metodi_stampa[item.name];
               }
               
@@ -216,16 +216,16 @@ export class ConfigurazioniPage implements OnInit {
       const alert = await this.alertCtrl.create({
         header: 'Modifica Formato Carta',
         inputs: [
-          { name: 'name', type: 'text', placeholder: 'Nome (Rilegatura  a Spirale)',value: item.name},
-          { name: 'price', type: 'number', placeholder: 'Prezzo (es. 0.10)', min: 0 ,value: item.price}
+          { name: 'name', type: 'text', placeholder: 'Nome (Rilegatura  a Spirale)',value: item.key},
+          { name: 'price', type: 'number', placeholder: 'Prezzo (es. 0.10)', min: 0 ,value: item.value}
         ],
         buttons: [
           { text: 'Annulla', role: 'cancel' },
           {
             text: 'Salva',
             handler: (data) => {
-              if (data.name !== item.name) {
-              delete this.opzioniOrdini.prezzi_add_on[item.name];
+              if (data.name !== item.key) {
+              delete this.opzioniOrdini.prezzi_add_on[item.key];
               }
               
               this.opzioniOrdini.prezzi_add_on[data.name] = data.price;

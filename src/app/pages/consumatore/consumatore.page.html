@@ -102,7 +102,7 @@
     <div class="card-content-body" [class.show-content]="IDordineDaModificare == -1">
       <app-caratteristiche-ordine
         (preventivoPronto)="onPreventivoPronto($event)"
-        ordine="null">
+        ordine="">
       </app-caratteristiche-ordine>
       <div class="action-buttons">
         <ion-button expand="block" [disabled]="!puoInviareOrdine()" (click)="apriNuovoOrdine(); $event.stopPropagation()">

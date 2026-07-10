@@ -115,11 +115,11 @@ export class AdminService {
     })
   }
 
-  eliminaConsumatore(consumatore_id: number) {
+  eliminaConsumatore(consumatore_id: number, motivazione: string) {
     const headers = new HttpHeaders({
       authorization: "Bare " + this.getToken()!
     });
-    return this.httpClient.delete(this.baseURL + "/admin/consumatori", {headers, body: { consumatore_id }}).pipe(
+    return this.httpClient.delete(this.baseURL + "/admin/consumatori", {headers, body: { consumatore_id, motivazione }}).pipe(
       tap(() => {
         this.consumatori = this.consumatori.filter(c => c.consumatore_id !== consumatore_id)
       })

@@ -1,16 +1,23 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { CommonModule, DATE_PIPE_DEFAULT_TIMEZONE } from '@angular/common';
+import { Component, ElementRef, OnInit, ViewChild, LOCALE_ID } from '@angular/core';
+import { CommonModule, DATE_PIPE_DEFAULT_TIMEZONE, registerLocaleData } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonCard, IonInput, IonButton, IonPopover, IonButtons } from '@ionic/angular/standalone';
 import { AdminService } from '@services/admin-service';
 import { IonDatetime } from '@ionic/angular';
+import localeIt from '@angular/common/locales/it';
+
+registerLocaleData(localeIt);
 
 @Component({
   selector: 'app-segnalazioni',
   templateUrl: './segnalazioni.page.html',
   styleUrls: ['./segnalazioni.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, IonCard, IonInput, IonButton, IonPopover, IonButtons]
+  imports: [IonContent, CommonModule, FormsModule, IonCard, IonInput, IonButton, IonPopover, IonButtons],
+  providers: [
+    
+    { provide: LOCALE_ID, useValue: 'it-IT' }
+  ]
 })
 export class SegnalazioniPage implements OnInit {
 

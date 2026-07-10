@@ -14,10 +14,11 @@
               label="Nickname"
               label-placement="stacked"
               fill="outline"
-              placeholder="Inserisci il nickname della copisteria"
+              placeholder="Inserisci il nickname della copisteria (deve iniziale con 'copisteria.')"
               class="ion-margin-bottom"
               type="text"
               name="nickname"
+              pattern="^copisteria\..*$"
               required [(ngModel)]="copisteria.nickname">
             </ion-input>
 

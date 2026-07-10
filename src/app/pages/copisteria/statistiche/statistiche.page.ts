@@ -51,7 +51,9 @@ export class ArchivioStatistichePage implements OnInit {
   private elaboraDatiGrafico(dati: any[]): any[] {
     if (!dati || dati.length === 0) return [];
 
-    const m = Math.max(...(dati.map(item => item.n)));
+    let m = (dati.map(item => item.n)).reduce((acc, curr) => acc + curr, 0);
+
+    m = m === 0 ? 1 : m; // evito di dividere per 0
 
     return dati.map(item => ({
       etichetta: item.formato_carta + " - " + item.metodo_stampa,

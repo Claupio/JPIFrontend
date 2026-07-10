@@ -62,7 +62,7 @@ throw new Error('Method not implemented.');
 
   @Input()
   set ordine(value: any) {
-    if(value === null) return;
+    if(value === null || value === "") return;
 
    this.preselezionaCopistera = () => {
     const a1 = this.copisterie.filter(c => c.copisteria_id == value.copisteria_id)
