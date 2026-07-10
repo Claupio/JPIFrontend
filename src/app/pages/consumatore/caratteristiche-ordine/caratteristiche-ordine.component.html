@@ -1,6 +1,5 @@
 <div class="selettore-copisteria">
 
-  <!-- Toggle vista: elenco (accordion) / mappa -->
   <div class="vista-toggle">
     <button type="button"
             class="toggle-btn"
@@ -104,7 +103,6 @@
       <p class="nessun-risultato">Questa copisteria non ha metodi di stampa configurati.</p>
     </ng-template>
 
-    <!-- Add-on (opzionale) -->
      @if(opzioni(copisteria.prezzi_add_on).length) {
       <div class="campo-form">
         <span class="campo-label">Opzioni aggiuntive</span>
@@ -167,7 +165,7 @@
 
     <div class="riepilogo-preventivo" *ngIf="preventivo && !caricamentoPreventivo">
       <span class="riepilogo-prezzo">€ {{ preventivo.prezzo  | number:'1.2-2' }}</span>
-      <span class="riepilogo-ritiro">Pronto entro: {{ preventivo.tempo_massimo_ritiro }}</span>
+      <span class="riepilogo-ritiro">Conservato fino a {{ preventivo.tempo_massimo_ritiro | date:'EEE dd MMM yyyy' }} {{ preventivo.tempo_massimo_ritiro | date:'HH:mm' }}</span>
     </div>
 
   </div>

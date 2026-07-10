@@ -76,7 +76,6 @@ throw new Error('Method not implemented.');
     this.fasciaSelezionata = a2[0];
     this.formatoCartaScelto = value.formato_carta;
     this.metodoDiStampaScelto = value.metodo_di_stampa;
-    console.log(value.numero_pagine)
     this.numeroPagineStimato = value.numero_pagine;
 
     for(let add_on of JSON.parse(value.add_on)) {
