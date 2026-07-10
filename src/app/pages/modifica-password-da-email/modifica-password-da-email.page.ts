@@ -21,10 +21,6 @@ export class ModificaPasswordDaEmailPage implements OnInit {
   password: string = "";
   token: string = "";
 
-  userData = {
-    name: "", email: "", password: ""
-  }
-
   passwordRequirements = {
     hasLength: false,
     hasLetter: false,
@@ -37,7 +33,7 @@ export class ModificaPasswordDaEmailPage implements OnInit {
   }
 
   checkPasswordRequirements() {
-    const pwd = this.userData.password || '';
+    const pwd = this.password || '';
     
     this.passwordRequirements.hasLength = pwd.length >= 8;
     this.passwordRequirements.hasLetter = /[A-Za-z]/.test(pwd);
