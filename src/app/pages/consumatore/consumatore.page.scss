@@ -154,7 +154,7 @@ ion-row {
   align-items: stretch;
 }
 
-.info-item {
+.info-item { //non usato
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -195,7 +195,7 @@ ion-chip {
   font-weight: 600;
 }
 
-.actions {
+.actions { //NON usato
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -223,7 +223,7 @@ ion-chip {
   --border-color: var(--ion-color-danger);
 }
 
-.bottom-info {
+.bottom-info { //non usato
   display: flex;
   align-items: center;
   
@@ -235,7 +235,7 @@ ion-chip {
   font-size: 14px;
 }
 
-.bottom-info .info-container {
+.bottom-info .info-container { //NON usato
   display: flex;
   flex-direction: row;
 }
@@ -272,7 +272,7 @@ ion-chip {
   justify-content: center;
   position: relative;
 
-  .delete-btn {
+  .delete-btn { //NON usato
     margin: 0;
     --padding-start: 0;
     --padding-end: 0;
